@@ -1,0 +1,88 @@
+openapi: "3.0.0"
+
+info:
+  title: OpenAlchemy Editor
+  description: API backing the OpenAlchemy web editor
+  version: "0.1"
+
+servers:
+  - url: https://editor.api.openalchemy.io/v1
+
+paths:
+  /validate-spec:
+    post:
+      summary: Validate an OpenAPI spec against OpenAlchemy expectations
+      operationId: library.validate_spec
+      parameters:
+        - in: header
+          name: X-LANGUAGE
+          description: The language of the spec
+          required: true
+          schema:
+            type: string
+            enum:
+              - JSON
+              - YAML
+      requestBody:
+        description: The OpenAPI spec to validate
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: The validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResponse"
+
+components:
+  schemas:
+    ValidationResponseResult:
+      description: Whether the spec is valid at the global, model or property level
+      type: object
+      properties:
+        valid:
+          description: Whether the spec is valid
+          type: boolean
+        reason:
+          description: If the spec is not valid, the reason that it is not
+          type: string
+      required:
+        - valid
+    ValidationResponseProperty:
+      description: The validation results for a property
+      type: object
+      properties:
+        result:
+          $ref: "#/components/schemas/ValidationResponseResult"
+      required:
+        - result
+    ValidationResponseModel:
+      description: The validation results for a model
+      type: object
+      properties:
+        result:
+          $ref: "#/components/schemas/ValidationResponseResult"
+        properties:
+          description: The results for all properties, included if the model is valid at the model level
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/ValidationResponseProperty"
+      required:
+        - result
+    ValidationResponse:
+      description: The validation results for the spec
+      type: object
+      properties:
+        result:
+          $ref: "#/components/schemas/ValidationResponseResult"
+        models:
+          description: The results for all models, included if the spec is valid at the global level
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/ValidationResponseModel"
+      required:
+        - result
