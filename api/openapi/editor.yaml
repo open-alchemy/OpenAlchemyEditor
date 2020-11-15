@@ -9,10 +9,10 @@ servers:
   - url: https://editor.api.openalchemy.io/v1
 
 paths:
-  /validate-spec:
+  /spec/validate:
     post:
       summary: Validate an OpenAPI spec against OpenAlchemy expectations
-      operationId: library.validate_spec
+      operationId: library.spec.validate
       parameters:
         - in: header
           name: X-LANGUAGE
