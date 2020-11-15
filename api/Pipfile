@@ -7,6 +7,7 @@ name = "pypi"
 connexion = {extras = ["swagger-ui"], version = "*"}
 openalchemy = "2.0.0"
 pyyaml = "*"
+serverless-wsgi = "*"
 
 [dev-packages]
 black = "*"
