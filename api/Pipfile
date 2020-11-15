@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 connexion = {extras = ["swagger-ui"], version = "*"}
+openalchemy = "*"
 
 [dev-packages]
 black = "*"
