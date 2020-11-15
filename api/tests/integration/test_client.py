@@ -17,4 +17,6 @@ def test_validate(client):
     )
 
     assert respose.status_code == 200
-    assert json.loads(respose.data.decode()) == {"result": {"valid": True}}
+    assert json.loads(respose.data.decode()) == {
+        "result": {"valid": False, "reason": "specification must be a dictionary"}
+    }
