@@ -12,6 +12,7 @@ serverless-wsgi = "*"
 [dev-packages]
 black = "*"
 pytest = "*"
+schemathesis = "*"
 
 [requires]
 python_version = "3.9"
