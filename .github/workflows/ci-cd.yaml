@@ -8,18 +8,16 @@ on:
 jobs:
   api-test:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./api
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Go to api dir
-        run: |
-          cd api
       - name: Install pipenv
         run: |
-          cd api
           python -m pip install --upgrade pip
           pip install pipenv
       - id: cache-pipenv
