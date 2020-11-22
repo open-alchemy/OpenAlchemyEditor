@@ -1,16 +1,15 @@
 """Controllers for specs."""
 
-import json
 import typing
 
 import connexion
-import yaml
-from yaml import parser
-from yaml import scanner
 from open_alchemy.schemas import validation
 
+from . import exceptions
+from . import helpers
 
-def validate(body: str):
+
+def validate_managed(body: str):
     """
     Validate a spec.
 
@@ -24,15 +23,31 @@ def validate(body: str):
     language = connexion.request.headers["X-LANGUAGE"]
 
     spec: dict[str, typing.Any]
-    if language == "YAML":
-        try:
-            spec = yaml.safe_load(body)
-        except (parser.ParserError, scanner.ScannerError):
-            return {"result": {"valid": False, "reason": "body must be valid YAML"}}
-    else:
-        try:
-            spec = json.loads(body)
-        except json.JSONDecodeError:
-            return {"result": {"valid": False, "reason": "body must be valid JSON"}}
+    try:
+        spec = helpers.load_spec(spec_str=body, language=language)
+    except exceptions.LoadSpecError as exc:
+        return {"result": {"valid": False, "reason": str(exc)}}
 
     return validation.check(spec=spec)
+
+
+def validate_un_managed(body: str):
+    """
+    Validate a spec.
+
+    Args:
+        body: The spec.
+
+    Returns:
+        The validation result.
+
+    """
+    language = connexion.request.headers["X-LANGUAGE"]
+
+    spec: dict[str, typing.Any]
+    try:
+        spec = helpers.load_spec(spec_str=body, language=language)
+    except exceptions.LoadSpecError as exc:
+        return {"result": {"valid": False, "reason": str(exc)}}
+
+    return validation.unmanaged.check(spec=spec)

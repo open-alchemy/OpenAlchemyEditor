@@ -9,10 +9,30 @@ servers:
   - url: https://editor.api.openalchemy.io/v1
 
 paths:
-  /spec/validate:
+  /spec/validate-managed:
     post:
-      summary: Validate an OpenAPI spec against OpenAlchemy expectations
-      operationId: library.spec.validate
+      summary: Validate the managed parts of an OpenAPI spec against OpenAlchemy expectations
+      operationId: library.spec.validate_managed
+      parameters:
+        - $ref: "#/components/parameters/Language"
+      requestBody:
+        description: The OpenAPI spec to validate
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: The validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResponse"
+  /spec/validate-un-managed:
+    post:
+      summary: Validate the un managed parts of an OpenAPI spec against OpenAlchemy expectations
+      operationId: library.spec.validate_un_managed
       parameters:
         - $ref: "#/components/parameters/Language"
       requestBody:

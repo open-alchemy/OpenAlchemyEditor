@@ -8,7 +8,7 @@ import pytest
 from library import spec
 
 
-VALIDATE_TESTS = [
+VALIDATE_MANAGED_TESTS = [
     pytest.param(
         "JSON",
         "invalid JSON",
@@ -17,36 +17,23 @@ VALIDATE_TESTS = [
     ),
     pytest.param(
         "JSON",
-        '{"key": "value"}',
-        {"result": {"valid": False, "reason": "specification must define components"}},
+        '{"components": {"schemas": {}}}',
+        {
+            "result": {
+                "valid": False,
+                "reason": "specification must define at least 1 schema with the x-tablename key",
+            }
+        },
         id="JSON valid",
-    ),
-    pytest.param(
-        "YAML",
-        "not: valid: YAML",
-        {"result": {"valid": False, "reason": "body must be valid YAML"}},
-        id="YAML invalid schema",
-    ),
-    pytest.param(
-        "YAML",
-        ":",
-        {"result": {"valid": False, "reason": "body must be valid YAML"}},
-        id="YAML invalid value",
-    ),
-    pytest.param(
-        "YAML",
-        "key: value",
-        {"result": {"valid": False, "reason": "specification must define components"}},
-        id="YAML valid",
     ),
 ]
 
 
-@pytest.mark.parametrize("language, body, expected_result", VALIDATE_TESTS)
-def test_validate(language, body, expected_result, monkeypatch):
+@pytest.mark.parametrize("language, body, expected_result", VALIDATE_MANAGED_TESTS)
+def test_validate_managed(language, body, expected_result, monkeypatch):
     """
     GIVEN monkeypatched header with X_LANGUAGE set and body
-    WHEN validate is called with the body
+    WHEN validate_managed is called with the body
     THEN the expected result is returned.
     """
     mock_headers = {"X-LANGUAGE": language}
@@ -54,6 +41,39 @@ def test_validate(language, body, expected_result, monkeypatch):
     mock_request.headers = mock_headers
     monkeypatch.setattr(connexion, "request", mock_request)
 
-    returned_result = spec.validate(body)
+    returned_result = spec.validate_managed(body)
+
+    assert returned_result == expected_result
+
+
+VALIDATE_UN_MANAGED_TESTS = [
+    pytest.param(
+        "JSON",
+        "invalid JSON",
+        {"result": {"valid": False, "reason": "body must be valid JSON"}},
+        id="JSON invalid schema",
+    ),
+    pytest.param(
+        "JSON",
+        '{"components": {"schemas": {}}}',
+        {"models": {}, "result": {"valid": True}},
+        id="JSON valid",
+    ),
+]
+
+
+@pytest.mark.parametrize("language, body, expected_result", VALIDATE_UN_MANAGED_TESTS)
+def test_validate_un_managed(language, body, expected_result, monkeypatch):
+    """
+    GIVEN monkeypatched header with X_LANGUAGE set and body
+    WHEN validate_un_managed is called with the body
+    THEN the expected result is returned.
+    """
+    mock_headers = {"X-LANGUAGE": language}
+    mock_request = mock.Mock(spec_set=["headers"])
+    mock_request.headers = mock_headers
+    monkeypatch.setattr(connexion, "request", mock_request)
+
+    returned_result = spec.validate_un_managed(body)
 
     assert returned_result == expected_result

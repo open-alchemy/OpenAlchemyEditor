@@ -1,22 +1,37 @@
 """Tests for spec controller."""
 
+import pytest
+
 import json
 
 
-def test_validate(client):
-    """
-    GIVEN language and spec
-    WHEN POST /v1/spec/validate is called with the language header and spec body
-    THEN a 200 response with a valid result is returned.
-    """
-    language = "YAML"
-    spec = ""
+POST_TESTS = [
+    pytest.param(
+        "/v1/spec/validate-managed",
+        "",
+        {"X-LANGUAGE": "YAML"},
+        {"result": {"valid": False, "reason": "specification must be a dictionary"}},
+        id="/v1/spec/validate-managed",
+    ),
+    pytest.param(
+        "/v1/spec/validate-un-managed",
+        "",
+        {"X-LANGUAGE": "YAML"},
+        {"result": {"valid": False, "reason": "specification must be a dictionary"}},
+        id="/v1/spec/validate-managed",
+    ),
+]
 
-    respose = client.post(
-        "/v1/spec/validate", headers={"X-LANGUAGE": language}, data=spec
-    )
+
+@pytest.mark.parametrize("path, data, headers, expected_result", POST_TESTS)
+def test_validate(client, path, data, headers, expected_result):
+    """
+    GIVEN data and headers
+    WHEN POST /v1/spec/validate is called with the language header and spec body
+    THEN a 200 response with the expected result is returned.
+    """
+
+    respose = client.post(path, headers=headers, data=data)
 
     assert respose.status_code == 200
-    assert json.loads(respose.data.decode()) == {
-        "result": {"valid": False, "reason": "specification must be a dictionary"}
-    }
+    assert json.loads(respose.data.decode()) == expected_result
