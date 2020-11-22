@@ -3,7 +3,7 @@ name: CI-CD for the OpenAlchemy Editor
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   api-test:
