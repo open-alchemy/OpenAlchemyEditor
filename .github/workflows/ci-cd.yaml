@@ -60,4 +60,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: lambda
-          path: dist/
+          path: api/dist/
