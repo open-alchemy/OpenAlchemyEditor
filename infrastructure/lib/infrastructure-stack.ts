@@ -4,7 +4,11 @@ import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as codedeploy from "@aws-cdk/aws-codedeploy";
 import * as route53 from "@aws-cdk/aws-route53";
 import * as route53Targets from "@aws-cdk/aws-route53-targets";
+import * as certificatemanager from "@aws-cdk/aws-certificatemanager";
+import * as iam from "@aws-cdk/aws-iam";
 import * as uuid from "uuid";
+
+import { ENVIRONMENT } from "./environment";
 
 export class InfrastructureStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -30,7 +34,17 @@ export class InfrastructureStack extends cdk.Stack {
       deploymentConfig: codedeploy.LambdaDeploymentConfig.ALL_AT_ONCE,
     });
 
+    // Certificate
+    const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN;
+    const certificate = certificatemanager.Certificate.fromCertificateArn(
+      this,
+      "Certificate",
+      certificateArn
+    );
+
     // API gateway
+    const domainName = "openalchemy.io";
+    const recordName = "editorV2.api";
     const api = new apigateway.LambdaRestApi(this, "LambdaRestApi", {
       restApiName: "Editor Service",
       description: "Micro service supporting the OpenAlchemy editor",
@@ -44,18 +58,26 @@ export class InfrastructureStack extends cdk.Stack {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
       },
+      domainName: {
+        certificate,
+        domainName: `${recordName}.${domainName}`,
+      },
+    });
+    alias.addPermission("RestApiLambdaPermission", {
+      principal: new iam.ServicePrincipal("apigateway.amazonaws.com"),
+      sourceArn: api.arnForExecuteApi(),
     });
 
     // DNS listing
     const zone = route53.PublicHostedZone.fromLookup(this, "PublicHostedZone", {
-      domainName: "openalchemy.io",
+      domainName,
     });
     new route53.ARecord(this, "AliasRecord", {
       zone,
       target: route53.RecordTarget.fromAlias(
         new route53Targets.ApiGateway(api)
       ),
-      recordName: "editorV2.api",
+      recordName,
     });
   }
 }
