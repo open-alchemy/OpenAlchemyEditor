@@ -5,9 +5,6 @@ on:
     branches:
       - main
 
-defaults:
-  run:
-    working-directory: ./api
 jobs:
   api-test:
     runs-on: ubuntu-latest
@@ -27,9 +24,11 @@ jobs:
           path: ~/.local/share/virtualenvs
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
       - name: Install dependencies
+        working-directory: ./api
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pipenv install --dev
       - name: Run tests
+        working-directory: ./api
         run: |
           pipenv run test
