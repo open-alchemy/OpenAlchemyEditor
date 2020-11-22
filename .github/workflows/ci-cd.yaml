@@ -79,8 +79,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: lambda
-          path: resources/
+          path: infrastructure/resources/
       - name: deploy
+        working-directory: ./infrastructure
         run: |
           ls -la
           ls -la resources
