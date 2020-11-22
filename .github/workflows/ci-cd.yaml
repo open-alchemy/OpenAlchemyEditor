@@ -61,3 +61,25 @@ jobs:
         with:
           name: lambda
           path: api/dist/api-deployment-package.zip
+
+  api-deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - api-build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        working-directory: ./infrastructure
+        run: npm install
+      - name: Retrieve api deployment package
+        uses: actions/download-artifact@v2
+        with:
+          name: lambda
+          path: resources/
+      - name: deploy
+        run: ls -la
+        run: ls -la resources
