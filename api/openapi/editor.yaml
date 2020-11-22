@@ -14,15 +14,7 @@ paths:
       summary: Validate an OpenAPI spec against OpenAlchemy expectations
       operationId: library.spec.validate
       parameters:
-        - in: header
-          name: X-LANGUAGE
-          description: The language of the spec
-          required: true
-          schema:
-            type: string
-            enum:
-              - JSON
-              - YAML
+        - $ref: "#/components/parameters/Language"
       requestBody:
         description: The OpenAPI spec to validate
         required: true
@@ -39,6 +31,17 @@ paths:
                 $ref: "#/components/schemas/ValidationResponse"
 
 components:
+  parameters:
+    Language:
+      in: header
+      name: X-LANGUAGE
+      description: The language of the spec
+      required: true
+      schema:
+        type: string
+        enum:
+          - JSON
+          - YAML
   schemas:
     ValidationResponseResult:
       description: Whether the spec is valid at the global, model or property level
