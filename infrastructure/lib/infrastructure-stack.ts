@@ -44,7 +44,7 @@ export class InfrastructureStack extends cdk.Stack {
 
     // API gateway
     const domainName = "openalchemy.io";
-    const recordName = "editorV2.api";
+    const recordName = "editor-v2.api";
     const api = new apigateway.LambdaRestApi(this, "LambdaRestApi", {
       restApiName: "Editor Service",
       description: "Micro service supporting the OpenAlchemy editor",
