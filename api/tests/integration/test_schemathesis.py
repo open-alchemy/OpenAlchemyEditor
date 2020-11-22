@@ -1,6 +1,5 @@
 """Schemathesis tests."""
 
-import connexion
 import schemathesis
 
 from app import app
