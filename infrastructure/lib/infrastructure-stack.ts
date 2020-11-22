@@ -2,6 +2,8 @@ import * as cdk from "@aws-cdk/core";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as codedeploy from "@aws-cdk/aws-codedeploy";
+import * as route53 from "@aws-cdk/aws-route53";
+import * as route53Targets from "@aws-cdk/aws-route53-targets";
 import * as uuid from "uuid";
 
 export class InfrastructureStack extends cdk.Stack {
@@ -29,7 +31,7 @@ export class InfrastructureStack extends cdk.Stack {
     });
 
     // API gateway
-    new apigateway.LambdaRestApi(this, "LambdaRestApi", {
+    const api = new apigateway.LambdaRestApi(this, "LambdaRestApi", {
       restApiName: "Editor Service",
       description: "Micro service supporting the OpenAlchemy editor",
       handler: alias,
@@ -42,6 +44,18 @@ export class InfrastructureStack extends cdk.Stack {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
       },
+    });
+
+    // DNS listing
+    const zone = route53.PublicHostedZone.fromLookup(this, "PublicHostedZone", {
+      domainName: "openalchemy.io",
+    });
+    new route53.ARecord(this, "AliasRecord", {
+      zone,
+      target: route53.RecordTarget.fromAlias(
+        new route53Targets.ApiGateway(api)
+      ),
+      recordName: "editorV2.api",
     });
   }
 }
