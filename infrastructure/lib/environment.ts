@@ -12,14 +12,23 @@ interface IEnvironment {
 
 function getEnvironment(): IEnvironment {
   const awsAccount = process.env[AWS_ACCOUNT_KEY];
-  assert.ok(typeof awsAccount === "string");
+  assert.ok(
+    typeof awsAccount === "string",
+    `${AWS_ACCOUNT_KEY} missing or not a string`
+  );
 
   const awsDefaultRegion = process.env[AWS_DEFAULT_REGION_KEY];
-  assert.ok(typeof awsDefaultRegion === "string");
+  assert.ok(
+    typeof awsDefaultRegion === "string",
+    `${AWS_DEFAULT_REGION_KEY} missing or not a string`
+  );
 
   const awsOpenAlchemyCertificateArn =
     process.env[AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY];
-  assert.ok(typeof awsOpenAlchemyCertificateArn === "string");
+  assert.ok(
+    typeof awsOpenAlchemyCertificateArn === "string",
+    `${AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY} missing or not a string`
+  );
 
   return {
     [AWS_ACCOUNT_KEY]: awsAccount,
