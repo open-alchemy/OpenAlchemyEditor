@@ -82,6 +82,12 @@ jobs:
           path: infrastructure/resources/
       - name: deploy
         working-directory: ./infrastructure
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
         run: |
+          echo $AWS_ACCESS_KEY_ID
           ls -la
           ls -la resources
+          cdk deploy InfrastructureStack
