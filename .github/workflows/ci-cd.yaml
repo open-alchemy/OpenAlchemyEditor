@@ -81,5 +81,6 @@ jobs:
           name: lambda
           path: resources/
       - name: deploy
-        run: ls -la
-        run: ls -la resources
+        run: |
+          ls -la
+          ls -la resources
