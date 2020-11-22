@@ -57,7 +57,7 @@ jobs:
           cd dist
           zip -r api-deployment-package.zip .
       - name: Upload artifacts for release
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: lambda
           path: api/dist/
