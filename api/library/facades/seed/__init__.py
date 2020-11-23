@@ -1,6 +1,7 @@
 """Seed facade."""
 
 from . import memory
+from . import disk
 from . import exceptions
 from . import types
 

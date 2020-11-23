@@ -5,8 +5,7 @@ import pytest
 from library.facades import seed
 
 
-@pytest.mark.parametrize("seed_instance", [seed.memory.MemorySeed()])
-def test_get_before_set(seed_instance):
+def get_before_set(seed_instance):
     """
     GIVEN seed instance
     WHEN get is called
@@ -16,8 +15,21 @@ def test_get_before_set(seed_instance):
         seed_instance.get(name="test")
 
 
-@pytest.mark.parametrize("seed_instance", [seed.memory.MemorySeed()])
-def test_delete_before_set(seed_instance):
+def test_get_before_set_memory():
+    """
+    GIVEN memory seed instance
+    """
+    get_before_set(seed.memory.MemorySeed())
+
+
+def test_get_before_set_disk(tmp_path):
+    """
+    GIVEN disk seed instance
+    """
+    get_before_set(seed.disk.DiskSeed(str(tmp_path)))
+
+
+def delete_before_set(seed_instance):
     """
     GIVEN seed instance
     WHEN delete is called
@@ -27,8 +39,21 @@ def test_delete_before_set(seed_instance):
         seed_instance.delete(name="test")
 
 
-@pytest.mark.parametrize("seed_instance", [seed.memory.MemorySeed()])
-def test_set_get(seed_instance):
+def test_delete_before_set_memory():
+    """
+    GIVEN memory seed instance
+    """
+    delete_before_set(seed.memory.MemorySeed())
+
+
+def test_delete_before_set_disk(tmp_path):
+    """
+    GIVEN disk seed instance
+    """
+    delete_before_set(seed.disk.DiskSeed(str(tmp_path)))
+
+
+def set_get(seed_instance):
     """
     GIVEN seed instance and seed name and value
     WHEN set is called with the name and value and get is called with the name
@@ -43,8 +68,21 @@ def test_set_get(seed_instance):
     assert returned_seed == value
 
 
-@pytest.mark.parametrize("seed_instance", [seed.memory.MemorySeed()])
-def test_set_delete_get(seed_instance):
+def test_set_get_memory():
+    """
+    GIVEN memory seed instance
+    """
+    set_get(seed.memory.MemorySeed())
+
+
+def test_set_get_disk(tmp_path):
+    """
+    GIVEN disk seed instance
+    """
+    set_get(seed.disk.DiskSeed(str(tmp_path)))
+
+
+def set_delete_get(seed_instance):
     """
     GIVEN seed instance and seed name and value
     WHEN set is called with the name and value and delete and then get
@@ -57,11 +95,24 @@ def test_set_delete_get(seed_instance):
     seed_instance.set(name=name, value=value)
     seed_instance.delete(name=name)
     with pytest.raises(seed.exceptions.SeedNotFoundError):
-        seed_instance.get(name="test")
+        seed_instance.get(name=name)
 
 
-@pytest.mark.parametrize("seed_instance", [seed.memory.MemorySeed()])
-def test_list(seed_instance):
+def test_set_delete_get_memory():
+    """
+    GIVEN memory seed instance
+    """
+    set_delete_get(seed.memory.MemorySeed())
+
+
+def test_set_delete_get_disk(tmp_path):
+    """
+    GIVEN disk seed instance
+    """
+    set_delete_get(seed.disk.DiskSeed(str(tmp_path)))
+
+
+def list(seed_instance):
     """
     GIVEN seed instance and seed names and values
     WHEN list is called after none, one and multiple set calls
@@ -80,3 +131,32 @@ def test_list(seed_instance):
     returned_seeds = seed_instance.list()
 
     assert returned_seeds == ["name 1", "name 2"]
+
+
+def test_list_memory():
+    """
+    GIVEN memory seed instance
+    """
+    list(seed.memory.MemorySeed())
+
+
+def test_list_disk(tmp_path):
+    """
+    GIVEN disk seed instance
+    """
+    list(seed.disk.DiskSeed(str(tmp_path)))
+
+
+def test_disk_existing(tmp_path):
+    """
+    GIVEN disk seed instance and disk that has a seed
+    WHEN list is called
+    THEN the seed name is returned.
+    """
+    name = "seed 1"
+    (tmp_path / f"{name}.yml").write_text("value 1")
+
+    seed_instance = seed.disk.DiskSeed(str(tmp_path))
+    returned_seeds = seed_instance.list()
+
+    assert returned_seeds == [name]
