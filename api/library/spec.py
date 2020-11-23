@@ -9,7 +9,7 @@ from . import exceptions
 from . import helpers
 
 
-def validate_managed(body: str):
+def validate_managed(body: str) -> typing.Dict[str, typing.Any]:
     """
     Validate a spec.
 
@@ -31,7 +31,7 @@ def validate_managed(body: str):
     return validation.check(spec=spec)
 
 
-def validate_un_managed(body: str):
+def validate_un_managed(body: str) -> typing.Dict[str, typing.Any]:
     """
     Validate a spec.
 

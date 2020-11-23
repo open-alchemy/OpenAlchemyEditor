@@ -18,7 +18,14 @@ POST_TESTS = [
         "",
         {"X-LANGUAGE": "YAML"},
         {"result": {"valid": False, "reason": "specification must be a dictionary"}},
-        id="/v1/spec/validate-managed",
+        id="/v1/spec/validate-un-managed",
+    ),
+    pytest.param(
+        "/v1/artifact/calculate",
+        "",
+        {"X-LANGUAGE": "YAML"},
+        {},
+        id="/v1/artifact/calculate",
     ),
 ]
 

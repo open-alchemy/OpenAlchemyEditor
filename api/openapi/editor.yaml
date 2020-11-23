@@ -49,6 +49,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationResponse"
+  /artifact/calculate:
+    post:
+      summary: Calculate the OpenAlchemy artifacts from the spec
+      operationId: library.artifact.calculate
+      parameters:
+        - $ref: "#/components/parameters/Language"
+      requestBody:
+        description: The OpenAPI spec to validate
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        200:
+          description: The artifacts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArtifactResponse"
+        400:
+          description: The spec is not valid
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   parameters:
@@ -109,3 +135,29 @@ components:
             $ref: "#/components/schemas/ValidationResponseModel"
       required:
         - result
+    ArtifactResponseProperty:
+      description: The artifacts for a property
+      type: object
+      properties:
+        artifacts:
+          type: object
+    ArtifactResponseModel:
+      description: The artifacts for a model
+      type: object
+      properties:
+        artifacts:
+          description: The artifacts for a model
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/ArtifactResponseProperty"
+    ArtifactResponseModels:
+      description: The artifacts for all models
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/ArtifactResponseModel"
+    ArtifactResponse:
+      description: The artifacts for the spec
+      type: object
+      properties:
+        models:
+          $ref: "#/components/schemas/ArtifactResponseModels"
