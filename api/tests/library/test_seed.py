@@ -17,14 +17,13 @@ def test_get_error():
     assert response.mimetype == "text/plain"
 
 
-def test_get():
+def test_get(default_seed):
     """
     GIVEN seed instance with the simple seed
     WHEN get is called
     THEN a 200 with the seed is returned.
     """
-    value = "seed 1"
-    seed_facade.get_seed().set(name="simple", value=value)
+    _, value = default_seed
 
     response = seed.get()
 

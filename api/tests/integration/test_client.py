@@ -50,7 +50,23 @@ def test_seed_get(client, default_seed):
     WHEN GET /seed is called
     THEN the default seed is returned.
     """
+    _, value = default_seed
+
     respose = client.get("/v1/seed")
 
     assert respose.status_code == 200
-    assert respose.data.decode() == default_seed
+    assert respose.data.decode() == value
+
+
+def test_seeds_get(client, single_seed):
+    """
+    GIVEN default seed is set
+    WHEN GET /seed is called
+    THEN the default seed is returned.
+    """
+    name, _ = single_seed
+
+    respose = client.get("/v1/seeds")
+
+    assert respose.status_code == 200
+    assert json.loads(respose.data.decode()) == [name]

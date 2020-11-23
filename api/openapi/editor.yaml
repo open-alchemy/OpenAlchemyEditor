@@ -9,23 +9,6 @@ servers:
   - url: https://editor.api.openalchemy.io/v1
 
 paths:
-  /seed:
-    get:
-      summary: Retrieve the default seed
-      operationId: library.seed.get
-      responses:
-        200:
-          description: The default seed
-          content:
-            text/plain:
-              schema:
-                type: string
-        500:
-          description: The default seed was not set
-          content:
-            text/plain:
-              schema:
-                type: string
   /spec/validate-managed:
     post:
       summary: Validate the managed parts of an OpenAPI spec against OpenAlchemy expectations
@@ -92,6 +75,36 @@ paths:
             text/plain:
               schema:
                 type: string
+  /seed:
+    get:
+      summary: Retrieve the default seed
+      operationId: library.seed.get
+      responses:
+        200:
+          description: The default seed
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/SeedValue"
+        500:
+          description: The default seed was not set
+          content:
+            text/plain:
+              schema:
+                type: string
+  /seeds:
+    get:
+      summary: Get all the available seeds
+      operationId: library.seeds.list
+      responses:
+        200:
+          description: All available seeds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SeedName"
 
 components:
   parameters:
@@ -106,6 +119,12 @@ components:
           - JSON
           - YAML
   schemas:
+    SeedName:
+      description: The name of a seed.
+      type: string
+    SeedValue:
+      description: The value of a seed.
+      type: string
     ValidationResponseResult:
       description: Whether the spec is valid at the global, model or property level
       type: object
