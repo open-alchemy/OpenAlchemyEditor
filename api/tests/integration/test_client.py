@@ -47,7 +47,7 @@ def test_endpoint(client, path, data, headers, expected_result):
 def test_seed_get(client, default_seed):
     """
     GIVEN default seed is set
-    WHEN GET /seed is called
+    WHEN GET /v1/seed is called
     THEN the default seed is returned.
     """
     _, value = default_seed
@@ -60,9 +60,9 @@ def test_seed_get(client, default_seed):
 
 def test_seeds_get(client, single_seed):
     """
-    GIVEN default seed is set
-    WHEN GET /seed is called
-    THEN the default seed is returned.
+    GIVEN single seed is set
+    WHEN GET /v1/seeds is called
+    THEN defined seed names are returned.
     """
     name, _ = single_seed
 
@@ -70,3 +70,17 @@ def test_seeds_get(client, single_seed):
 
     assert respose.status_code == 200
     assert json.loads(respose.data.decode()) == [name]
+
+
+def test_seeds_seed_id_get(client, single_seed):
+    """
+    GIVEN single seed is set
+    WHEN GET /v1/seeds/{seed_id} is called
+    THEN the seed value is returned.
+    """
+    name, value = single_seed
+
+    respose = client.get(f"/v1/seeds/{name}")
+
+    assert respose.status_code == 200
+    assert respose.data.decode() == value
