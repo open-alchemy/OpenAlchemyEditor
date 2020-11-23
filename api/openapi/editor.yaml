@@ -9,6 +9,23 @@ servers:
   - url: https://editor.api.openalchemy.io/v1
 
 paths:
+  /seed:
+    get:
+      summary: Retrieve the default seed
+      operationId: library.seed.get
+      responses:
+        200:
+          description: The default seed
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: The default seed was not set
+          content:
+            text/plain:
+              schema:
+                type: string
   /spec/validate-managed:
     post:
       summary: Validate the managed parts of an OpenAPI spec against OpenAlchemy expectations
