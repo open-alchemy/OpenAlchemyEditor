@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Get OpenAlchemy repo
         uses: actions/checkout@v2
-        repository: https://github.com/jdkandersson/OpenAlchemy.git
+        with:
+          repository: https://github.com/jdkandersson/OpenAlchemy.git
       - name: Upload seed assets
         uses: actions/upload-artifact@v2
         with:
