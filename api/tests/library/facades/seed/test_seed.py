@@ -130,7 +130,7 @@ def list(seed_instance):
     seed_instance.set(name="name 2", value="value 2")
     returned_seeds = seed_instance.list()
 
-    assert returned_seeds == ["name 1", "name 2"]
+    assert set(returned_seeds) == {"name 1", "name 2"}
 
 
 def test_list_memory():
