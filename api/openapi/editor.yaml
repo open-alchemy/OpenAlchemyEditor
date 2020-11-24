@@ -115,7 +115,7 @@ paths:
           schema:
             $ref: "#/components/schemas/SeedName"
           required: true
-          description: The id of the seed
+          description: The id of the seed, must be URL encoded
       responses:
         200:
           description: The seed value

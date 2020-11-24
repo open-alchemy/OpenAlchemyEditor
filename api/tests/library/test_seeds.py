@@ -1,5 +1,7 @@
 """Tests for seeds endpoint."""
 
+from urllib import parse
+
 from library import seeds
 
 
@@ -40,6 +42,22 @@ def test_get(single_seed):
     name, value = single_seed
 
     response = seeds.get(name)
+
+    assert response.status_code == 200
+    assert response.data.decode() == value
+    assert response.mimetype == "text/plain"
+
+
+def test_get(single_nested_seed):
+    """
+    GIVEN a nested seed is defined
+    WHEN get is called with the name of the seed
+    THEN the seed is returned.
+    """
+    name, value = single_nested_seed
+    quoted_name = parse.quote_plus(name)
+
+    response = seeds.get(quoted_name)
 
     assert response.status_code == 200
     assert response.data.decode() == value
