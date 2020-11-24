@@ -15,7 +15,9 @@ def get() -> flask.Response:
     """
     try:
         return flask.Response(
-            seed.get_seed().get(name="simple"), status=200, mimetype="text/plain"
+            seed.get_seed().get(name="simple/example-spec"),
+            status=200,
+            mimetype="text/plain",
         )
     except seed.exceptions.SeedNotFoundError as exc:
         return flask.Response(str(exc), status=500, mimetype="text/plain")

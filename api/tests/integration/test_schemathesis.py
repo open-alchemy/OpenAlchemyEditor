@@ -12,9 +12,10 @@ schema = schemathesis.loaders.from_wsgi("/v1/openapi.json", app.app)
 
 @contextlib.contextmanager
 def default_seed():
-    seed.get_seed().set(name="simple", value="value 1")
+    name = "simple/example-spec"
+    seed.get_seed().set(name=name, value="value 1")
     yield
-    seed.get_seed().delete(name="simple")
+    seed.get_seed().delete(name=name)
 
 
 @schema.parametrize()

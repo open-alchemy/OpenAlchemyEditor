@@ -66,12 +66,12 @@ jobs:
       - name: create distribution directory
         working-directory: ./api
         run: |
-          mkdir dist
+          mkdir api/dist
       - name: retrieve seeds
         uses: actions/download-artifact@v2
         with:
           name: assets-seed
-          path: dist/assets/seeds
+          path: api/dist/assets/seeds
       - name: create package
         working-directory: ./api
         run: |
