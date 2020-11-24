@@ -12,6 +12,13 @@ jobs:
       - name: Get OpenAlchemy repo
         uses: actions/checkout@v2
         repository: https://github.com/jdkandersson/OpenAlchemy.git
+      - name: Upload seed assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: assets-seed
+          path: |
+            examples/**/*example-spec.yml
+            !**/*remote*/**
 
   api-test:
     runs-on: ubuntu-latest
