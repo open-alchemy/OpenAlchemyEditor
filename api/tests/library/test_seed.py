@@ -1,7 +1,7 @@
 """Tests for the seed endpoint."""
 
 from library import seed
-from library.facades import seed as seed_facade
+from library import config
 
 
 def test_get_error():
@@ -12,7 +12,7 @@ def test_get_error():
     """
     response = seed.get()
 
-    assert b"simple" in response.data
+    assert config.get_env().default_seed_name.encode() in response.data
     assert response.status_code == 500
     assert response.mimetype == "text/plain"
 

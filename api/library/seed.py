@@ -3,6 +3,7 @@
 import flask
 
 from .facades import seed
+from . import config
 
 
 def get() -> flask.Response:
@@ -15,7 +16,7 @@ def get() -> flask.Response:
     """
     try:
         return flask.Response(
-            seed.get_seed().get(name="simple/example-spec"),
+            seed.get_seed().get(name=config.get_env().default_seed_name),
             status=200,
             mimetype="text/plain",
         )

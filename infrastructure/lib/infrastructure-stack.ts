@@ -23,6 +23,7 @@ export class InfrastructureStack extends cdk.Stack {
       environment: {
         STAGE: "PROD",
         SEEDS_FOLDER: "assets/seeds",
+        DEFAULT_SEED_NAME: "simple/example-spec",
       },
     });
     const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {

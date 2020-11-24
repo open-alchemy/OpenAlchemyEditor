@@ -5,6 +5,7 @@ import contextlib
 import schemathesis
 
 from library.facades import seed
+from library import config
 from app import app
 
 schema = schemathesis.loaders.from_wsgi("/v1/openapi.json", app.app)
@@ -12,7 +13,7 @@ schema = schemathesis.loaders.from_wsgi("/v1/openapi.json", app.app)
 
 @contextlib.contextmanager
 def default_seed():
-    name = "simple/example-spec"
+    name = config.get_env().default_seed_name
     seed.get_seed().set(name=name, value="value 1")
     yield
     seed.get_seed().delete(name=name)

@@ -3,12 +3,13 @@
 import pytest
 
 from library.facades import seed
+from library import config
 
 
 @pytest.fixture
 def default_seed():
     """Set the default seed."""
-    name = "simple/example-spec"
+    name = config.get_env().default_seed_name
     value = "value 1"
     seed.get_seed().set(name=name, value=value)
 

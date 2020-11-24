@@ -24,6 +24,8 @@ class TEnvironment:
     stage: Stage
     # The folder of the seeds
     seeds_folder: str
+    # The name of the default seed
+    default_seed_name: str
 
 
 def _get_env() -> TEnvironment:
@@ -37,7 +39,12 @@ def _get_env() -> TEnvironment:
     )
     assert isinstance(stage, str)
 
-    return TEnvironment(stage=stage, seeds_folder=seeds_folder)
+    default_seed_name = os.getenv("DEFAULT_SEED_NAME", "default-seed")
+    assert isinstance(default_seed_name, str)
+
+    return TEnvironment(
+        stage=stage, seeds_folder=seeds_folder, default_seed_name=default_seed_name
+    )
 
 
 _ENVIRONMENT = _get_env()
