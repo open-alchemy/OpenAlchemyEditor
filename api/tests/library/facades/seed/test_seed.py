@@ -154,12 +154,17 @@ def test_disk_existing(tmp_path):
     THEN the seed name is returned.
     """
     name = "seed 1"
-    (tmp_path / f"{name}.yml").write_text("value 1")
+    value = "value 1"
+    (tmp_path / f"{name}.yml").write_text(value)
 
     seed_instance = seed.disk.DiskSeed(str(tmp_path))
     returned_seeds = seed_instance.list()
 
     assert returned_seeds == [name]
+
+    returned_value = seed_instance.get(name=name)
+
+    assert returned_value == value
 
 
 def test_disk_existing_sub_folder(tmp_path):
@@ -169,10 +174,15 @@ def test_disk_existing_sub_folder(tmp_path):
     THEN the seed name with the folder name is returned.
     """
     name = "seed 1"
+    value = "value 1"
     (tmp_path / "sub_folder").mkdir()
-    (tmp_path / "sub_folder" / f"{name}.yml").write_text("value 1")
+    (tmp_path / "sub_folder" / f"{name}.yml").write_text(value)
 
     seed_instance = seed.disk.DiskSeed(str(tmp_path))
     returned_seeds = seed_instance.list()
 
     assert returned_seeds == [f"sub_folder/{name}"]
+
+    returned_value = seed_instance.get(name=f"sub_folder/{name}")
+
+    assert returned_value == value
