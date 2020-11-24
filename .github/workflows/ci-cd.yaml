@@ -12,7 +12,7 @@ jobs:
       - name: Get OpenAlchemy repo
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/jdkandersson/OpenAlchemy.git
+          repository: jdkandersson/OpenAlchemy
       - name: Upload seed assets
         uses: actions/upload-artifact@v2
         with:
