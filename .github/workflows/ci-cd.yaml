@@ -6,6 +6,13 @@ on:
       - main
 
 jobs:
+  assets-seeds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get OpenAlchemy repo
+        uses: actions/checkout@v2
+        repository: https://github.com/jdkandersson/OpenAlchemy.git
+
   api-test:
     runs-on: ubuntu-latest
     steps:

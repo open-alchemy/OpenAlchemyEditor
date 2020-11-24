@@ -160,3 +160,19 @@ def test_disk_existing(tmp_path):
     returned_seeds = seed_instance.list()
 
     assert returned_seeds == [name]
+
+
+def test_disk_existing_sub_folder(tmp_path):
+    """
+    GIVEN disk seed instance and disk that has a seed in a sub folder
+    WHEN list is called
+    THEN the seed name with the folder name is returned.
+    """
+    name = "seed 1"
+    (tmp_path / "sub_folder").mkdir()
+    (tmp_path / "sub_folder" / f"{name}.yml").write_text("value 1")
+
+    seed_instance = seed.disk.DiskSeed(str(tmp_path))
+    returned_seeds = seed_instance.list()
+
+    assert returned_seeds == [f"sub_folder/{name}"]

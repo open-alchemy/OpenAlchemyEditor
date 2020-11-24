@@ -20,6 +20,10 @@ export class InfrastructureStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset("resources/api-deployment-package.zip"),
       handler: "api.main",
+      environment: {
+        STAGE: "PROD",
+        SEEDS_FOLDER: "assets/seeds",
+      },
     });
     const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {
       lambda: func,
