@@ -19,3 +19,9 @@ The AWS infrastructure of the editor.
 [web/](web/)
 
 The web app for the editor.
+
+## Test
+
+[test/](test/)
+
+Post deployment production tests.
