@@ -51,14 +51,9 @@ def calculate_seed_name(path: str) -> str:
         The name of the seed.
 
     """
-    # Remove example-spec
-    suffix = "example-spec"
-    if path.endswith(suffix):
-        path = path[: -len(suffix)]
-
-    # Remove /
-    suffix = "/"
-    if path.endswith(suffix):
-        path = path[: -len(suffix)]
+    suffixes = ["example-spec", "-", "/"]
+    for suffix in suffixes:
+        if path.endswith(suffix):
+            path = path[: -len(suffix)]
 
     return path

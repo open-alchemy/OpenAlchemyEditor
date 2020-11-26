@@ -83,7 +83,9 @@ CALCULATE_SEED_NAME_TESTS = [
     pytest.param("name 1", "name 1", id="plain"),
     pytest.param("name 1/", "name 1", id="ends in /"),
     pytest.param("name 1example-spec", "name 1", id="ends in example-spec"),
+    pytest.param("name 1-example-spec", "name 1", id="ends in -example-spec"),
     pytest.param("name 1/example-spec", "name 1", id="ends in /example-spec"),
+    pytest.param("name 1/-example-spec", "name 1", id="ends in /-example-spec"),
 ]
 
 
