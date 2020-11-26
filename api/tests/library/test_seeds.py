@@ -13,9 +13,33 @@ def test_list(single_seed):
     """
     name, _ = single_seed
 
-    response = seeds.list()
+    response = seeds.list_()
 
-    assert response == [name]
+    assert response == [{"name": name, "path": name}]
+
+
+def test_list_slash_suffix(single_seed_slash_suffix):
+    """
+    GIVEN single seed with a / suffix is defined
+    WHEN list is called
+    THEN the defined seed name is returned.
+    """
+    name, _ = single_seed_slash_suffix
+
+    response = seeds.list_()
+
+    assert response == [{"name": name[:-1], "path": name}]
+
+
+def test_list_multiple(multiple_seed):
+    """
+    GIVEN multiple seeds are defined
+    WHEN list is called
+    THEN the defined seed name is returned.
+    """
+    response = seeds.list_()
+
+    assert response == [{"name": name, "path": name} for name, _ in multiple_seed]
 
 
 def test_get_miss():

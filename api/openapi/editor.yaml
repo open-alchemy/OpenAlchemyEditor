@@ -95,7 +95,7 @@ paths:
   /seeds:
     get:
       summary: Get all the available seeds
-      operationId: library.seeds.list
+      operationId: library.seeds.list_
       responses:
         200:
           description: All available seeds
@@ -104,7 +104,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/SeedName"
+                  $ref: "#/components/schemas/SeedNamePath"
   /seeds/{seed_id}:
     get:
       summary: Get the value of a seed
@@ -146,6 +146,18 @@ components:
     SeedName:
       description: The name of a seed.
       type: string
+    SeedNamePath:
+      description: The seed name and path
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/SeedName"
+        path:
+          description: The path to use to retrieve the seed
+          type: string
+      required:
+        - name
+        - path
     SeedValue:
       description: The value of a seed.
       type: string

@@ -5,9 +5,10 @@ from urllib import parse
 import flask
 
 from .facades import seed
+from . import helpers
 
 
-def list() -> seed.types.TSeedNames:
+def list_() -> seed.types.TSeedNames:
     """
     Get all available seeds.
 
@@ -15,7 +16,12 @@ def list() -> seed.types.TSeedNames:
         All available seeds.
 
     """
-    return seed.get_seed().list()
+    return list(
+        map(
+            lambda path: {"name": helpers.calculate_seed_name(path), "path": path},
+            seed.get_seed().list(),
+        )
+    )
 
 
 def get(seed_id: seed.types.TSeedName) -> flask.Response:
@@ -27,7 +33,6 @@ def get(seed_id: seed.types.TSeedName) -> flask.Response:
 
     """
     seed_name = parse.unquote_plus(seed_id)
-    print(seed_name)
 
     try:
         return flask.Response(

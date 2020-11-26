@@ -81,7 +81,7 @@ def test_seeds_get(client, single_seed):
     respose = client.get("/v1/seeds")
 
     assert respose.status_code == 200
-    assert json.loads(respose.data.decode()) == [name]
+    assert json.loads(respose.data.decode()) == [{"name": name, "path": name}]
     assert "Access-Control-Allow-Origin" in respose.headers
     assert (
         respose.headers["Access-Control-Allow-Origin"]
