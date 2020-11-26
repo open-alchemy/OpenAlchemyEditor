@@ -38,3 +38,27 @@ def load_spec(*, spec_str: str, language: str) -> typing.Dict[str, typing.Any]:
     raise exceptions.LoadSpecError(
         f"unsupported language {language}, supported languages are JSON and YAML"
     )
+
+
+def calculate_seed_name(path: str) -> str:
+    """
+    Calculate the seed name based on the path to it.
+
+    Args:
+        path: The path to the seed.
+
+    Returns:
+        The name of the seed.
+
+    """
+    # Remove example-spec
+    suffix = "example-spec"
+    if path.endswith(suffix):
+        path = path[: -len(suffix)]
+
+    # Remove /
+    suffix = "/"
+    if path.endswith(suffix):
+        path = path[: -len(suffix)]
+
+    return path
