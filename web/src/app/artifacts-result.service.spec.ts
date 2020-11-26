@@ -42,7 +42,7 @@ describe('ArtifactsResultService', () => {
       ).toHaveBeenCalledWith(
         'https://editor-v2.api.openalchemy.io/v1/artifact/calculate',
         'spec value b',
-        { headers: { 'Content-Type': 'application/yaml' } }
+        { headers: { 'X-LANGUAGE': 'YAML' } }
       );
     });
   });

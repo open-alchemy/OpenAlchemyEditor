@@ -108,7 +108,7 @@ describe('checkSpec', () => {
             expect(httpClientSpy.post).toHaveBeenCalledWith(
               'some-url',
               expectedCallArg,
-              { headers: { 'Content-Type': 'application/yaml' } }
+              { headers: { 'X-LANGUAGE': 'YAML' } }
             )
           );
         });

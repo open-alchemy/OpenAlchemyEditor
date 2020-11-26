@@ -40,7 +40,7 @@ describe('ValidatorResultService', () => {
       ).toHaveBeenCalledWith(
         'https://editor-v2.api.openalchemy.io/v1/spec/validate-managed',
         'spec value b',
-        { headers: { 'Content-Type': 'application/yaml' } }
+        { headers: { 'X-LANGUAGE': 'YAML' } }
       );
     });
   });
@@ -73,7 +73,7 @@ describe('ValidatorResultService', () => {
       ).toHaveBeenCalledWith(
         'https://editor-v2.api.openalchemy.io/v1/spec/validate-un-managed',
         'spec value b',
-        { headers: { 'Content-Type': 'application/yaml' } }
+        { headers: { 'X-LANGUAGE': 'YAML' } }
       );
     });
   });
