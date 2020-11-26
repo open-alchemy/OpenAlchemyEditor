@@ -25,7 +25,7 @@ export class InfrastructureStack extends cdk.Stack {
         SEEDS_FOLDER: "assets/seeds",
         DEFAULT_SEED_NAME: "simple/example-spec",
         ACCESS_CONTROL_ALLOW_ORIGIN: "*",
-        ACCESS_CONTROL_ALLOW_HEADERS: "X-LANGUAGE",
+        ACCESS_CONTROL_ALLOW_HEADERS: "x-language",
       },
     });
     const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {
@@ -64,7 +64,7 @@ export class InfrastructureStack extends cdk.Stack {
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(["x-language"]),
       },
       domainName: {
         certificate,

@@ -50,7 +50,7 @@ def _get_env() -> TEnvironment:
     assert isinstance(access_control_allow_origin, str)
 
     access_control_allow_headers = os.getenv(
-        "ACCESS_CONTROL_ALLOW_HEADERS", "X-LANGUAGE"
+        "ACCESS_CONTROL_ALLOW_HEADERS", "x-language"
     )
     assert isinstance(access_control_allow_headers, str)
 

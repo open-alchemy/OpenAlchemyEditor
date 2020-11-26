@@ -19,13 +19,13 @@ def test_endpoint_options(client, path):
     """
     GIVEN path
     WHEN OPTIONS {path} is called with the CORS POST Method and X-LANGUAGE Headers
-    THEN Access-Control-Allow-Headers is returned with X-LANGUAGE.
+    THEN Access-Control-Allow-Headers is returned with x-language.
     """
     respose = client.options(
         path,
         headers={
             "Access-Control-Request-Method": "POST",
-            "Access-Control-Request-Headers": "X-LANGUAGE",
+            "Access-Control-Request-Headers": "x-language",
         },
     )
 

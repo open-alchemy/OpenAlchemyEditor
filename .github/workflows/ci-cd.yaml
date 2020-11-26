@@ -16,7 +16,7 @@ jobs:
       - name: Upload seed assets
         uses: actions/upload-artifact@v2
         with:
-          name: assets-seed
+          name: assets-seeds
           path: |
             examples/**/*example-spec.yml
             !**/*remote*/**
@@ -51,6 +51,8 @@ jobs:
 
   api-build:
     runs-on: ubuntu-latest
+    needs:
+      - assets-seeds
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -64,7 +66,7 @@ jobs:
       - name: retrieve seeds
         uses: actions/download-artifact@v2
         with:
-          name: assets-seed
+          name: assets-seeds
           path: api/dist/assets/seeds
       - name: create package
         working-directory: ./api
