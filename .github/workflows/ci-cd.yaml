@@ -94,17 +94,15 @@ jobs:
         with:
           node-version: 14.x
       - name: cache node modules
+        id: cache-node_modules
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.npm
+          path: infrastructure/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: install dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
         working-directory: ./infrastructure
         run: npm install
       - name: retrieve api deployment package
