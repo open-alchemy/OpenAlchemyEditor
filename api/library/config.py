@@ -26,6 +26,8 @@ class TEnvironment:
     seeds_folder: str
     # The name of the default seed
     default_seed_name: str
+    # The CORS response
+    access_control_allow_origin: str
 
 
 def _get_env() -> TEnvironment:
@@ -42,8 +44,14 @@ def _get_env() -> TEnvironment:
     default_seed_name = os.getenv("DEFAULT_SEED_NAME", "default-seed")
     assert isinstance(default_seed_name, str)
 
+    access_control_allow_origin = os.getenv("ACCESS_CONTROL_ALLOW_ORIGIN", "*")
+    assert isinstance(access_control_allow_origin, str)
+
     return TEnvironment(
-        stage=stage, seeds_folder=seeds_folder, default_seed_name=default_seed_name
+        stage=stage,
+        seeds_folder=seeds_folder,
+        default_seed_name=default_seed_name,
+        access_control_allow_origin=access_control_allow_origin,
     )
 
 

@@ -43,7 +43,7 @@ export class SeedService {
     }
 
     this.httpClient
-      .get('https://editor.api.openalchemy.io/v1/seed', {
+      .get('https://editor-v2.api.openalchemy.io/v1/seed', {
         responseType: 'text',
       })
       .subscribe(
@@ -61,7 +61,7 @@ export class SeedService {
   loadSelectedSeed(selectedSeed: SeedModel): void {
     this.httpClient
       .get(
-        `https://editor.api.openalchemy.io/v1/seeds/${encodeURIComponent(
+        `https://editor-v2.api.openalchemy.io/v1/seeds/${encodeURIComponent(
           selectedSeed.path
         )}`,
         {
@@ -78,7 +78,7 @@ export class SeedService {
 
   loadSeeds(): void {
     this.httpClient
-      .get<SeedsModel>('https://editor.api.openalchemy.io/v1/seeds')
+      .get<SeedsModel>('https://editor-v2.api.openalchemy.io/v1/seeds')
       .subscribe(
         (newSeeds) => this.mSeeds$.next(newSeeds),
         (error) => {

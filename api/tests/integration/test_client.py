@@ -1,8 +1,10 @@
 """Tests for spec controller."""
 
+import json
+
 import pytest
 
-import json
+from library import config
 
 
 POST_TESTS = [
@@ -42,6 +44,11 @@ def test_endpoint(client, path, data, headers, expected_result):
 
     assert respose.status_code == 200
     assert json.loads(respose.data.decode()) == expected_result
+    assert "Access-Control-Allow-Origin" in respose.headers
+    assert (
+        respose.headers["Access-Control-Allow-Origin"]
+        == config.get_env().access_control_allow_origin
+    )
 
 
 def test_seed_get(client, default_seed):
@@ -56,6 +63,11 @@ def test_seed_get(client, default_seed):
 
     assert respose.status_code == 200
     assert respose.data.decode() == value
+    assert "Access-Control-Allow-Origin" in respose.headers
+    assert (
+        respose.headers["Access-Control-Allow-Origin"]
+        == config.get_env().access_control_allow_origin
+    )
 
 
 def test_seeds_get(client, single_seed):
@@ -70,6 +82,11 @@ def test_seeds_get(client, single_seed):
 
     assert respose.status_code == 200
     assert json.loads(respose.data.decode()) == [name]
+    assert "Access-Control-Allow-Origin" in respose.headers
+    assert (
+        respose.headers["Access-Control-Allow-Origin"]
+        == config.get_env().access_control_allow_origin
+    )
 
 
 def test_seeds_seed_id_get(client, single_seed):
