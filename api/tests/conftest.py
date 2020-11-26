@@ -40,3 +40,16 @@ def single_nested_seed():
     yield name, value
 
     seed.get_seed().delete(name=name)
+
+
+@pytest.fixture
+def multiple_seed():
+    """Puts multiple seed into the seed facade."""
+    name_values = [("name 1", "value 1"), "name 2", "value 2"]
+    for name, value in name_values:
+        seed.get_seed().set(name=name, value=value)
+
+    yield name_values
+
+    for name, _ in name_values:
+        seed.get_seed().delete(name=name)
