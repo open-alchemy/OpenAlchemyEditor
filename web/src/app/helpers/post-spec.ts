@@ -18,7 +18,7 @@ export function postSpec<T>(
       timer(options.delayTime).pipe(
         switchMap(() =>
           httpClient.post<T>(url, spec, {
-            headers: { 'Content-Type': 'application/yaml' },
+            headers: { 'X-LANGUAGE': 'YAML' },
           })
         ),
         catchError((error) => {

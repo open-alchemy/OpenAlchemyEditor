@@ -28,7 +28,7 @@ export class ArtifactsResultService {
   ) {
     postSpec(
       this.specService.spec$(),
-      'https://editor.api.openalchemy.io/v1/artifacts',
+      'https://editor-v2.api.openalchemy.io/v1/artifact/calculate',
       this.httpClient,
       this.options,
       this.mError$

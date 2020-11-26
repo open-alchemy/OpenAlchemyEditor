@@ -7,6 +7,35 @@ import pytest
 from library import config
 
 
+OPTIONS_TESTS = [
+    pytest.param("/v1/spec/validate-managed", id="/v1/spec/validate-managed"),
+    pytest.param("/v1/spec/validate-un-managed", id="/v1/spec/validate-un-managed"),
+    pytest.param("/v1/artifact/calculate", id="/v1/artifact/calculate"),
+]
+
+
+@pytest.mark.parametrize("path", OPTIONS_TESTS)
+def test_endpoint_options(client, path):
+    """
+    GIVEN path
+    WHEN OPTIONS {path} is called with the CORS POST Method and X-LANGUAGE Headers
+    THEN Access-Control-Allow-Headers is returned with X-LANGUAGE.
+    """
+    respose = client.options(
+        path,
+        headers={
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "X-LANGUAGE",
+        },
+    )
+
+    assert "Access-Control-Allow-Headers" in respose.headers
+    assert (
+        respose.headers["Access-Control-Allow-Headers"]
+        == config.get_env().access_control_allow_headers
+    )
+
+
 POST_TESTS = [
     pytest.param(
         "/v1/spec/validate-managed",
@@ -33,13 +62,12 @@ POST_TESTS = [
 
 
 @pytest.mark.parametrize("path, data, headers, expected_result", POST_TESTS)
-def test_endpoint(client, path, data, headers, expected_result):
+def test_endpoint_post(client, path, data, headers, expected_result):
     """
-    GIVEN data and headers
-    WHEN POST /endpoint is called with the language header and spec body
+    GIVEN path, data and headers
+    WHEN POST {path} is called with the language header and spec body
     THEN a 200 response with the expected result is returned.
     """
-
     respose = client.post(path, headers=headers, data=data)
 
     assert respose.status_code == 200

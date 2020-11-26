@@ -28,11 +28,11 @@ export class ValidatorResultService {
   ) {
     this.checkSpec(
       this.specService.spec$(),
-      'https://editor.api.openalchemy.io/v1/validator'
+      'https://editor-v2.api.openalchemy.io/v1/spec/validate-managed'
     ).subscribe(this.mResult$);
     this.checkSpec(
       this.specService.spec$(),
-      'https://editor.api.openalchemy.io/v1/validator/unmanaged'
+      'https://editor-v2.api.openalchemy.io/v1/spec/validate-un-managed'
     ).subscribe(this.mUnmanagedResult$);
   }
 
