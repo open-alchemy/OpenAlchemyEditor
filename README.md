@@ -13,3 +13,9 @@ Exposes the functionality required to run the editor.
 [infrastructure/](infrastructure/)
 
 The AWS infrastructure of the editor.
+
+## Web
+
+[web/](web/)
+
+The web app for the editor.
