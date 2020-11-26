@@ -1,0 +1,14 @@
+<ng-container *ngIf="item"
+  >-
+  <span *ngIf="item.name">name: {{ item.name }}<br />&nbsp;&nbsp;</span>
+  <span *ngIf="item.unique">unique: {{ item.unique }}<br />&nbsp;&nbsp;</span>
+  <span
+    >expressions:
+    <ng-container *ngFor="let expression of item.expressions; let index = index"
+      >{{ expression
+      }}<ng-container *ngIf="index !== item.expressions.length - 1"
+        >,
+      </ng-container></ng-container
+    ></span
+  >
+</ng-container>

@@ -1,0 +1,10 @@
+<ng-container *ngIf="seed$ | async as seed">
+  <ace
+    #ace
+    [config]="config"
+    [mode]="'yaml'"
+    [theme]="'terminal'"
+    [value]="seed"
+    (valueChange)="onChange($event)"
+  ></ace>
+</ng-container>

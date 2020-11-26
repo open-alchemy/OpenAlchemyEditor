@@ -1,0 +1,9 @@
+<ng-container *ngIf="composite_unique">
+  composite unique:
+  <ng-container *ngFor="let item of composite_unique">
+    <br /><app-composite-unique-item
+      class="item"
+      [item]="item"
+    ></app-composite-unique-item>
+  </ng-container>
+</ng-container>

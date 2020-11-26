@@ -1,0 +1,6 @@
+<span class="tablename" *ngIf="artifacts">
+  <app-tablename [tablename]="artifacts.tablename"></app-tablename>
+</span>
+<span class="description" *ngIf="artifacts && artifacts.description">
+  <app-description [description]="artifacts.description"></app-description>
+</span>

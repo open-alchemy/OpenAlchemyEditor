@@ -1,0 +1,38 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { By } from '@angular/platform-browser';
+
+import { IndexComponent } from './index.component';
+
+/* tslint:disable:component-selector */
+@Component({ selector: 'mat-chip', template: '' })
+class MatChipStubComponent {}
+
+describe('IndexComponent', () => {
+  let component: IndexComponent;
+  let fixture: ComponentFixture<IndexComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [IndexComponent, MatChipStubComponent],
+    });
+
+    fixture = TestBed.createComponent(IndexComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display badge', () => {
+    fixture.detectChanges();
+
+    const chipDebugElement = fixture.debugElement.query(
+      By.directive(MatChipStubComponent)
+    );
+    expect(chipDebugElement).toBeTruthy();
+    const chip = chipDebugElement.injector.get(MatChipStubComponent);
+    expect(chip).toBeTruthy();
+  });
+});

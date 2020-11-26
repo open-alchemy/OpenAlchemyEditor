@@ -1,0 +1,8 @@
+<span class="header">{{ name }}</span>
+<app-model-result-badge
+  [model]="model"
+  [unmanaged]="true"
+></app-model-result-badge>
+<div class="result">
+  <app-result [model]="model.result" [symbol]="'info'"></app-result>
+</div>

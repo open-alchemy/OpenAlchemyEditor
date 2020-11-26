@@ -1,0 +1,9 @@
+<ng-container *ngIf="composite_index">
+  composite index:
+  <ng-container *ngFor="let item of composite_index">
+    <br /><app-composite-index-item
+      class="item"
+      [item]="item"
+    ></app-composite-index-item>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,9 @@
+.header {
+  display: block;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.result {
+  padding-bottom: 2%;
+}

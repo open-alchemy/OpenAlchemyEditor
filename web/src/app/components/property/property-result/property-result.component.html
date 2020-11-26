@@ -1,0 +1,7 @@
+<span class="header">{{ name }}</span>
+<app-result *ngIf="model" class="result" [model]="model.result"></app-result>
+<div *ngIf="model && model.result && model.result.valid">
+  <app-property-artifacts
+    [artifacts]="model.artifacts"
+  ></app-property-artifacts>
+</div>

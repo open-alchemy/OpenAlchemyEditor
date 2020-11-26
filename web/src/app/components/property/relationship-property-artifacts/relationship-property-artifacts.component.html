@@ -1,0 +1,46 @@
+<div class="badges">
+  <span *ngIf="artifacts && artifacts.required" class="badge">
+    <app-required></app-required>
+  </span>
+  <span *ngIf="artifacts && artifacts.nullable" class="badge">
+    <app-nullable></app-nullable>
+  </span>
+  <span *ngIf="artifacts && artifacts.write_only" class="badge">
+    <app-write-only></app-write-only>
+  </span>
+</div>
+<ng-container *ngIf="artifacts">
+  <span *ngIf="artifacts.sub_type == 'MANY_TO_ONE'" class="sub-type"
+    >kind: many-to-one</span
+  >
+  <span *ngIf="artifacts.sub_type == 'ONE_TO_ONE'" class="sub-type"
+    >kind: one-to-one</span
+  >
+  <span *ngIf="artifacts.sub_type == 'ONE_TO_MANY'" class="sub-type"
+    >kind: one-to-many</span
+  >
+  <span *ngIf="artifacts.sub_type == 'MANY_TO_MANY'" class="sub-type"
+    >kind: many-to-many</span
+  >
+</ng-container>
+<div *ngIf="artifacts && artifacts.parent">
+  <app-parent [parent]="artifacts.parent"></app-parent>
+</div>
+<div *ngIf="artifacts && artifacts.backref_property">
+  <app-backref-property
+    [backref_property]="artifacts.backref_property"
+  ></app-backref-property>
+</div>
+<div *ngIf="artifacts && artifacts.kwargs">
+  <app-kwargs [kwargs]="artifacts.kwargs"></app-kwargs>
+</div>
+<ng-container *ngIf="artifacts && artifacts.sub_type !== 'MANY_TO_MANY'">
+  <app-not-many-to-many-relationship-property-artifacts
+    [artifacts]="artifacts"
+  ></app-not-many-to-many-relationship-property-artifacts>
+</ng-container>
+<ng-container *ngIf="artifacts && artifacts.sub_type === 'MANY_TO_MANY'">
+  <app-many-to-many-relationship-property-artifacts
+    [artifacts]="artifacts"
+  ></app-many-to-many-relationship-property-artifacts>
+</ng-container>

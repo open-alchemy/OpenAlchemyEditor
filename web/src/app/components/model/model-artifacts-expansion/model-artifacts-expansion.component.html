@@ -1,0 +1,15 @@
+<mat-expansion-panel class="mat-elevation-z0">
+  <mat-expansion-panel-header
+    [collapsedHeight]="'30px'"
+    [expandedHeight]="'30px'"
+  >
+    <mat-panel-title>
+      <app-model-artifacts-title
+        [artifacts]="artifacts"
+      ></app-model-artifacts-title>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <app-model-artifacts-detail
+    [artifacts]="artifacts"
+  ></app-model-artifacts-detail>
+</mat-expansion-panel>

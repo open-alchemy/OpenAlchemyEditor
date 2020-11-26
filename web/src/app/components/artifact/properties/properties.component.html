@@ -1,0 +1,9 @@
+<span class="content"
+  >properties:
+  <ng-container *ngFor="let property of properties; let index = index"
+    >{{ property
+    }}<ng-container *ngIf="index !== properties.length - 1"
+      >,
+    </ng-container></ng-container
+  ></span
+>

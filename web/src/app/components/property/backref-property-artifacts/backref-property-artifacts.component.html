@@ -1,0 +1,11 @@
+<ng-container *ngIf="artifacts">
+  <span *ngIf="artifacts.sub_type == 'OBJECT'" class="sub-type"
+    >type: object</span
+  >
+  <span *ngIf="artifacts.sub_type == 'ARRAY'" class="sub-type"
+    >type: array</span
+  >
+</ng-container>
+<div *ngIf="artifacts && artifacts.properties">
+  <app-properties [properties]="artifacts.properties"></app-properties>
+</div>

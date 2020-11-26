@@ -1,0 +1,8 @@
+<ng-container *ngIf="model && !model.valid">
+  <ng-container *ngIf="symbol === 'error'"
+    ><mat-icon class="icon" color="warn">error</mat-icon></ng-container
+  ><ng-container *ngIf="symbol === 'info'"
+    ><mat-icon class="icon" color="primary">info</mat-icon></ng-container
+  >
+  <span class="reason">{{ model.reason }}</span>
+</ng-container>

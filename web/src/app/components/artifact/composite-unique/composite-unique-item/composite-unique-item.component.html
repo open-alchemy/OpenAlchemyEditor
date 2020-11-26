@@ -1,0 +1,13 @@
+<ng-container *ngIf="item"
+  >-
+  <span *ngIf="item.name">name: {{ item.name }}<br />&nbsp;&nbsp;</span>
+  <span
+    >columns:
+    <ng-container *ngFor="let expression of item.columns; let index = index"
+      >{{ expression
+      }}<ng-container *ngIf="index !== item.columns.length - 1"
+        >,
+      </ng-container></ng-container
+    ></span
+  >
+</ng-container>

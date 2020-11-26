@@ -1,0 +1,12 @@
+<ng-container *ngIf="artifacts">
+  <span *ngIf="artifacts.type == 'SIMPLE'" class="type">basic</span>
+  <span *ngIf="artifacts.type == 'JSON'" class="type">json</span>
+  <span *ngIf="artifacts.type == 'RELATIONSHIP'" class="type"
+    >relationship</span
+  >
+  <span *ngIf="artifacts.type == 'BACKREF'" class="type">back reference</span>
+</ng-container>
+
+<span class="description" *ngIf="artifacts && artifacts.description">
+  <app-description [description]="artifacts.description"></app-description>
+</span>

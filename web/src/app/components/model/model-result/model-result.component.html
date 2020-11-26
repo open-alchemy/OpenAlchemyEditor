@@ -1,0 +1,18 @@
+<span class="header">{{ name }}</span>
+<app-model-result-badge [model]="model"></app-model-result-badge>
+<div *ngIf="model && model.result && !model.result.valid" class="model-info">
+  <app-result [model]="model.result"></app-result>
+</div>
+<div *ngIf="model && model.result && model.result.valid" class="model-info">
+  <app-model-artifacts [artifacts]="model.artifacts"></app-model-artifacts>
+</div>
+
+<span class="properties-header">properties:</span>
+<div *ngIf="model" class="properties">
+  <ng-container *ngFor="let property of model.properties | keyvalue">
+    <app-property-result
+      [name]="property.key"
+      [model]="property.value"
+    ></app-property-result>
+  </ng-container>
+</div>

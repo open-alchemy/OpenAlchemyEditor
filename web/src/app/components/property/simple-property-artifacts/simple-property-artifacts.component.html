@@ -1,0 +1,51 @@
+<div class="badges">
+  <span *ngIf="artifacts && artifacts.required" class="badge">
+    <app-required></app-required>
+  </span>
+  <span *ngIf="artifacts && artifacts.open_api.nullable" class="badge">
+    <app-nullable></app-nullable>
+  </span>
+  <span *ngIf="artifacts && artifacts.open_api.read_only" class="badge">
+    <app-read-only></app-read-only>
+  </span>
+  <span *ngIf="artifacts && artifacts.open_api.write_only" class="badge">
+    <app-write-only></app-write-only>
+  </span>
+  <span *ngIf="artifacts && artifacts.extension.primary_key" class="badge">
+    <app-primary-key></app-primary-key>
+  </span>
+  <span *ngIf="artifacts && artifacts.extension.autoincrement" class="badge">
+    <app-autoincrement></app-autoincrement>
+  </span>
+  <span *ngIf="artifacts && artifacts.extension.index" class="badge">
+    <app-index></app-index>
+  </span>
+  <span *ngIf="artifacts && artifacts.extension.unique" class="badge">
+    <app-unique></app-unique>
+  </span>
+</div>
+<div *ngIf="artifacts && artifacts.open_api.type">
+  <app-type [type]="artifacts.open_api.type"></app-type>
+</div>
+<div *ngIf="artifacts && artifacts.open_api.format">
+  <app-format [format]="artifacts.open_api.format"></app-format>
+</div>
+<div *ngIf="artifacts && artifacts.open_api.max_length !== undefined">
+  <app-max-length [max_length]="artifacts.open_api.max_length"></app-max-length>
+</div>
+<div *ngIf="artifacts && artifacts.open_api.default !== undefined">
+  <app-default [default]="artifacts.open_api.default"></app-default>
+</div>
+<div *ngIf="artifacts && artifacts.extension.foreign_key">
+  <app-foreign-key
+    [foreign_key]="artifacts.extension.foreign_key"
+  ></app-foreign-key>
+</div>
+<div *ngIf="artifacts && artifacts.extension.kwargs">
+  <app-kwargs [kwargs]="artifacts.extension.kwargs"></app-kwargs>
+</div>
+<div *ngIf="artifacts && artifacts.extension.foreign_key_kwargs">
+  <app-foreign-key-kwargs
+    [foreign_key_kwargs]="artifacts.extension.foreign_key_kwargs"
+  ></app-foreign-key-kwargs>
+</div>

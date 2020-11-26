@@ -1,0 +1,18 @@
+<ng-container *ngIf="artifacts">
+  <app-simple-property-artifacts
+    *ngIf="artifacts.type == 'SIMPLE'"
+    [artifacts]="artifacts"
+  ></app-simple-property-artifacts>
+  <app-json-property-artifacts
+    *ngIf="artifacts.type == 'JSON'"
+    [artifacts]="artifacts"
+  ></app-json-property-artifacts>
+  <app-relationship-property-artifacts
+    *ngIf="artifacts.type == 'RELATIONSHIP'"
+    [artifacts]="artifacts"
+  ></app-relationship-property-artifacts>
+  <app-backref-property-artifacts
+    *ngIf="artifacts.type == 'BACKREF'"
+    [artifacts]="artifacts"
+  ></app-backref-property-artifacts>
+</ng-container>

@@ -1,0 +1,22 @@
+<div *ngIf="artifacts && artifacts.inherits">
+  <app-inherits></app-inherits>
+</div>
+<div *ngIf="artifacts && artifacts.parent">
+  <app-parent [parent]="artifacts.parent"></app-parent>
+</div>
+<div *ngIf="artifacts && artifacts.mixins && artifacts.mixins.length">
+  <app-mixins [mixins]="artifacts.mixins"></app-mixins>
+</div>
+<div *ngIf="artifacts && artifacts.kwargs">
+  <app-kwargs [kwargs]="artifacts.kwargs"></app-kwargs>
+</div>
+<div *ngIf="artifacts && artifacts.composite_index">
+  <app-composite-index
+    [composite_index]="artifacts.composite_index"
+  ></app-composite-index>
+</div>
+<div *ngIf="artifacts && artifacts.composite_unique">
+  <app-composite-unique
+    [composite_unique]="artifacts.composite_unique"
+  ></app-composite-unique>
+</div>

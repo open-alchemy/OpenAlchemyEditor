@@ -1,0 +1,9 @@
+<ng-container *ngIf="unmanaged">
+  <mat-chip class="unmanaged">OpenAlchemy</mat-chip>
+</ng-container>
+<ng-container *ngIf="!unmanaged && modelCompletelyValid()">
+  <mat-chip class="valid" color="primary" selected>OpenAlchemy</mat-chip>
+</ng-container>
+<ng-container *ngIf="!unmanaged && !modelCompletelyValid()">
+  <mat-chip class="invalid" color="warn" selected>OpenAlchemy</mat-chip>
+</ng-container>

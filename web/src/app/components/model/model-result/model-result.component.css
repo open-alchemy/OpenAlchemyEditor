@@ -1,0 +1,19 @@
+.header {
+  display: block;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.model-info {
+  padding-bottom: 2%;
+}
+
+.properties-header {
+  display: block;
+  font-size: large;
+}
+
+.properties {
+  margin-left: 5%;
+  margin-bottom: 5%;
+}

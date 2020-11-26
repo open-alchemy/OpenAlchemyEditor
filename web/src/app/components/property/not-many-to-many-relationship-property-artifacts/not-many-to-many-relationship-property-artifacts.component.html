@@ -1,0 +1,8 @@
+<div *ngIf="artifacts && artifacts.foreign_key">
+  <app-foreign-key [foreign_key]="artifacts.foreign_key"></app-foreign-key>
+</div>
+<div *ngIf="artifacts && artifacts.foreign_key_property">
+  <app-foreign-key-property
+    [foreign_key_property]="artifacts.foreign_key_property"
+  ></app-foreign-key-property>
+</div>

@@ -1,0 +1,13 @@
+<h1>OpenAlchemy Managed Schemas</h1>
+<p>The below schemas are managed by OpenAlchemy.</p>
+
+<ng-container *ngIf="result$ | async as result">
+  <app-result [model]="result.result"></app-result>
+
+  <ng-container *ngFor="let model of result.models | keyvalue">
+    <app-model-result
+      [name]="model.key"
+      [model]="model.value"
+    ></app-model-result>
+  </ng-container>
+</ng-container>
