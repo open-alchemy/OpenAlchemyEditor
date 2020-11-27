@@ -1,4 +1,4 @@
-name: CI-CD for the OpenAlchemy Editor
+name: Periodic Production Tests for the OpenAlchemy Editor
 
 on:
   schedule:
