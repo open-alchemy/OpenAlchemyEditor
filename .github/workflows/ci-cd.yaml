@@ -117,6 +117,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-1"
           AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+          AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
           AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
           npm run deploy:api
@@ -149,6 +150,7 @@ jobs:
           AWS_DEFAULT_REGION: "us-east-1"
           AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
           AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
+          AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
           npm run deploy:identity
 
