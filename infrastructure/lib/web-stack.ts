@@ -32,11 +32,19 @@ export class WebStack extends cdk.Stack {
     );
 
     // CloudFront
+    const defaultObject = "index.html";
     const distribution = new cloudfront.Distribution(this, "Distribution", {
       defaultBehavior: { origin: new cloudfrontOrigins.S3Origin(bucket) },
       domainNames: [`${CONFIG.web.recordName}.${CONFIG.domainName}`],
       certificate,
-      defaultRootObject: "index.html",
+      defaultRootObject: defaultObject,
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: defaultObject,
+        },
+      ],
     });
 
     // DNS listing
