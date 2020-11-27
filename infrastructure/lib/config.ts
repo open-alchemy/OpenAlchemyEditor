@@ -1,7 +1,8 @@
 export const CONFIG = {
   domainName: "openalchemy.io",
   api: {
-    recordName: "editor-v2.api",
+    legacyRecordName: "editor-v2.api",
+    recordName: "editor.api",
     throttlingBurstLimit: 200,
     throttlingRateLimit: 100,
     additionalAllowHeaders: ["x-language"],

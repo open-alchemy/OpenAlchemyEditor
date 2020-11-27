@@ -98,6 +98,13 @@ export class ApiStack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(
         new route53Targets.ApiGateway(api)
       ),
+      recordName: CONFIG.api.legacyRecordName,
+    });
+    new route53.ARecord(this, "NewAliasRecord", {
+      zone,
+      target: route53.RecordTarget.fromAlias(
+        new route53Targets.ApiGateway(api)
+      ),
       recordName: CONFIG.api.recordName,
     });
   }
