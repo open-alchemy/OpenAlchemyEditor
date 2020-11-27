@@ -146,6 +146,7 @@ components:
     SeedName:
       description: The name of a seed.
       type: string
+      format: path
     SeedNamePath:
       description: The seed name and path
       type: object

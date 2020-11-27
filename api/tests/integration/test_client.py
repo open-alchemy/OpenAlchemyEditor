@@ -1,6 +1,7 @@
 """Tests for spec controller."""
 
 import json
+from urllib import parse
 
 import pytest
 
@@ -126,6 +127,20 @@ def test_seeds_seed_id_get(client, single_seed):
     name, value = single_seed
 
     respose = client.get(f"/v1/seeds/{name}")
+
+    assert respose.status_code == 200
+    assert respose.data.decode() == value
+
+
+def test_seeds_nested_seed_id_get(client, single_nested_seed):
+    """
+    GIVEN single seed is set
+    WHEN GET /v1/seeds/{seed_id} is called
+    THEN the seed value is returned.
+    """
+    name, value = single_nested_seed
+
+    respose = client.get(f"/v1/seeds/{parse.quote_plus(name)}")
 
     assert respose.status_code == 200
     assert respose.data.decode() == value
