@@ -55,6 +55,7 @@ export class IdentityStack extends cdk.Stack {
     const editorScopeSpecRead = "spec.read";
     const editorScopeSpecWrite = "spec.write";
     pool.addResourceServer("EditorResourceServer", {
+      userPoolResourceServerName: "editor",
       identifier: editorUrl,
       scopes: [
         new cognito.ResourceServerScope({
