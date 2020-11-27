@@ -57,8 +57,15 @@ jobs:
         if: steps.cache-node_modules.outputs.cache-hit != 'true'
         run: |
           npm install
+      - name: cache build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: web/dist
+          key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('**/web/**') }}
       - name: build
         working-directory: ./web
+        if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
           npm run build:prod
       - name: upload artifacts for release
