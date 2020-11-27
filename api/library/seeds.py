@@ -39,4 +39,6 @@ def get(seed_id: seed.types.TSeedName) -> flask.Response:
             seed.get_seed().get(name=seed_name), status=200, mimetype="text/plain"
         )
     except seed.exceptions.SeedNotFoundError as exc:
-        return flask.Response(str(exc), status=404, mimetype="text/plain")
+        return flask.Response(
+            str(exc).replace(seed_name, seed_id), status=404, mimetype="text/plain"
+        )

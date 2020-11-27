@@ -132,7 +132,7 @@ def test_seeds_seed_id_get(client, single_seed):
     assert respose.data.decode() == value
 
 
-def test_seeds_nested_seed_id_get(client, single_nested_seed):
+def test_seeds_seed_id_get_nested(client, single_nested_seed):
     """
     GIVEN single seed is set
     WHEN GET /v1/seeds/{seed_id} is called

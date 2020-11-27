@@ -129,6 +129,9 @@ paths:
             text/plain:
               schema:
                 type: string
+            application/problem+json:
+              schema:
+                type: object
 
 components:
   parameters:

@@ -2,6 +2,8 @@
 
 from urllib import parse
 
+import pytest
+
 from library import seeds
 
 
@@ -42,14 +44,16 @@ def test_list_multiple(multiple_seed):
     assert response == [{"name": name, "path": name} for name, _ in multiple_seed]
 
 
-def test_get_miss():
+@pytest.mark.parametrize(
+    "name",
+    [pytest.param("name 1", id="plain"), pytest.param("0%0A0", id="unquote error")],
+)
+def test_get_miss(name):
     """
-    GIVEN no seeds are defined
+    GIVEN no seeds are defined and a name
     WHEN get is called with a name
     THEN a 404 is returned.
     """
-    name = "seed 1"
-
     response = seeds.get(name)
 
     assert response.status_code == 404
