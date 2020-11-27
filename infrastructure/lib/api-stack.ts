@@ -29,13 +29,14 @@ export class ApiStack extends cdk.Stack {
         ACCESS_CONTROL_ALLOW_HEADERS: "x-language",
       },
     });
-    const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {
-      lambda: func,
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
-    });
-    const alias = new lambda.Alias(this, "LambdaAlias", {
+    func.currentVersion;
+    // const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {
+    //   lambda: func,
+    //   removalPolicy: cdk.RemovalPolicy.RETAIN,
+    // });
+    const alias = new lambda.Alias(this, `LambdaAlias-${uuid.v4()}`, {
       aliasName: "prod",
-      version,
+      version: func.currentVersion,
     });
     new codedeploy.LambdaDeploymentGroup(this, "DeploymentGroup", {
       alias,
