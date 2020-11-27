@@ -2,7 +2,7 @@
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
 
-import { InfrastructureStack } from "../lib/infrastructure-stack";
+import { ApiStack } from "../lib/api-stack";
 import { ENVIRONMENT } from "../lib/environment";
 
 const env = {
@@ -11,4 +11,4 @@ const env = {
 };
 
 const app = new cdk.App();
-new InfrastructureStack(app, "InfrastructureStack", { env });
+new ApiStack(app, "EditorApiStack", { env });

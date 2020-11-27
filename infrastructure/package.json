@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy:infrastructure": "cdk deploy InfrastructureStack --require-approval never"
+    "deploy:api": "cdk deploy EditorApiStack --require-approval never"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.74.0",

@@ -10,7 +10,7 @@ import * as uuid from "uuid";
 
 import { ENVIRONMENT } from "./environment";
 
-export class InfrastructureStack extends cdk.Stack {
+export class ApiStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
