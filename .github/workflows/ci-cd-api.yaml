@@ -68,17 +68,25 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: install pipenv
-        run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
       - name: retrieve seeds
         uses: actions/download-artifact@v2
         with:
           name: assets-seeds
           path: api/dist/assets/seeds
+      - name: cache build
+        id: cache-build
+        uses: actions/cache@v2
+        with:
+          path: api/dist/deployment-package.zip
+          key: ${{ runner.os }}-api-${{ env.cache-name }}-${{ hashFiles('api/**') }}
+      - name: install pipenv
+        if: steps.cache-build.outputs.cache-hit != 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
       - name: create package
         working-directory: ./api
+        if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
           pipenv lock -r > requirements.txt
           pip install -r requirements.txt --target dist
