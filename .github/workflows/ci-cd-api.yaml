@@ -122,6 +122,7 @@ jobs:
       - name: deploy
         working-directory: ./infrastructure
         env:
+          STACK: EditorApiStack
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-1"
@@ -129,7 +130,6 @@ jobs:
           AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
           AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
-          mkdir -p resources/web
           npm run deploy:api
 
   production-test:

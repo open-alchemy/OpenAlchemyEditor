@@ -1,5 +1,6 @@
 import * as assert from "assert";
 
+const STACK_KEY = "STACK";
 const AWS_ACCOUNT_KEY = "AWS_ACCOUNT";
 const AWS_DEFAULT_REGION_KEY = "AWS_DEFAULT_REGION";
 const AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY =
@@ -7,6 +8,7 @@ const AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY =
 const AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY = "AWS_OPEN_ALCHEMY_CERTIFICATE_ARN";
 
 interface IEnvironment {
+  [STACK_KEY]: string;
   [AWS_ACCOUNT_KEY]: string;
   [AWS_DEFAULT_REGION_KEY]: string;
   [AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY]: string;
@@ -14,6 +16,9 @@ interface IEnvironment {
 }
 
 function getEnvironment(): IEnvironment {
+  const stack = process.env[STACK_KEY];
+  assert.ok(typeof stack === "string", `${STACK_KEY} missing or not a string`);
+
   const awsAccount = process.env[AWS_ACCOUNT_KEY];
   assert.ok(
     typeof awsAccount === "string",
@@ -41,6 +46,7 @@ function getEnvironment(): IEnvironment {
   );
 
   return {
+    [STACK_KEY]: stack,
     [AWS_ACCOUNT_KEY]: awsAccount,
     [AWS_DEFAULT_REGION_KEY]: awsDefaultRegion,
     [AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY]: awsOpenAlchemyApiCertificateArn,

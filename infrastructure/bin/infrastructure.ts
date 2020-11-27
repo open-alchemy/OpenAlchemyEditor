@@ -13,6 +13,12 @@ const env = {
 };
 
 const app = new cdk.App();
-new ApiStack(app, "EditorApiStack", { env });
-new IdentityStack(app, "IdentityStack", { env });
-new WebStack(app, "EditorWebStack", { env });
+if (ENVIRONMENT.STACK === "EditorApiStack") {
+  new ApiStack(app, "EditorApiStack", { env });
+}
+if (ENVIRONMENT.STACK === "IdentityStack") {
+  new IdentityStack(app, "IdentityStack", { env });
+}
+if (ENVIRONMENT.STACK === "EditorWebStack") {
+  new WebStack(app, "EditorWebStack", { env });
+}
