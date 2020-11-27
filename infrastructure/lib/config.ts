@@ -7,7 +7,7 @@ export const CONFIG = {
     additionalAllowHeaders: ["x-language"],
   },
   web: {
-    recordName: "editor-v2",
+    recordName: "editor",
   },
   identity: {
     recordName: "login",
