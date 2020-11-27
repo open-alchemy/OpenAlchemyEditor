@@ -17,6 +17,7 @@ export class WebStack extends cdk.Stack {
     // S3 bucket
     const bucket = new s3.Bucket(this, "Bucket", {
       bucketName: `${CONFIG.web.recordName}.${CONFIG.domainName}`,
+      websiteIndexDocument: "index.html",
     });
     new s3Deployment.BucketDeployment(this, "BucketDeployment", {
       sources: [s3Deployment.Source.asset("resources/web")],
