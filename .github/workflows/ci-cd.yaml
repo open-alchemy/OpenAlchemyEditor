@@ -238,7 +238,7 @@ jobs:
           name: web
           path: web/dist/
 
-  identity-deploy:
+  web-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
