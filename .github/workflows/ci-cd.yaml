@@ -100,7 +100,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: infrastructure/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
+          key: ${{ runner.os }}-api-deploy-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
       - name: install dependencies
         if: steps.cache-node_modules.outputs.cache-hit != 'true'
         working-directory: ./infrastructure
@@ -120,6 +120,7 @@ jobs:
           AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
           AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
+          touch resources/api-deployment-package.zip
           npm run deploy:api
 
   identity-deploy:
@@ -137,7 +138,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: infrastructure/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
+          key: ${{ runner.os }}-identity-deploy-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
       - name: install dependencies
         if: steps.cache-node_modules.outputs.cache-hit != 'true'
         working-directory: ./infrastructure
