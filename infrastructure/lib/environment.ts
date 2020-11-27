@@ -34,17 +34,17 @@ function getEnvironment(): IEnvironment {
   );
 
   const awsOpenAlchemyCertificateArn =
-    process.env[AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY];
+    process.env[AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY];
   assert.ok(
     typeof awsOpenAlchemyCertificateArn === "string",
-    `${AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY} missing or not a string`
+    `${AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY} missing or not a string`
   );
 
   return {
     [AWS_ACCOUNT_KEY]: awsAccount,
     [AWS_DEFAULT_REGION_KEY]: awsDefaultRegion,
-    [AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY]: awsOpenAlchemyCertificateArn,
     [AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY]: awsOpenAlchemyApiCertificateArn,
+    [AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY]: awsOpenAlchemyCertificateArn,
   };
 }
 
