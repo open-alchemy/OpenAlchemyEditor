@@ -30,10 +30,6 @@ export class ApiStack extends cdk.Stack {
       },
     });
     func.currentVersion;
-    // const version = new lambda.Version(this, `LambdaVersion-${uuid.v4()}`, {
-    //   lambda: func,
-    //   removalPolicy: cdk.RemovalPolicy.RETAIN,
-    // });
     const alias = new lambda.Alias(this, `LambdaAlias-${uuid.v4()}`, {
       aliasName: "prod",
       version: func.currentVersion,
