@@ -120,6 +120,7 @@ jobs:
           AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
           AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
+          mkdir -p resources/web
           npm run deploy:api
 
   identity-deploy:
@@ -152,6 +153,7 @@ jobs:
           AWS_OPEN_ALCHEMY_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN }}
           AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN: ${{ secrets.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN }}
         run: |
+          mkdir -p resources/web
           mkdir -p resources/api
           touch  resources/api/deployment-package.zip
           npm run deploy:identity
