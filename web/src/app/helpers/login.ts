@@ -1,7 +1,7 @@
 import { RouterEvent, NavigationEnd } from '@angular/router';
 
 const LOGIN_BASE = 'https://login.openalchemy.io';
-const CLIENT_ID = '1ahpcjva4jst9385sk7pv71nmb';
+const CLIENT_ID = '2p8jirs0n59c4f3n4nttiv14u4';
 const RESPONSE_TYPE = 'code';
 const AUTHORIZATION_GRANT_TYPE = 'authorization_code';
 export const AUTHORIZATION_HEADERS = {
