@@ -10,7 +10,8 @@
     "test": "jest",
     "cdk": "cdk",
     "deploy:api": "cdk deploy EditorApiStack --require-approval never",
-    "deploy:identity": "cdk deploy IdentityStack --require-approval never"
+    "deploy:identity": "cdk deploy IdentityStack --require-approval never",
+    "deploy:web": "cdk deploy WebStack --require-approval never"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.75.0",
@@ -27,12 +28,15 @@
   "dependencies": {
     "@aws-cdk/aws-apigateway": "1.75.0",
     "@aws-cdk/aws-certificatemanager": "1.75.0",
+    "@aws-cdk/aws-cloudfront": "1.75.0",
     "@aws-cdk/aws-codedeploy": "1.75.0",
     "@aws-cdk/aws-cognito": "1.75.0",
     "@aws-cdk/aws-iam": "1.75.0",
     "@aws-cdk/aws-lambda": "1.75.0",
     "@aws-cdk/aws-route53": "1.75.0",
     "@aws-cdk/aws-route53-targets": "1.75.0",
+    "@aws-cdk/aws-s3": "1.75.0",
+    "@aws-cdk/aws-s3-deployment": "1.75.0",
     "@aws-cdk/core": "1.75.0",
     "source-map-support": "^0.5.16",
     "uuid": "^8.3.1"
