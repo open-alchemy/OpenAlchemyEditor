@@ -79,7 +79,7 @@ jobs:
       - name: upload artifacts for release
         uses: actions/upload-artifact@v2
         with:
-          name: lambda
+          name: api
           path: api/dist/api-deployment-package.zip
 
   api-deploy:
@@ -108,7 +108,7 @@ jobs:
       - name: retrieve api deployment package
         uses: actions/download-artifact@v2
         with:
-          name: lambda
+          name: api
           path: infrastructure/resources/
       - name: deploy
         working-directory: ./infrastructure
@@ -208,3 +208,32 @@ jobs:
         working-directory: ./web
         run: |
           npm run test:ci
+
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: cache node_modules
+        id: cache-node_modules
+        uses: actions/cache@v2
+        with:
+          path: web/node_modules
+          key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('**/web/package-lock.json') }}
+      - name: install dependencies
+        working-directory: ./web
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: |
+          npm install
+      - name: build
+        working-directory: ./web
+        run: |
+          npm run build:prod
+      - name: upload artifacts for release
+        uses: actions/upload-artifact@v2
+        with:
+          name: web
+          path: web/dist/

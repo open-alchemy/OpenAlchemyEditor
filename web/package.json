@@ -5,16 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "buildProd": "ng build --prod",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prettier": "npx prettier --write .",
-    "prettierPreCommit": "npx prettier --write . && git add ."
+    "prettier:pre-commit": "npx prettier --write . && git add ."
   },
   "pre-commit": [
-    "prettierPreCommit"
+    "prettier:pre-commit"
   ],
   "private": true,
   "dependencies": {
