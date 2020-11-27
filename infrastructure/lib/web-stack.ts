@@ -42,7 +42,7 @@ export class WebStack extends cdk.Stack {
         {
           httpStatus: 404,
           responseHttpStatus: 200,
-          responsePagePath: defaultObject,
+          responsePagePath: `/${defaultObject}`,
         },
       ],
     });
