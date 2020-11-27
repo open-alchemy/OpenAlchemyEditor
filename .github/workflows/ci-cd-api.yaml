@@ -64,10 +64,6 @@ jobs:
       - assets-seeds
     steps:
       - uses: actions/checkout@v2
-      - name: set up python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
       - name: retrieve seeds
         uses: actions/download-artifact@v2
         with:
@@ -79,6 +75,11 @@ jobs:
         with:
           path: api/dist/deployment-package.zip
           key: ${{ runner.os }}-api-${{ env.cache-name }}-${{ hashFiles('api/**') }}
+      - name: set up python
+        if: steps.cache-build.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: install pipenv
         if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
