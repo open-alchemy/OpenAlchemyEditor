@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "api/**"
-      - "web/**"
-      - "test/**"
-      - "infrastructure/lib/api-stack.ts"
-      - "infrastructure/lib/web-stack.ts"
+    paths:
+      - ".github/workflows/ci-cd-identity.yaml"
+      - "infrastructure/**"
+      - "!infrastructure/lib/api-stack.ts"
+      - "!infrastructure/lib/web-stack.ts"
+      - "!infrastructure/test/**"
+      - "!**.md"
 
 jobs:
   identity-deploy:

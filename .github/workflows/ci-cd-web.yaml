@@ -4,11 +4,14 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "api/**"
-      - "test/**"
-      - "infrastructure/lib/api-stack.ts"
-      - "infrastructure/lib/identity-stack.ts"
+    paths:
+      - ".github/workflows/ci-cd-web.yaml"
+      - "web/**"
+      - "infrastructure/**"
+      - "!infrastructure/lib/api-stack.ts"
+      - "!infrastructure/lib/identity-stack.ts"
+      - "!infrastructure/test/**"
+      - "!**.md"
 
 jobs:
   web-test:
