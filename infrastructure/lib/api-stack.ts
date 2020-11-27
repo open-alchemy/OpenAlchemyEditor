@@ -9,6 +9,7 @@ import * as iam from "@aws-cdk/aws-iam";
 import * as uuid from "uuid";
 
 import { ENVIRONMENT } from "./environment";
+import { CONFIG } from "./config";
 
 export class ApiStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -42,7 +43,7 @@ export class ApiStack extends cdk.Stack {
     });
 
     // Certificate
-    const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN;
+    const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN;
     const certificate = certificatemanager.Certificate.fromCertificateArn(
       this,
       "Certificate",
@@ -50,25 +51,25 @@ export class ApiStack extends cdk.Stack {
     );
 
     // API gateway
-    const domainName = "openalchemy.io";
-    const recordName = "editor-v2.api";
     const api = new apigateway.LambdaRestApi(this, "LambdaRestApi", {
       restApiName: "Editor Service",
       description: "Micro service supporting the OpenAlchemy editor",
       handler: alias,
       deployOptions: {
-        throttlingBurstLimit: 200,
-        throttlingRateLimit: 100,
+        throttlingBurstLimit: CONFIG.api.throttlingBurstLimit,
+        throttlingRateLimit: CONFIG.api.throttlingRateLimit,
       },
       deploy: true,
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(["x-language"]),
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(
+          CONFIG.api.additionalAllowHeaders
+        ),
       },
       domainName: {
         certificate,
-        domainName: `${recordName}.${domainName}`,
+        domainName: `${CONFIG.api.recordName}.${CONFIG.domainName}`,
       },
     });
     alias.addPermission("RestApiLambdaPermission", {
@@ -78,14 +79,14 @@ export class ApiStack extends cdk.Stack {
 
     // DNS listing
     const zone = route53.PublicHostedZone.fromLookup(this, "PublicHostedZone", {
-      domainName,
+      domainName: CONFIG.domainName,
     });
     new route53.ARecord(this, "AliasRecord", {
       zone,
       target: route53.RecordTarget.fromAlias(
         new route53Targets.ApiGateway(api)
       ),
-      recordName,
+      recordName: CONFIG.api.recordName,
     });
   }
 }

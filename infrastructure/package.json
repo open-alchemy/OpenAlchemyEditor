@@ -9,7 +9,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy:api": "cdk deploy EditorApiStack --require-approval never"
+    "deploy:api": "cdk deploy EditorApiStack --require-approval never",
+    "deploy:identity": "cdk deploy IdentityStack --require-approval never"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.75.0",
@@ -24,6 +25,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-cognito": "1.75.0",
     "@aws-cdk/aws-apigateway": "1.75.0",
     "@aws-cdk/aws-certificatemanager": "1.75.0",
     "@aws-cdk/aws-codedeploy": "1.75.0",
