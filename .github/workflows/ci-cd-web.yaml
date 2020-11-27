@@ -42,17 +42,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: set up node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
       - name: cache build
         id: cache-build
         uses: actions/cache@v2
         with:
           path: web/dist
           key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('web/**') }}
+      - name: set up node
+        if: steps.cache-build.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
       - name: cache node_modules
+        if: steps.cache-build.outputs.cache-hit != 'true'
         id: cache-node_modules
         uses: actions/cache@v2
         with:
@@ -60,7 +62,7 @@ jobs:
           key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('web/package-lock.json') }}
       - name: install dependencies
         working-directory: ./web
-        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        if: steps.cache-build.outputs.cache-hit != 'true' || steps.cache-node_modules.outputs.cache-hit != 'true'
         run: |
           npm install
       - name: build
