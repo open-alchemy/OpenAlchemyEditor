@@ -18,8 +18,6 @@ export class WebStack extends cdk.Stack {
     const defaultObject = "index.html";
     const bucket = new s3.Bucket(this, "Bucket", {
       bucketName: `${CONFIG.web.recordName}.${CONFIG.domainName}`,
-      websiteIndexDocument: defaultObject,
-      websiteErrorDocument: defaultObject,
     });
     new s3Deployment.BucketDeployment(this, "BucketDeployment", {
       sources: [s3Deployment.Source.asset("resources/web")],
@@ -40,6 +38,13 @@ export class WebStack extends cdk.Stack {
       domainNames: [`${CONFIG.web.recordName}.${CONFIG.domainName}`],
       certificate,
       defaultRootObject: defaultObject,
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: `/${defaultObject}`,
+        },
+      ],
     });
 
     // DNS listing
