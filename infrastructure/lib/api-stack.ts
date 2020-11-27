@@ -9,7 +9,6 @@ import * as route53 from "@aws-cdk/aws-route53";
 import * as route53Targets from "@aws-cdk/aws-route53-targets";
 import * as certificatemanager from "@aws-cdk/aws-certificatemanager";
 import * as iam from "@aws-cdk/aws-iam";
-import * as uuid from "uuid";
 
 import { ENVIRONMENT } from "./environment";
 import { CONFIG } from "./config";
