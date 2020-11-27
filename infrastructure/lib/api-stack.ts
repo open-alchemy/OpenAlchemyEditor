@@ -17,7 +17,7 @@ export class ApiStack extends cdk.Stack {
 
     // Lambda function
     const func = new lambda.Function(this, "ApiFunc", {
-      functionName: "editor-service",
+      functionName: "editor-api-service",
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset("resources/api/deployment-package.zip"),
       handler: "api.main",
