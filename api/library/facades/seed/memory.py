@@ -2,8 +2,7 @@
 
 import typing
 
-from . import exceptions
-from . import types
+from . import exceptions, types
 
 
 class MemorySeed:

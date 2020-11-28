@@ -4,8 +4,8 @@ from urllib import parse
 
 import flask
 
-from .facades import seed
 from . import helpers
+from .facades import seed
 
 
 def list_() -> seed.types.TSeedNames:

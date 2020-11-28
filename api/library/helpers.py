@@ -4,8 +4,7 @@ import json
 import typing
 
 import yaml
-from yaml import parser
-from yaml import scanner
+from yaml import parser, scanner
 
 from . import exceptions
 

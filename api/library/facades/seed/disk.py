@@ -2,8 +2,7 @@
 
 import pathlib
 
-from . import exceptions
-from . import types
+from . import exceptions, types
 
 
 class DiskSeed:

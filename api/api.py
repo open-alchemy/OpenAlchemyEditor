@@ -1,8 +1,7 @@
 """Main function for lambda."""
 
-import serverless_wsgi
-
 import app
+import serverless_wsgi
 
 
 def main(event, context):

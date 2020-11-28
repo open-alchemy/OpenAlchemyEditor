@@ -1,10 +1,7 @@
 """Tests for the helpers."""
 
 import pytest
-
-from library import helpers
-from library import exceptions
-
+from library import exceptions, helpers
 
 LOAD_SPEC_ERROR_TESTS = [
     pytest.param(

@@ -1,7 +1,6 @@
 """Tests for the seed endpoint."""
 
-from library import seed
-from library import config
+from library import config, seed
 
 
 def test_get_error():

@@ -4,9 +4,7 @@ import json
 from urllib import parse
 
 import pytest
-
 from library import config
-
 
 OPTIONS_TESTS = [
     pytest.param("/v1/spec/validate-managed", id="/v1/spec/validate-managed"),

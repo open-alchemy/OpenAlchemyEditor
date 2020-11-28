@@ -1,10 +1,7 @@
 """Seed facade."""
 
-from . import memory
-from . import disk
-from . import exceptions
-from . import types
 from ... import config
+from . import disk, exceptions, memory, types
 
 
 def _construct_seed() -> types.TSeed:

@@ -1,0 +1,72 @@
+repos:
+  - repo: local
+    hooks:
+      - id: no-print
+        name: No print
+        description: This hook prevents print function calls
+        entry: "print\\((?!.*allow-print)"
+        language: pygrep
+        types: [python]
+      - id: no-console-log
+        name: No console.log
+        description: This hook prevents console.log function calls
+        entry: "console.log\\((?!.*allow-console-log)"
+        language: pygrep
+        types: [javascript, ts]
+  - repo: https://github.com/ambv/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+        language_version: python3.9
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.6.4
+    hooks:
+      - id: isort
+  # - repo: https://github.com/chewse/pre-commit-mirrors-pydocstyle
+  #   rev: v2.1.1
+  #   hooks:
+  #     - id: pydocstyle
+  #       args: ["--add-select=D213,D404", "--ignore=D202,D212,D406,D407,D203"]
+  #       exclude: "^test|^example"
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v0.780
+  #   hooks:
+  #     - id: mypy
+  #       exclude: "^example|conf.py$"
+  #       additional_dependencies:
+  #         - "sqlalchemy-stubs"
+  # - repo: https://github.com/pre-commit/mirrors-pylint
+  #   rev: "v2.6.0"
+  #   hooks:
+  #     - id: pylint
+  #       exclude: "^example|conf.py$"
+  # - repo: https://github.com/prettier/pre-commit
+  #   rev: "v2.1.2"
+  #   hooks:
+  #     - exclude: "^docs.*.yaml$"
+  #       id: prettier
+  # - repo: https://github.com/pre-commit/pre-commit-hooks
+  #   rev: v3.2.0
+  #   hooks:
+  #     - id: check-added-large-files
+  #     - id: check-case-conflict
+  #     - id: check-docstring-first
+  #       exclude: ".*\/dist\/.*"
+  #     - id: check-merge-conflict
+  #     - id: debug-statements
+  #     - id: name-tests-test
+  #       args: ["--django"]
+  #       exclude: "\/helpers.py$"
+  #     - id: trailing-whitespace
+  # - repo: https://github.com/Lucas-C/pre-commit-hooks
+  #   rev: v1.1.9
+  #   hooks:
+  #     - id: forbid-crlf
+  #     - id: remove-crlf
+  #     - id: forbid-tabs
+  #     - id: remove-tabs
+  # - repo: https://github.com/DavidAnson/markdownlint-cli2
+  #   rev: v0.0.11
+  #   hooks:
+  #     - id: markdownlint-cli2
+  #       language_version: system

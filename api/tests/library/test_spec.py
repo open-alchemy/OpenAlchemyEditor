@@ -4,9 +4,7 @@ from unittest import mock
 
 import connexion
 import pytest
-
 from library import spec
-
 
 VALIDATE_MANAGED_TESTS = [
     pytest.param(

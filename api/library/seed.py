@@ -2,8 +2,8 @@
 
 import flask
 
-from .facades import seed
 from . import config
+from .facades import seed
 
 
 def get() -> flask.Response:

@@ -3,10 +3,9 @@
 import contextlib
 
 import schemathesis
-
-from library.facades import seed
-from library import config
 from app import app
+from library import config
+from library.facades import seed
 
 schema = schemathesis.loaders.from_wsgi("/v1/openapi.json", app.app)
 

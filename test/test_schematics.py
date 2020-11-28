@@ -1,7 +1,7 @@
 """Tests based on schema."""
 
-from hypothesis import settings
 import schemathesis
+from hypothesis import settings
 
 schema = schemathesis.from_uri("https://editor.api.openalchemy.io/v1/openapi.json")
 

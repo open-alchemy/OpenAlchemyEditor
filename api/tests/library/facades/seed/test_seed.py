@@ -1,7 +1,6 @@
 """Tests for seed implementation."""
 
 import pytest
-
 from library.facades import seed
 
 

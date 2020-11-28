@@ -4,9 +4,7 @@ from unittest import mock
 
 import connexion
 import pytest
-
 from library import artifact
-
 
 CALCULATE_TESTS = [
     pytest.param(

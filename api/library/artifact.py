@@ -5,8 +5,7 @@ import typing
 import connexion
 from open_alchemy.schemas import artifacts
 
-from . import exceptions
-from . import helpers
+from . import exceptions, helpers
 
 
 def calculate(

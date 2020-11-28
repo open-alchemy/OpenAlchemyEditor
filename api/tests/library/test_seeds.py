@@ -3,7 +3,6 @@
 from urllib import parse
 
 import pytest
-
 from library import seeds
 
 

@@ -1,9 +1,8 @@
 """Fixtures."""
 
 import pytest
-
-from library.facades import seed
 from library import config
+from library.facades import seed
 
 
 @pytest.fixture

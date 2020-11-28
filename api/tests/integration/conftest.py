@@ -1,7 +1,6 @@
 """Fixtures for API."""
 
 import pytest
-
 from app import app
 
 

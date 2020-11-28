@@ -5,8 +5,7 @@ import typing
 import connexion
 from open_alchemy.schemas import validation
 
-from . import exceptions
-from . import helpers
+from . import exceptions, helpers
 
 
 def validate_managed(body: str) -> typing.Dict[str, typing.Any]:
