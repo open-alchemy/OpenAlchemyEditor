@@ -24,4 +24,7 @@ export const CONFIG = {
         'Hello {username}, You have been invited to join OpenAlchemy! Your temporary password is {####}',
     },
   },
+  package: {
+    recordName: 'package.api',
+  },
 };

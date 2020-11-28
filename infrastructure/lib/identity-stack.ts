@@ -50,24 +50,27 @@ export class IdentityStack extends cdk.Stack {
       accountRecovery: cognito.AccountRecovery.EMAIL_AND_PHONE_WITHOUT_MFA,
     });
 
-    // Editor server and client
-    const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
-    const editorScopeSpecRead = 'spec.read';
-    const editorScopeSpecWrite = 'spec.write';
-    pool.addResourceServer('EditorResourceServer', {
-      userPoolResourceServerName: 'editor',
-      identifier: editorUrl,
+    // Package server
+    const packagerUrl = `https://${CONFIG.package.recordName}.${CONFIG.domainName}`;
+    const packagerScopeSpecRead = 'spec.read';
+    const packagerScopeSpecWrite = 'spec.write';
+    pool.addResourceServer('PackageResourceServer', {
+      userPoolResourceServerName: 'package',
+      identifier: packagerUrl,
       scopes: [
         new cognito.ResourceServerScope({
-          scopeName: editorScopeSpecRead,
+          scopeName: packagerScopeSpecRead,
           scopeDescription: 'read only spec access',
         }),
         new cognito.ResourceServerScope({
-          scopeName: editorScopeSpecWrite,
+          scopeName: packagerScopeSpecWrite,
           scopeDescription: 'write only spec access',
         }),
       ],
     });
+
+    // Add editor client
+    const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
     pool.addClient('open-alchemy-editor', {
       authFlows: {
         userPassword: true,
@@ -83,8 +86,8 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.EMAIL,
           cognito.OAuthScope.PHONE,
           cognito.OAuthScope.PROFILE,
-          cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecRead}`),
-          cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecWrite}`),
+          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
+          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
         ],
         callbackUrls: [
           `${editorUrl}${CONFIG.identity.signInCompletePath}`,
