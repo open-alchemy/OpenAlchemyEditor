@@ -68,31 +68,31 @@ export class IdentityStack extends cdk.Stack {
         }),
       ],
     });
-    // pool.addClient('open-alchemy-editor', {
-    //   authFlows: {
-    //     userPassword: true,
-    //     userSrp: true,
-    //   },
-    //   oAuth: {
-    //     flows: {
-    //       implicitCodeGrant: true,
-    //       authorizationCodeGrant: true,
-    //     },
-    //     scopes: [
-    //       cognito.OAuthScope.OPENID,
-    //       cognito.OAuthScope.EMAIL,
-    //       cognito.OAuthScope.PHONE,
-    //       cognito.OAuthScope.PROFILE,
-    //       cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecRead}`),
-    //       cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecWrite}`),
-    //     ],
-    //     callbackUrls: [
-    //       `${editorUrl}${CONFIG.identity.signInCompletePath}`,
-    //       `${CONFIG.identity.localHostname}${CONFIG.identity.signInCompletePath}`,
-    //     ],
-    //   },
-    //   preventUserExistenceErrors: true,
-    // });
+    pool.addClient('open-alchemy-editor', {
+      authFlows: {
+        userPassword: true,
+        userSrp: true,
+      },
+      oAuth: {
+        flows: {
+          implicitCodeGrant: true,
+          authorizationCodeGrant: true,
+        },
+        scopes: [
+          cognito.OAuthScope.OPENID,
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.PHONE,
+          cognito.OAuthScope.PROFILE,
+          cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecRead}`),
+          cognito.OAuthScope.custom(`${editorUrl}/${editorScopeSpecWrite}`),
+        ],
+        callbackUrls: [
+          `${editorUrl}${CONFIG.identity.signInCompletePath}`,
+          `${CONFIG.identity.localHostname}${CONFIG.identity.signInCompletePath}`,
+        ],
+      },
+      preventUserExistenceErrors: true,
+    });
 
     // Configure domain
     const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN;
