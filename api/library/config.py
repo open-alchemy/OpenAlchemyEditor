@@ -34,7 +34,7 @@ class TEnvironment:
 
 def _get_env() -> TEnvironment:
     """Read environment variables."""
-    stage_str = os.getenv("STAGE", Stage.TEST)
+    stage_str = os.getenv("STAGE", Stage.TEST.value)
     assert isinstance(stage_str, str)
     assert stage_str in _STAGES
     stage = Stage[stage_str]

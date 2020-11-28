@@ -12,6 +12,7 @@ schema = schemathesis.loaders.from_wsgi("/v1/openapi.json", app.app)
 
 @contextlib.contextmanager
 def default_seed():
+    """Generate the default seed."""
     name = config.get_env().default_seed_name
     seed.get_seed().set(name=name, value="value 1")
     yield

@@ -1,7 +1,5 @@
 """Controllers for specs."""
 
-import typing
-
 import connexion
 from open_alchemy.schemas import validation
 

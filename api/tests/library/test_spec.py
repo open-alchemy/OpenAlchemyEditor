@@ -19,7 +19,10 @@ VALIDATE_MANAGED_TESTS = [
         {
             "result": {
                 "valid": False,
-                "reason": "specification must define at least 1 schema with the x-tablename key",
+                "reason": (
+                    "specification must define at least 1 schema with the x-tablename "
+                    "key"
+                ),
             }
         },
         id="JSON valid",

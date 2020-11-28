@@ -111,7 +111,7 @@ def test_set_delete_get_disk(tmp_path):
     set_delete_get(seed.disk.DiskSeed(str(tmp_path)))
 
 
-def list(seed_instance):
+def list_(seed_instance):
     """
     GIVEN seed instance and seed names and values
     WHEN list is called after none, one and multiple set calls
@@ -136,14 +136,14 @@ def test_list_memory():
     """
     GIVEN memory seed instance
     """
-    list(seed.memory.MemorySeed())
+    list_(seed.memory.MemorySeed())
 
 
 def test_list_disk(tmp_path):
     """
     GIVEN disk seed instance
     """
-    list(seed.disk.DiskSeed(str(tmp_path)))
+    list_(seed.disk.DiskSeed(str(tmp_path)))
 
 
 def test_disk_existing(tmp_path):

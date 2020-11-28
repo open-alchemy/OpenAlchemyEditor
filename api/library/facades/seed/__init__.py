@@ -14,7 +14,7 @@ def _construct_seed() -> types.TSeed:
     if environment.stage == config.Stage.PROD:
         return disk.DiskSeed(environment.seeds_folder)
 
-    return memory.MemorySeed()
+    raise AssertionError(f"unsupported stage {environment.stage}")
 
 
 _SEED = _construct_seed()
