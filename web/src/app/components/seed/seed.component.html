@@ -6,8 +6,8 @@
     [(ngModel)]="selectedValue"
     (ngModelChange)="selectChange($event)"
   >
-    <option *ngFor="let seed of seeds" [ngValue]="seed" selected="false">{{
-      seed.name
-    }}</option>
+    <option *ngFor="let seed of seeds" [ngValue]="seed" selected="false">
+      {{ seed.name }}
+    </option>
   </select>
 </ng-container>

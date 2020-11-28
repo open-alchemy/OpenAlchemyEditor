@@ -1,4 +1,4 @@
 {
-    "editor.formatOnSave": true,
-    "javascript.format.semicolons": "insert"
+  "editor.formatOnSave": true,
+  "javascript.format.semicolons": "insert"
 }

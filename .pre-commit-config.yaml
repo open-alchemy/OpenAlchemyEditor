@@ -38,11 +38,11 @@ repos:
     rev: "v2.6.0"
     hooks:
       - id: pylint
-  # - repo: https://github.com/prettier/pre-commit
-  #   rev: "v2.1.2"
-  #   hooks:
-  #     - exclude: "^docs.*.yaml$"
-  #       id: prettier
+  - repo: https://github.com/prettier/pre-commit
+    rev: "v2.1.2"
+    hooks:
+      - exclude: ".vscode"
+        id: prettier
   # - repo: https://github.com/pre-commit/pre-commit-hooks
   #   rev: v3.2.0
   #   hooks:
