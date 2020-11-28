@@ -42,7 +42,7 @@ describe('login helper', () => {
 
       const url = 'https://login.openalchemy.io/login';
       const responseType = 'code';
-      const clientId = '2p8jirs0n59c4f3n4nttiv14u4';
+      const clientId = '1doe7pd4aijcnsjl01pga20nhv';
       const redirectUri = `${origin}/sign-in-complete`;
       expect(calculateRedirectHref(origin, state)).toEqual(
         `${url}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`
@@ -200,7 +200,7 @@ describe('login helper', () => {
       const origin = 'origin 1';
 
       expect(calculatePostBody(code, origin)).toEqual(
-        'grant_type=authorization_code&client_id=2p8jirs0n59c4f3n4nttiv14u4&code=code 1&redirect_uri=origin 1/sign-in-complete'
+        'grant_type=authorization_code&client_id=1doe7pd4aijcnsjl01pga20nhv&code=code 1&redirect_uri=origin 1/sign-in-complete'
       );
     });
   });

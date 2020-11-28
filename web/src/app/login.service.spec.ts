@@ -59,7 +59,7 @@ describe('LoginService', () => {
           window.location.href.startsWith(
             'https://login.openalchemy.io/login' +
               '?response_type=code' +
-              '&client_id=2p8jirs0n59c4f3n4nttiv14u4' +
+              '&client_id=1doe7pd4aijcnsjl01pga20nhv' +
               '&redirect_uri=initial origin/sign-in-complete&state='
           )
         ).toBeTrue();
@@ -107,7 +107,7 @@ describe('LoginService', () => {
           'https://login.openalchemy.io/oauth2/token'
         );
         expect(httpClientSpy.post.calls.mostRecent().args[1]).toEqual(
-          'grant_type=authorization_code&client_id=2p8jirs0n59c4f3n4nttiv14u4&code=code 1&redirect_uri=initial origin/sign-in-complete'
+          'grant_type=authorization_code&client_id=1doe7pd4aijcnsjl01pga20nhv&code=code 1&redirect_uri=initial origin/sign-in-complete'
         );
         expect(httpClientSpy.post.calls.mostRecent().args[2]).toEqual({
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
