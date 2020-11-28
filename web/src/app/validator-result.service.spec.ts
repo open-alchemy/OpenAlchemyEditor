@@ -38,7 +38,7 @@ describe('ValidatorResultService', () => {
       expect(
         httpClientSpy.post
       ).toHaveBeenCalledWith(
-        'https://editor-v2.api.openalchemy.io/v1/spec/validate-managed',
+        'https://editor.api.openalchemy.io/v1/spec/validate-managed',
         'spec value b',
         { headers: { 'X-LANGUAGE': 'YAML' } }
       );
@@ -71,7 +71,7 @@ describe('ValidatorResultService', () => {
       expect(
         httpClientSpy.post
       ).toHaveBeenCalledWith(
-        'https://editor-v2.api.openalchemy.io/v1/spec/validate-un-managed',
+        'https://editor.api.openalchemy.io/v1/spec/validate-un-managed',
         'spec value b',
         { headers: { 'X-LANGUAGE': 'YAML' } }
       );

@@ -3,7 +3,7 @@
 from hypothesis import settings
 import schemathesis
 
-schema = schemathesis.from_uri("https://editor-v2.api.openalchemy.io/v1/openapi.json")
+schema = schemathesis.from_uri("https://editor.api.openalchemy.io/v1/openapi.json")
 
 
 @settings(deadline=2000, max_examples=10)

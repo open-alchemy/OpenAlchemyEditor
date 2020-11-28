@@ -93,13 +93,6 @@ export class ApiStack extends cdk.Stack {
     const zone = route53.PublicHostedZone.fromLookup(this, "PublicHostedZone", {
       domainName: CONFIG.domainName,
     });
-    new route53.ARecord(this, "AliasRecord", {
-      zone,
-      target: route53.RecordTarget.fromAlias(
-        new route53Targets.ApiGateway(api)
-      ),
-      recordName: CONFIG.api.legacyRecordName,
-    });
     new route53.ARecord(this, "NewAliasRecord", {
       zone,
       target: route53.RecordTarget.fromAlias(

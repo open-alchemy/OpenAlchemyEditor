@@ -40,7 +40,7 @@ describe('ArtifactsResultService', () => {
       expect(
         httpClientSpy.post
       ).toHaveBeenCalledWith(
-        'https://editor-v2.api.openalchemy.io/v1/artifact/calculate',
+        'https://editor.api.openalchemy.io/v1/artifact/calculate',
         'spec value b',
         { headers: { 'X-LANGUAGE': 'YAML' } }
       );

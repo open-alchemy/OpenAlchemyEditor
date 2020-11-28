@@ -91,7 +91,7 @@ describe('SeedService', () => {
                   expectedCallCount
                 );
                 expect(httpClientSpy.get as any).toHaveBeenCalledWith(
-                  'https://editor-v2.api.openalchemy.io/v1/seed',
+                  'https://editor.api.openalchemy.io/v1/seed',
                   {
                     responseType: 'text',
                   }
@@ -188,7 +188,7 @@ describe('SeedService', () => {
                 expectedCallCount
               );
               expect(httpClientSpy.get as any).toHaveBeenCalledWith(
-                'https://editor-v2.api.openalchemy.io/v1/seed',
+                'https://editor.api.openalchemy.io/v1/seed',
                 {
                   responseType: 'text',
                 }
@@ -325,7 +325,7 @@ describe('SeedService', () => {
                 expectedCallCount
               );
               expect(httpClientSpy.get as any).toHaveBeenCalledWith(
-                'https://editor-v2.api.openalchemy.io/v1/seeds/path%2Fto%2Fseed',
+                'https://editor.api.openalchemy.io/v1/seeds/path%2Fto%2Fseed',
                 {
                   responseType: 'text',
                 }
@@ -396,7 +396,7 @@ describe('SeedService', () => {
                 expectedCallCount
               );
               expect(httpClientSpy.get as any).toHaveBeenCalledWith(
-                'https://editor-v2.api.openalchemy.io/v1/seeds'
+                'https://editor.api.openalchemy.io/v1/seeds'
               );
             });
           });
