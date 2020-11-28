@@ -51,23 +51,23 @@ export class IdentityStack extends cdk.Stack {
     });
 
     // Editor server and client
-    // const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
-    // const editorScopeSpecRead = 'spec.read';
-    // const editorScopeSpecWrite = 'spec.write';
-    // pool.addResourceServer('EditorResourceServer', {
-    //   userPoolResourceServerName: 'editor',
-    //   identifier: editorUrl,
-    //   scopes: [
-    //     new cognito.ResourceServerScope({
-    //       scopeName: editorScopeSpecRead,
-    //       scopeDescription: 'read only spec access',
-    //     }),
-    //     new cognito.ResourceServerScope({
-    //       scopeName: editorScopeSpecWrite,
-    //       scopeDescription: 'write only spec access',
-    //     }),
-    //   ],
-    // });
+    const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
+    const editorScopeSpecRead = 'spec.read';
+    const editorScopeSpecWrite = 'spec.write';
+    pool.addResourceServer('EditorResourceServer', {
+      userPoolResourceServerName: 'editor',
+      identifier: editorUrl,
+      scopes: [
+        new cognito.ResourceServerScope({
+          scopeName: editorScopeSpecRead,
+          scopeDescription: 'read only spec access',
+        }),
+        new cognito.ResourceServerScope({
+          scopeName: editorScopeSpecWrite,
+          scopeDescription: 'write only spec access',
+        }),
+      ],
+    });
     // pool.addClient('open-alchemy-editor', {
     //   authFlows: {
     //     userPassword: true,
