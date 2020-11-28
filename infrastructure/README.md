@@ -1,11 +1,10 @@
-# Welcome to your CDK TypeScript project!
-
-This is a blank project for TypeScript development with CDK.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Defines the infrastructure required for the OpenAlchemy editor
 
 ## Useful commands
 
+- `npm run deploy:api` deploy the api stack
+- `npm run deploy:identity` deploy the identity stack
+- `npm run deploy:web` deploy the web stack
 - `npm run build` compile typescript to js
 - `npm run watch` watch for changes and compile
 - `npm run test` perform the jest unit tests
