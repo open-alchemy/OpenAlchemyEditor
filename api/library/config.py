@@ -34,9 +34,10 @@ class TEnvironment:
 
 def _get_env() -> TEnvironment:
     """Read environment variables."""
-    stage = os.getenv("STAGE", Stage.TEST)
-    assert isinstance(stage, str)
-    assert stage in _STAGES
+    stage_str = os.getenv("STAGE", Stage.TEST)
+    assert isinstance(stage_str, str)
+    assert stage_str in _STAGES
+    stage = Stage[stage_str]
 
     seeds_folder = os.getenv(
         "SEEDS_FOLDER", str(pathlib.Path(".") / "assets" / "seeds")

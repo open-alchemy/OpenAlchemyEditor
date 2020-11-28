@@ -5,12 +5,12 @@ import typing
 import connexion
 from open_alchemy.schemas import artifacts
 
-from . import exceptions, helpers
+from . import exceptions, helpers, types
 
 
 def calculate(
     body: str,
-) -> typing.Tuple[typing.Union[str, typing.Dict[str, typing.Any]], int]:
+) -> typing.Tuple[typing.Union[str, types.TSpec], int]:
     """
     Calculate the artifacts of a spec.
 
@@ -23,7 +23,7 @@ def calculate(
     """
     language = connexion.request.headers["X-LANGUAGE"]
 
-    spec: dict[str, typing.Any]
+    spec: types.TSpec
     try:
         spec = helpers.load_spec(spec_str=body, language=language)
     except exceptions.LoadSpecError as exc:

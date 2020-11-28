@@ -1,5 +1,6 @@
 """Handle seeds request."""
 
+import typing
 from urllib import parse
 
 import flask
@@ -8,7 +9,14 @@ from . import helpers
 from .facades import seed
 
 
-def list_() -> seed.types.TSeedNames:
+class _TSeedNamePath(typing.TypedDict, total=True):
+    """A seed name-value pair."""
+
+    name: seed.types.TSeedName
+    path: str
+
+
+def list_() -> typing.List[_TSeedNamePath]:
     """
     Get all available seeds.
 

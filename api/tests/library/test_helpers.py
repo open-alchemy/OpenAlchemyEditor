@@ -87,10 +87,10 @@ CALCULATE_SEED_NAME_TESTS = [
 
 
 @pytest.mark.parametrize("path, expected_name", CALCULATE_SEED_NAME_TESTS)
-def test_load_spec(path, expected_name):
+def test_calculate_seed_name(path, expected_name):
     """
     GIVEN path
-    WHEN load_spec is called with the path
+    WHEN calculate_seed_name is called with the path
     THEN the expected name is returned.
     """
     returned_name = helpers.calculate_seed_name(path)

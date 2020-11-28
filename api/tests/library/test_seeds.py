@@ -75,7 +75,7 @@ def test_get(single_seed):
     assert response.mimetype == "text/plain"
 
 
-def test_get(single_nested_seed):
+def test_get_nested(single_nested_seed):
     """
     GIVEN a nested seed is defined
     WHEN get is called with the name of the seed

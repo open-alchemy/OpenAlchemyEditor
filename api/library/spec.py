@@ -5,10 +5,10 @@ import typing
 import connexion
 from open_alchemy.schemas import validation
 
-from . import exceptions, helpers
+from . import exceptions, helpers, types
 
 
-def validate_managed(body: str) -> typing.Dict[str, typing.Any]:
+def validate_managed(body: str) -> types.TSpec:
     """
     Validate a spec.
 
@@ -21,7 +21,7 @@ def validate_managed(body: str) -> typing.Dict[str, typing.Any]:
     """
     language = connexion.request.headers["X-LANGUAGE"]
 
-    spec: dict[str, typing.Any]
+    spec: types.TSpec
     try:
         spec = helpers.load_spec(spec_str=body, language=language)
     except exceptions.LoadSpecError as exc:
@@ -30,7 +30,7 @@ def validate_managed(body: str) -> typing.Dict[str, typing.Any]:
     return validation.check(spec=spec)
 
 
-def validate_un_managed(body: str) -> typing.Dict[str, typing.Any]:
+def validate_un_managed(body: str) -> types.TSpec:
     """
     Validate a spec.
 
@@ -43,7 +43,7 @@ def validate_un_managed(body: str) -> typing.Dict[str, typing.Any]:
     """
     language = connexion.request.headers["X-LANGUAGE"]
 
-    spec: dict[str, typing.Any]
+    spec: types.TSpec
     try:
         spec = helpers.load_spec(spec_str=body, language=language)
     except exceptions.LoadSpecError as exc:
