@@ -19,7 +19,7 @@ export class SeedComponent implements OnInit {
     this.seedService.loadSeeds();
   }
 
-  selectChange(seed: SeedModel) {
+  selectChange(seed: SeedModel): void {
     this.seedService.selectSeed(seed.name);
   }
 }

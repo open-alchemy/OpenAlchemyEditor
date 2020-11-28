@@ -57,7 +57,7 @@ describe('SeedComponent', () => {
         description: 'single seed',
         expectation: 'should not display any options',
         seeds: [{ name: 'seed 1', path: 'path 1' }],
-        expectedInnerTexts: ['seed 1'],
+        expectedInnerTexts: [' seed 1 '],
       },
       {
         description: 'multiple seed',
@@ -66,7 +66,7 @@ describe('SeedComponent', () => {
           { name: 'seed 1', path: 'path 1' },
           { name: 'seed 2', path: 'path 2' },
         ],
-        expectedInnerTexts: ['seed 1', 'seed 2'],
+        expectedInnerTexts: [' seed 1 ', ' seed 2 '],
       },
     ];
 
@@ -95,7 +95,7 @@ describe('SeedComponent', () => {
   it('should pass the seed value to the seed service when select is changed', () => {
     expect(seedServiceSpy.selectSeed).toHaveBeenCalledTimes(0);
     seedServiceSpy.seeds$.and.returnValue(
-      of([{ name: 'seed 1', path: 'path 1' }])
+      of([{ name: ' seed 1 ', path: 'path 1' }])
     );
 
     fixture.detectChanges();
@@ -114,6 +114,6 @@ describe('SeedComponent', () => {
     fixture.detectChanges();
 
     expect(seedServiceSpy.selectSeed).toHaveBeenCalledTimes(1);
-    expect(seedServiceSpy.selectSeed).toHaveBeenCalledWith('seed 1');
+    expect(seedServiceSpy.selectSeed).toHaveBeenCalledWith(' seed 1 ');
   });
 });

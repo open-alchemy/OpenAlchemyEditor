@@ -5,7 +5,7 @@ import { SeedsModel, SeedModel } from '../seed.model';
 
 export { isNavigationEnd };
 
-export function isExample(event: NavigationEnd) {
+export function isExample(event: NavigationEnd): boolean {
   if (!event) {
     return false;
   }
@@ -15,7 +15,7 @@ export function isExample(event: NavigationEnd) {
   return event.url.startsWith(`/example/`);
 }
 
-export function getSeedNameFromEvent(event: NavigationEnd) {
+export function getSeedNameFromEvent(event: NavigationEnd): string {
   if (event && event.url && event.url.split('/').length > 2) {
     return decodeURIComponent(event.url.split('/')[2]);
   }

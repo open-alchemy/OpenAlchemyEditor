@@ -57,7 +57,10 @@ describe('LoginService', () => {
 
         expect(
           window.location.href.startsWith(
-            'https://login.openalchemy.io/login?response_type=code&client_id=2p8jirs0n59c4f3n4nttiv14u4&redirect_uri=initial origin/sign-in-complete&state='
+            'https://login.openalchemy.io/login' +
+              '?response_type=code' +
+              '&client_id=2p8jirs0n59c4f3n4nttiv14u4' +
+              '&redirect_uri=initial origin/sign-in-complete&state='
           )
         ).toBeTrue();
       });

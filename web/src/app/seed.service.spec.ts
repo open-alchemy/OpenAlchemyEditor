@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 import { SeedService } from './seed.service';
 

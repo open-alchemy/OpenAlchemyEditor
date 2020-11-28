@@ -1,27 +1,27 @@
 export const CONFIG = {
-  domainName: "openalchemy.io",
+  domainName: 'openalchemy.io',
   api: {
-    recordName: "editor.api",
+    recordName: 'editor.api',
     throttlingBurstLimit: 200,
     throttlingRateLimit: 100,
-    additionalAllowHeaders: ["x-language"],
+    additionalAllowHeaders: ['x-language'],
   },
   web: {
-    recordName: "editor",
+    recordName: 'editor',
   },
   identity: {
-    recordName: "login",
-    localHostname: "http://localhost:4200",
-    signInCompletePath: "/sign-in-complete",
+    recordName: 'login',
+    localHostname: 'http://localhost:4200',
+    signInCompletePath: '/sign-in-complete',
     userVerification: {
-      subject: "Verify your email for OpenAlchemy!",
+      subject: 'Verify your email for OpenAlchemy!',
       message:
-        "Hello {username}, Thanks for signing up to OpenAlchemy! Your verification code is {####}",
+        'Hello {username}, Thanks for signing up to OpenAlchemy! Your verification code is {####}',
     },
     userInvitation: {
-      subject: "Invite to join OpenAlchemy!",
+      subject: 'Invite to join OpenAlchemy!',
       message:
-        "Hello {username}, You have been invited to join OpenAlchemy! Your temporary password is {####}",
+        'Hello {username}, You have been invited to join OpenAlchemy! Your temporary password is {####}',
     },
   },
 };

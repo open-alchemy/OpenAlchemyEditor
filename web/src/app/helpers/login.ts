@@ -8,7 +8,6 @@ export const AUTHORIZATION_HEADERS = {
   'Content-Type': 'application/x-www-form-urlencoded',
 };
 export const TOKEN_URI = `${LOGIN_BASE}/oauth2/token`;
-const REFRESH_GRANT_TYPE = 'refresh_token';
 const SIGN_IN_COMPLETE = 'sign-in-complete';
 
 export interface State {

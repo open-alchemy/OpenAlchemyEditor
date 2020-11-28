@@ -40,8 +40,12 @@ describe('login helper', () => {
       const origin = 'origin 1';
       const state = 'state 1';
 
+      const url = 'https://login.openalchemy.io/login';
+      const responseType = 'code';
+      const clientId = '2p8jirs0n59c4f3n4nttiv14u4';
+      const redirectUri = `${origin}/sign-in-complete`;
       expect(calculateRedirectHref(origin, state)).toEqual(
-        'https://login.openalchemy.io/login?response_type=code&client_id=2p8jirs0n59c4f3n4nttiv14u4&redirect_uri=origin 1/sign-in-complete&state=state 1'
+        `${url}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`
       );
     });
   });

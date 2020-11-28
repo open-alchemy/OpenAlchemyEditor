@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Router, Event } from '@angular/router';
 
 import { SeedsModel, SeedModel } from './seed.model';

@@ -37,14 +37,14 @@ export class LoginService {
     this.lookForSignInComplete(this.router.events);
   }
 
-  login() {
+  login(): void {
     const window = this.globalService.getWindow();
     const state = calculateState(window.location.pathname);
     localStorage.setItem(STATE_KEY, state);
     window.location.href = calculateRedirectHref(window.location.origin, state);
   }
 
-  lookForSignInComplete(events: Observable<Event>) {
+  lookForSignInComplete(events: Observable<Event>): void {
     events
       .pipe(
         filter(isNavigationEnd),
@@ -83,12 +83,12 @@ export class LoginService {
       );
   }
 
-  processNavigationEnd(state: State) {
+  processNavigationEnd(state: State): void {
     const pathname = getPreviousPath(state);
     this.router.navigate([pathname]);
   }
 
-  processNavigationError() {
+  processNavigationError(): void {
     this.router.navigate(['error']);
   }
 
