@@ -2,7 +2,7 @@
 
 
 class BaseError(Exception):
-    """"The base exception."""
+    """The base exception."""
 
 
 class LoadSpecError(BaseError):

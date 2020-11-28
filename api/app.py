@@ -1,3 +1,5 @@
+"""Flask application."""
+
 import connexion
 import flask_cors
 from library import config
