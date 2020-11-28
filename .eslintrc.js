@@ -12,6 +12,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@angular-eslint/no-empty-lifecycle-method": "off",
+    quotes: ["error", "single"],
   },
   overrides: [
     {

@@ -427,7 +427,7 @@ describe('SeedService', () => {
 
         getTestScheduler().run(() => {
           const event$ = cold('a', {
-            a: new NavigationStart(1, `/example/example 1`),
+            a: new NavigationStart(1, '/example/example 1'),
           });
 
           service.listenForExampleRoutes(event$);
@@ -445,7 +445,7 @@ describe('SeedService', () => {
 
         getTestScheduler().run(() => {
           const event$ = cold('a', {
-            a: new NavigationEnd(1, `/example`, 'url 2'),
+            a: new NavigationEnd(1, '/example', 'url 2'),
           });
 
           service.listenForExampleRoutes(event$);
@@ -461,7 +461,7 @@ describe('SeedService', () => {
 
         getTestScheduler().run(() => {
           const event$ = cold('a', {
-            a: new NavigationEnd(1, `/example/example 1`, 'url 2'),
+            a: new NavigationEnd(1, '/example/example 1', 'url 2'),
           });
 
           service.listenForExampleRoutes(event$);
@@ -477,7 +477,7 @@ describe('SeedService', () => {
 
         getTestScheduler().run(() => {
           const event$ = cold('a', {
-            a: new NavigationEnd(1, `/example/example 1`, 'url 2'),
+            a: new NavigationEnd(1, '/example/example 1', 'url 2'),
           });
 
           service.listenForExampleRoutes(event$);
@@ -497,7 +497,7 @@ describe('SeedService', () => {
             seedsValues: { a: [{ name: 'example 1' }] },
             eventMarbles: '-b',
             eventValues: {
-              b: new NavigationEnd(1, `/example/example 1`, 'url 2'),
+              b: new NavigationEnd(1, '/example/example 1', 'url 2'),
             },
           },
           {
@@ -507,7 +507,7 @@ describe('SeedService', () => {
             seedsValues: { b: [{ name: 'example 1' }] },
             eventMarbles: 'a-',
             eventValues: {
-              a: new NavigationEnd(1, `/example/example 1`, 'url 2'),
+              a: new NavigationEnd(1, '/example/example 1', 'url 2'),
             },
           },
         ];
@@ -550,7 +550,7 @@ describe('SeedService', () => {
   describe('integration', () => {
     it('should listen to example routes', () => {
       (routerSpy as any).events = cold('-b', {
-        b: new NavigationEnd(1, `/example/example 1`, 'url 2'),
+        b: new NavigationEnd(1, '/example/example 1', 'url 2'),
       });
       service = new SeedService(httpClientSpy, routerSpy);
 

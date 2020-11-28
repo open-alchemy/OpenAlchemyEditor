@@ -170,7 +170,7 @@ describe('LoginService', () => {
       it('should do nothing if not sign in complete navigation', () => {
         getTestScheduler().run(() => {
           const event$ = cold('a', {
-            a: new NavigationEnd(1, `url 1`, 'url 2'),
+            a: new NavigationEnd(1, 'url 1', 'url 2'),
           });
 
           service.lookForSignInComplete(event$);

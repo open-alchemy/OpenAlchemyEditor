@@ -49,7 +49,7 @@ describe('CompositeUniqueItemComponent', () => {
         description: 'artifacts columns single and name',
         expectation: 'should display no columns',
         artifacts: { name: 'name 1', columns: ['expression 1'] },
-        expectedText: `- name: name 1\n\xa0\xa0columns: expression 1`,
+        expectedText: '- name: name 1\n\xa0\xa0columns: expression 1',
       },
     ];
 

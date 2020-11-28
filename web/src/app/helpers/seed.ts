@@ -12,7 +12,7 @@ export function isExample(event: NavigationEnd): boolean {
   if (!event.url) {
     return false;
   }
-  return event.url.startsWith(`/example/`);
+  return event.url.startsWith('/example/');
 }
 
 export function getSeedNameFromEvent(event: NavigationEnd): string {

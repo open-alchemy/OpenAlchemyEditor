@@ -49,13 +49,13 @@ describe('CompositeIndexItemComponent', () => {
         description: 'artifacts expressions single and name',
         expectation: 'should display no expressions',
         artifacts: { name: 'name 1', expressions: ['expression 1'] },
-        expectedText: `- name: name 1\n\xa0\xa0expressions: expression 1`,
+        expectedText: '- name: name 1\n\xa0\xa0expressions: expression 1',
       },
       {
         description: 'artifacts expressions single and unique',
         expectation: 'should display no expressions',
         artifacts: { unique: true, expressions: ['expression 1'] },
-        expectedText: `- unique: true\n\xa0\xa0expressions: expression 1`,
+        expectedText: '- unique: true\n\xa0\xa0expressions: expression 1',
       },
       {
         description: 'artifacts expressions single and name and unique',
@@ -65,7 +65,8 @@ describe('CompositeIndexItemComponent', () => {
           unique: true,
           expressions: ['expression 1'],
         },
-        expectedText: `- name: name 1\n\xa0\xa0unique: true\n\xa0\xa0expressions: expression 1`,
+        expectedText:
+          '- name: name 1\n\xa0\xa0unique: true\n\xa0\xa0expressions: expression 1',
       },
     ];
 
