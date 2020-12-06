@@ -131,6 +131,22 @@ export class IdentityStack extends cdk.Stack {
       preventUserExistenceErrors: true,
     });
 
+    // Add admin client
+    pool.addClient('open-alchemy-admin', {
+      userPoolClientName: 'admin',
+      authFlows: {
+        adminUserPassword: true,
+      },
+      oAuth: {
+        flows: {
+          implicitCodeGrant: true,
+          authorizationCodeGrant: true,
+        },
+        scopes: [cognito.OAuthScope.COGNITO_ADMIN],
+      },
+      preventUserExistenceErrors: true,
+    });
+
     // Configure domain
     const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN;
     const certificate = certificatemanager.Certificate.fromCertificateArn(
