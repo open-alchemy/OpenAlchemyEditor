@@ -66,6 +66,10 @@ export class IdentityStack extends cdk.Stack {
           scopeName: packagerScopeSpecWrite,
           scopeDescription: 'write only spec access',
         }),
+        new cognito.ResourceServerScope({
+          scopeName: cognito.OAuthScope.COGNITO_ADMIN.scopeName,
+          scopeDescription: 'admin access',
+        }),
       ],
     });
 
