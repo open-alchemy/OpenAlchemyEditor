@@ -25,6 +25,11 @@ export const CONFIG = {
     },
   },
   package: {
-    recordName: 'package.api',
+    api: {
+      recordName: 'package.api',
+    },
+    web: {
+      recordName: 'package',
+    },
   },
 };

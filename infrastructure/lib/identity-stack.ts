@@ -51,7 +51,7 @@ export class IdentityStack extends cdk.Stack {
     });
 
     // Package server
-    const packagerUrl = `https://${CONFIG.package.recordName}.${CONFIG.domainName}`;
+    const packagerUrl = `https://${CONFIG.package.api.recordName}.${CONFIG.domainName}`;
     const packagerScopeSpecRead = 'spec.read';
     const packagerScopeSpecWrite = 'spec.write';
     pool.addResourceServer('PackageResourceServer', {
@@ -91,6 +91,36 @@ export class IdentityStack extends cdk.Stack {
         ],
         callbackUrls: [
           `${editorUrl}${CONFIG.identity.signInCompletePath}`,
+          `${CONFIG.identity.localHostname}${CONFIG.identity.signInCompletePath}`,
+        ],
+      },
+      preventUserExistenceErrors: true,
+    });
+
+    // Add package client
+    const packageUrl = `https://${CONFIG.package.web.recordName}.${CONFIG.domainName}`;
+    pool.addClient('open-alchemy-package', {
+      userPoolClientName: 'package',
+      authFlows: {
+        userPassword: true,
+        userSrp: true,
+        adminUserPassword: true,
+      },
+      oAuth: {
+        flows: {
+          implicitCodeGrant: true,
+          authorizationCodeGrant: true,
+        },
+        scopes: [
+          cognito.OAuthScope.OPENID,
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.PHONE,
+          cognito.OAuthScope.PROFILE,
+          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
+          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
+        ],
+        callbackUrls: [
+          `${packageUrl}${CONFIG.identity.signInCompletePath}`,
           `${CONFIG.identity.localHostname}${CONFIG.identity.signInCompletePath}`,
         ],
       },
