@@ -73,7 +73,7 @@ jobs:
       - name: upload artifacts for release
         uses: actions/upload-artifact@v2
         with:
-          name: web
+          name: web-artifacts
           path: web/dist/editor/
 
   web-deploy:
@@ -102,7 +102,7 @@ jobs:
       - name: retrieve web assets
         uses: actions/download-artifact@v2
         with:
-          name: web
+          name: web-artifacts
           path: infrastructure/resources/web/
       - name: deploy
         working-directory: ./infrastructure
