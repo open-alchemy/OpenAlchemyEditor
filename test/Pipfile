@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest = "*"
-schemathesis = "*"
-hypothesis = "*"
+pytest = "6.2.0"
+schemathesis = "2.8.4"
+hypothesis = "5.43.3"
 
 [dev-packages]
 black = "*"

@@ -5,14 +5,14 @@ name = "pypi"
 
 [packages]
 connexion = {extras = ["swagger-ui"], version = "*"}
-openalchemy = "2.0.0"
+openalchemy = "2.0.1"
 pyyaml = "*"
 serverless-wsgi = "*"
 flask-cors = "*"
 
 [dev-packages]
 black = "*"
-pytest = "*"
+pytest = "6.2.0"
 schemathesis = "*"
 pytest-cov = "*"
 
