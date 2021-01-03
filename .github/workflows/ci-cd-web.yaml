@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: set up node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.4
         with:
           node-version: 14.x
       - name: cache node_modules
@@ -50,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('web/**') }}
       - name: set up node
         if: steps.cache-build.outputs.cache-hit != 'true'
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.4
         with:
           node-version: 14.x
       - name: cache node_modules
@@ -73,7 +73,7 @@ jobs:
       - name: upload artifacts for release
         uses: actions/upload-artifact@v2
         with:
-          name: web
+          name: web-artifacts
           path: web/dist/editor/
 
   web-deploy:
@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: set up node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.4
         with:
           node-version: 14.x
       - name: cache node modules
@@ -102,7 +102,7 @@ jobs:
       - name: retrieve web assets
         uses: actions/download-artifact@v2
         with:
-          name: web
+          name: web-artifacts
           path: infrastructure/resources/web/
       - name: deploy
         working-directory: ./infrastructure
