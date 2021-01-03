@@ -56,32 +56,32 @@ export class IdentityStack extends cdk.Stack {
     const packageScopeSpecWrite = 'spec.write';
     const packageScopeCredentialsRead = 'credentials.read';
     const packageScopeCredentialsWrite = 'credentials.write';
-    pool.addResourceServer('PackageResourceServer', {
-      userPoolResourceServerName: 'package',
-      identifier: packageUrl,
-      scopes: [
-        new cognito.ResourceServerScope({
-          scopeName: packageScopeSpecRead,
-          scopeDescription: 'read only spec access',
-        }),
-        new cognito.ResourceServerScope({
-          scopeName: packageScopeSpecWrite,
-          scopeDescription: 'write only spec access',
-        }),
-        new cognito.ResourceServerScope({
-          scopeName: packageScopeCredentialsRead,
-          scopeDescription: 'read only credentials access',
-        }),
-        new cognito.ResourceServerScope({
-          scopeName: packageScopeCredentialsWrite,
-          scopeDescription: 'write only credentials access',
-        }),
-        new cognito.ResourceServerScope({
-          scopeName: cognito.OAuthScope.COGNITO_ADMIN.scopeName,
-          scopeDescription: 'admin access',
-        }),
-      ],
-    });
+    // pool.addResourceServer('PackageResourceServer', {
+    //   userPoolResourceServerName: 'package',
+    //   identifier: packageUrl,
+    //   scopes: [
+    //     new cognito.ResourceServerScope({
+    //       scopeName: packageScopeSpecRead,
+    //       scopeDescription: 'read only spec access',
+    //     }),
+    //     new cognito.ResourceServerScope({
+    //       scopeName: packageScopeSpecWrite,
+    //       scopeDescription: 'write only spec access',
+    //     }),
+    //     new cognito.ResourceServerScope({
+    //       scopeName: packageScopeCredentialsRead,
+    //       scopeDescription: 'read only credentials access',
+    //     }),
+    //     new cognito.ResourceServerScope({
+    //       scopeName: packageScopeCredentialsWrite,
+    //       scopeDescription: 'write only credentials access',
+    //     }),
+    //     new cognito.ResourceServerScope({
+    //       scopeName: cognito.OAuthScope.COGNITO_ADMIN.scopeName,
+    //       scopeDescription: 'admin access',
+    //     }),
+    //   ],
+    // });
 
     // Add editor client
     const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
