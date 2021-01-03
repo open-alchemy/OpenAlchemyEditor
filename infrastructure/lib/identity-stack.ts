@@ -51,29 +51,29 @@ export class IdentityStack extends cdk.Stack {
     });
 
     // Package server
-    const packagerUrl = `https://${CONFIG.package.api.recordName}.${CONFIG.domainName}`;
-    const packagerScopeSpecRead = 'spec.read';
-    const packagerScopeSpecWrite = 'spec.write';
-    const packagerScopeCredentialsRead = 'credentials.read';
-    const packagerScopeCredentialsWrite = 'credentials.write';
-    pool.addResourceServer('PackageResourceServer', {
+    const packageUrl = `https://${CONFIG.package.api.recordName}.${CONFIG.domainName}`;
+    const packageScopeSpecRead = 'spec.read';
+    const packageScopeSpecWrite = 'spec.write';
+    const packageScopeCredentialsRead = 'credentials.read';
+    const packageScopeCredentialsWrite = 'credentials.write';
+    pool.addResourceServer('PackageesourceServer', {
       userPoolResourceServerName: 'package',
-      identifier: packagerUrl,
+      identifier: packageUrl,
       scopes: [
         new cognito.ResourceServerScope({
-          scopeName: packagerScopeSpecRead,
+          scopeName: packageScopeSpecRead,
           scopeDescription: 'read only spec access',
         }),
         new cognito.ResourceServerScope({
-          scopeName: packagerScopeSpecWrite,
+          scopeName: packageScopeSpecWrite,
           scopeDescription: 'write only spec access',
         }),
         new cognito.ResourceServerScope({
-          scopeName: packagerScopeCredentialsRead,
+          scopeName: packageScopeCredentialsRead,
           scopeDescription: 'read only credentials access',
         }),
         new cognito.ResourceServerScope({
-          scopeName: packagerScopeCredentialsWrite,
+          scopeName: packageScopeCredentialsWrite,
           scopeDescription: 'write only credentials access',
         }),
         new cognito.ResourceServerScope({
@@ -100,10 +100,10 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.EMAIL,
           cognito.OAuthScope.PHONE,
           cognito.OAuthScope.PROFILE,
-          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
-          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
+          cognito.OAuthScope.custom(`${packageUrl}/${packageScopeSpecRead}`),
+          cognito.OAuthScope.custom(`${packageUrl}/${packageScopeSpecWrite}`),
           cognito.OAuthScope.custom(
-            `${packagerUrl}/${packagerScopeCredentialsRead}`
+            `${packageUrl}/${packageScopeCredentialsRead}`
           ),
         ],
         callbackUrls: [
@@ -115,7 +115,7 @@ export class IdentityStack extends cdk.Stack {
     });
 
     // Add package client
-    const packageUrl = `https://${CONFIG.package.web.recordName}.${CONFIG.domainName}`;
+    const packageClientUrl = `https://${CONFIG.package.web.recordName}.${CONFIG.domainName}`;
     pool.addClient('open-alchemy-package', {
       userPoolClientName: 'package',
       authFlows: {
@@ -133,17 +133,17 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.EMAIL,
           cognito.OAuthScope.PHONE,
           cognito.OAuthScope.PROFILE,
-          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
-          cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
+          cognito.OAuthScope.custom(`${packageUrl}/${packageScopeSpecRead}`),
+          cognito.OAuthScope.custom(`${packageUrl}/${packageScopeSpecWrite}`),
           cognito.OAuthScope.custom(
-            `${packagerUrl}/${packagerScopeCredentialsRead}`
+            `${packageUrl}/${packageScopeCredentialsRead}`
           ),
           cognito.OAuthScope.custom(
-            `${packagerUrl}/${packagerScopeCredentialsWrite}`
+            `${packageUrl}/${packageScopeCredentialsWrite}`
           ),
         ],
         callbackUrls: [
-          `${packageUrl}${CONFIG.identity.signInCompletePath}`,
+          `${packageClientUrl}${CONFIG.identity.signInCompletePath}`,
           `${CONFIG.identity.localHostname}${CONFIG.identity.signInCompletePath}`,
         ],
       },
