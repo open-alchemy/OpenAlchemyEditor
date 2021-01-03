@@ -56,7 +56,7 @@ export class IdentityStack extends cdk.Stack {
     const packageScopeSpecWrite = 'spec.write';
     const packageScopeCredentialsRead = 'credentials.read';
     const packageScopeCredentialsWrite = 'credentials.write';
-    pool.addResourceServer('PackageesourceServer', {
+    pool.addResourceServer('PackageResourceServer', {
       userPoolResourceServerName: 'package',
       identifier: packageUrl,
       scopes: [
