@@ -102,6 +102,9 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.PROFILE,
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
+          cognito.OAuthScope.custom(
+            `${packagerUrl}/${packagerScopeCredentialsRead}`
+          ),
         ],
         callbackUrls: [
           `${editorUrl}${CONFIG.identity.signInCompletePath}`,
@@ -133,7 +136,7 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
           cognito.OAuthScope.custom(
-            `${packagerUrl}/${packagerScopeCredentialsWrite}`
+            `${packagerUrl}/${packagerScopeCredentialsRead}`
           ),
           cognito.OAuthScope.custom(
             `${packagerUrl}/${packagerScopeCredentialsWrite}`
