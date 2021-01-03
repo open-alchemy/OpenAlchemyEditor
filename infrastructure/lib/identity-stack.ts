@@ -54,6 +54,8 @@ export class IdentityStack extends cdk.Stack {
     const packagerUrl = `https://${CONFIG.package.api.recordName}.${CONFIG.domainName}`;
     const packagerScopeSpecRead = 'spec.read';
     const packagerScopeSpecWrite = 'spec.write';
+    const packagerScopeCredentialsRead = 'credentials.read';
+    const packagerScopeCredentialsWrite = 'credentials.write';
     pool.addResourceServer('PackageResourceServer', {
       userPoolResourceServerName: 'package',
       identifier: packagerUrl,
@@ -65,6 +67,14 @@ export class IdentityStack extends cdk.Stack {
         new cognito.ResourceServerScope({
           scopeName: packagerScopeSpecWrite,
           scopeDescription: 'write only spec access',
+        }),
+        new cognito.ResourceServerScope({
+          scopeName: packagerScopeCredentialsRead,
+          scopeDescription: 'read only credentials access',
+        }),
+        new cognito.ResourceServerScope({
+          scopeName: packagerScopeCredentialsWrite,
+          scopeDescription: 'write only credentials access',
         }),
         new cognito.ResourceServerScope({
           scopeName: cognito.OAuthScope.COGNITO_ADMIN.scopeName,
@@ -122,6 +132,12 @@ export class IdentityStack extends cdk.Stack {
           cognito.OAuthScope.PROFILE,
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecRead}`),
           cognito.OAuthScope.custom(`${packagerUrl}/${packagerScopeSpecWrite}`),
+          cognito.OAuthScope.custom(
+            `${packagerUrl}/${packagerScopeCredentialsWrite}`
+          ),
+          cognito.OAuthScope.custom(
+            `${packagerUrl}/${packagerScopeCredentialsWrite}`
+          ),
         ],
         callbackUrls: [
           `${packageUrl}${CONFIG.identity.signInCompletePath}`,
