@@ -1,5 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as cognito from '@aws-cdk/aws-cognito';
+import * as ssm from '@aws-cdk/aws-ssm';
 import * as route53 from '@aws-cdk/aws-route53';
 import * as route53Targets from '@aws-cdk/aws-route53-targets';
 import * as certificatemanager from '@aws-cdk/aws-certificatemanager';
@@ -85,7 +86,7 @@ export class IdentityStack extends cdk.Stack {
 
     // Add editor client
     const editorUrl = `https://${CONFIG.web.recordName}.${CONFIG.domainName}`;
-    pool.addClient('open-alchemy-editor', {
+    const editorClient = pool.addClient('open-alchemy-editor', {
       authFlows: {
         userPassword: true,
         userSrp: true,
@@ -116,7 +117,7 @@ export class IdentityStack extends cdk.Stack {
 
     // Add package client
     const packageClientUrl = `https://${CONFIG.package.web.recordName}.${CONFIG.domainName}`;
-    pool.addClient('open-alchemy-package', {
+    const packageClient = pool.addClient('open-alchemy-package', {
       userPoolClientName: 'package',
       authFlows: {
         userPassword: true,
@@ -151,7 +152,7 @@ export class IdentityStack extends cdk.Stack {
     });
 
     // Add admin client
-    pool.addClient('open-alchemy-admin', {
+    const adminClient = pool.addClient('open-alchemy-admin', {
       userPoolClientName: 'admin',
       authFlows: {
         adminUserPassword: true,
@@ -164,6 +165,24 @@ export class IdentityStack extends cdk.Stack {
         scopes: [cognito.OAuthScope.COGNITO_ADMIN],
       },
       preventUserExistenceErrors: true,
+    });
+
+    // Parameter with user pool id
+    new ssm.StringParameter(this, 'UserPoolIdParameter', {
+      parameterName: '/Editor/Identity/UserPool/Id',
+      stringValue: pool.userPoolId,
+    });
+    new ssm.StringParameter(this, 'EditorClientIdParameter', {
+      parameterName: '/Editor/Identity/UserPool/Client/Editor/Id',
+      stringValue: editorClient.userPoolClientId,
+    });
+    new ssm.StringParameter(this, 'PackageClientIdParameter', {
+      parameterName: '/Editor/Identity/UserPool/Client/Package/Id',
+      stringValue: packageClient.userPoolClientId,
+    });
+    new ssm.StringParameter(this, 'AdminClientIdParameter', {
+      parameterName: '/Editor/Identity/UserPool/Client/Admin/Id',
+      stringValue: adminClient.userPoolClientId,
     });
 
     // Configure domain
