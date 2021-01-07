@@ -13,14 +13,14 @@ interface IValidateManagedParams {
   language: 'JSON' | 'YAML';
 }
 
-// interface IValidateUnManagedParams {
-//   value: SpecValue;
-//   language: 'JSON' | 'YAML';
-// }
+interface IValidateUnManagedParams {
+  value: SpecValue;
+  language: 'JSON' | 'YAML';
+}
 
 export class SpecService {
   /**
-   * Validate a spec
+   * Validate the managed portion of a spec
    *
    * Throws SpecError is something goes wrong whilst validating the spec
    *
@@ -40,7 +40,6 @@ export class SpecService {
         },
       })
       .catch((error) => {
-        console.log(error);
         const message = decodeResponse(error.response.data);
         throw new SpecError(
           `error whilst validating the managed portion of the spec: ${message}`
@@ -53,5 +52,40 @@ export class SpecService {
     params: IValidateManagedParams
   ): Observable<ValidationResponse> {
     return from(this.validateManaged(params));
+  }
+
+  /**
+   * Validate the un managed portion of a spec
+   *
+   * Throws SpecError is something goes wrong whilst validating the spec
+   *
+   * @param params.value The value of the spec
+   * @param params.language The language the spec is in
+   */
+  async validateUnManaged(
+    params: IValidateUnManagedParams
+  ): Promise<ValidationResponse> {
+    const url = `${BASE_URL}/validate-un-managed`;
+
+    const response = await axios
+      .post<ValidationResponse>(url, params.value, {
+        headers: {
+          'Content-Type': 'text/plain',
+          'X-LANGUAGE': params.language,
+        },
+      })
+      .catch((error) => {
+        const message = decodeResponse(error.response.data);
+        throw new SpecError(
+          `error whilst validating the un managed portion of the spec: ${message}`
+        );
+      });
+    return response.data;
+  }
+
+  validateUnManaged$(
+    params: IValidateUnManagedParams
+  ): Observable<ValidationResponse> {
+    return from(this.validateUnManaged(params));
   }
 }
