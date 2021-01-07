@@ -30,7 +30,8 @@
     "certificatemanager",
     "boto",
     "jmespath",
-    "dateutil"
+    "dateutil",
+    "pylint"
   ],
   "dictionaries": [
     "python",

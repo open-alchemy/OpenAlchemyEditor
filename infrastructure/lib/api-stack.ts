@@ -24,8 +24,9 @@ export class ApiStack extends cdk.Stack {
       .createHash('sha256')
       .update(deploymentPackageContents)
       .digest('hex');
+    const functionName = 'editor-service';
     const func = new lambda.Function(this, 'ApiFunc', {
-      functionName: 'editor-service',
+      functionName,
       runtime: lambda.Runtime.PYTHON_3_8,
       code: lambda.Code.fromAsset(deploymentPackage),
       handler: 'api.main',
@@ -53,6 +54,24 @@ export class ApiStack extends cdk.Stack {
       alias,
       deploymentConfig: codedeploy.LambdaDeploymentConfig.ALL_AT_ONCE,
     });
+
+    // Add alarm subscription
+    const alarmName = `${functionName}-error`;
+    const alarm = func.metricErrors().createAlarm(this, 'Alarm', {
+      threshold: 1,
+      evaluationPeriods: 1,
+      alarmName,
+      alarmDescription: `The ${functionName} lambda function had an error`,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+    });
+    const topic = new sns.Topic(this, 'Topic', {
+      displayName: `${alarmName}-alarm`,
+      topicName: `${alarmName}-alarm`,
+    });
+    topic.addSubscription(
+      new snsSubscriptions.EmailSubscription(ENVIRONMENT.alarmEmailAddress)
+    );
+    alarm.addAlarmAction(new cloudwatchActions.SnsAction(topic));
 
     // Certificate
     const certificateArn = ENVIRONMENT.awsOpenAlchemyCertificateArn;
