@@ -1,8 +1,8 @@
 import axios from 'axios';
 import MockAdaptor from 'axios-mock-adapter';
 
-import { SpecService, BASE_URL } from '../src/spec.service';
-import { SpecError } from '../src/errors';
+import { BASE_URL } from '../src/spec.service';
+import { SpecError, SpecService } from '../src';
 
 describe('SpecService', () => {
   let mockAdaptor: MockAdaptor;
@@ -18,7 +18,7 @@ describe('SpecService', () => {
       // GIVE mocked axios that returns 200
       const specValue = 'spec value 1';
       const language = 'JSON';
-      const response = { result: { valid: true } };
+      const response = { key: 'value' };
       mockAdaptor.onPost(`${BASE_URL}/validate-managed`).replyOnce((config) => {
         expect(config.headers).toHaveProperty('Content-Type');
         expect(config.headers['Content-Type']).toEqual('text/plain');
@@ -42,7 +42,7 @@ describe('SpecService', () => {
       // GIVE mocked axios that returns 200
       const specValue = 'spec value 1';
       const language = 'JSON';
-      const response = { result: { valid: true } };
+      const response = { key: 'value' };
       mockAdaptor
         .onPost(`${BASE_URL}/validate-managed`)
         .replyOnce(200, response);
@@ -87,7 +87,7 @@ describe('SpecService', () => {
       // GIVE mocked axios that returns 200
       const specValue = 'spec value 1';
       const language = 'JSON';
-      const response = { result: { valid: true } };
+      const response = { key: 'value' };
       mockAdaptor
         .onPost(`${BASE_URL}/validate-un-managed`)
         .replyOnce((config) => {
@@ -113,7 +113,7 @@ describe('SpecService', () => {
       // GIVE mocked axios that returns 200
       const specValue = 'spec value 1';
       const language = 'JSON';
-      const response = { result: { valid: true } };
+      const response = { key: 'value' };
       mockAdaptor
         .onPost(`${BASE_URL}/validate-un-managed`)
         .replyOnce(200, response);
