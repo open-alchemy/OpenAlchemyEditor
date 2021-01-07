@@ -1,4 +1,4 @@
-name: CI-CD for the OpenAlchemy Editor Web
+name: Web CI-CD
 
 on:
   push:

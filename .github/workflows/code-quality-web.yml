@@ -1,4 +1,4 @@
-name: Code quality checks for web app
+name: Web Code quality
 
 on:
   pull_request:

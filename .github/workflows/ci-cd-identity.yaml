@@ -1,4 +1,4 @@
-name: CI-CD for the OpenAlchemy Editor Identity
+name: Identity CI-CD
 
 on:
   push:

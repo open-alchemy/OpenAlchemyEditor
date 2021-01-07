@@ -1,4 +1,4 @@
-name: General code quality checks
+name: General code quality
 
 on:
   push:
