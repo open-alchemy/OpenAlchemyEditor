@@ -6,9 +6,9 @@ updates:
     schedule:
       interval: "weekly"
 
-  # Maintain Python dependencies for test.
+  # Maintain Python dependencies for api test.
   - package-ecosystem: "pip"
-    directory: "test/"
+    directory: "test/api/"
     schedule:
       interval: "weekly"
 

@@ -9,6 +9,10 @@ import * as route53 from '@aws-cdk/aws-route53';
 import * as route53Targets from '@aws-cdk/aws-route53-targets';
 import * as certificatemanager from '@aws-cdk/aws-certificatemanager';
 import * as iam from '@aws-cdk/aws-iam';
+import * as snsSubscriptions from '@aws-cdk/aws-sns-subscriptions';
+import * as cloudwatchActions from '@aws-cdk/aws-cloudwatch-actions';
+import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
+import * as sns from '@aws-cdk/aws-sns';
 
 import { ENVIRONMENT } from './environment';
 import { CONFIG } from './config';
