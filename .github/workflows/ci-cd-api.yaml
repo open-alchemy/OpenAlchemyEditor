@@ -9,8 +9,8 @@ on:
       - "api/**"
       - "test/**"
       - "infrastructure/**"
-      - "!infrastructure/lib/web-stack.ts"
-      - "!infrastructure/lib/identity-stack.ts"
+      - "!infrastructure/lib/*-stack.ts"
+      - "infrastructure/lib/api-stack.ts"
       - "!infrastructure/test/**"
       - "!**.md"
 
@@ -30,7 +30,7 @@ jobs:
             examples/**/*example-spec.yml
             !**/*remote*/**
 
-  api-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,11 +46,13 @@ jobs:
         id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/api/Pipfile.lock') }}
+          path: api/.venv
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('api/Pipfile.lock') }}
       - name: install dependencies
         working-directory: ./api
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
           pipenv install --dev
       - name: run tests
@@ -58,7 +60,7 @@ jobs:
         run: |
           pipenv run test
 
-  api-build:
+  build:
     runs-on: ubuntu-latest
     needs:
       - assets-seeds
@@ -74,7 +76,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: api/dist/deployment-package.zip
-          key: ${{ runner.os }}-api-${{ env.cache-name }}-${{ hashFiles('api/**') }}
+          key: ${{ runner.os }}-api-${{ env.cache-name }}-slim-${{ hashFiles('api/**') }}
       - name: set up python
         if: steps.cache-build.outputs.cache-hit != 'true'
         uses: actions/setup-python@v2
@@ -90,7 +92,8 @@ jobs:
         if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
           pipenv lock -r > requirements.txt
-          pip install -r requirements.txt --target dist
+          ../remove-lambda-built-in-dependencies.sh
+          pip install --no-deps -r lambda-requirements.txt --target dist
           cp -r api.py app.py openapi library dist/
           cd dist
           zip -r deployment-package.zip .
@@ -103,8 +106,8 @@ jobs:
   api-deploy:
     runs-on: ubuntu-latest
     needs:
-      - api-test
-      - api-build
+      - test
+      - build
     steps:
       - uses: actions/checkout@v2
       - name: set up node
@@ -118,7 +121,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: infrastructure/node_modules
-          key: ${{ runner.os }}-infrastructure-${{ env.cache-name }}-${{ hashFiles('**/infrastructure/package-lock.json') }}
+          key: ${{ runner.os }}-infrastructure-${{ env.cache-name }}-${{ hashFiles('infrastructure/package-lock.json') }}
       - name: install dependencies
         if: steps.cache-node_modules.outputs.cache-hit != 'true'
         working-directory: ./infrastructure
@@ -131,7 +134,6 @@ jobs:
       - name: deploy
         working-directory: ./infrastructure
         env:
-          STACK: EditorApiStack
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: "us-east-1"
@@ -144,7 +146,7 @@ jobs:
   production-test:
     runs-on: ubuntu-latest
     needs:
-      - api-deploy
+      - deploy
     steps:
       - uses: actions/checkout@v2
       - name: set up python
@@ -158,11 +160,13 @@ jobs:
       - id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/test/Pipfile.lock') }}
+          path: test/.venv
+          key: ${{ runner.os }}-test-api-${{ hashFiles('test/Pipfile.lock') }}
       - name: install dependencies
         working-directory: ./test
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
           pipenv install --dev
       - name: Run tests
