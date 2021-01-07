@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 pytest = "6.2.0"
 schemathesis = "2.8.4"
-hypothesis = "5.46.0"
+hypothesis = "5.48.0"
 
 [dev-packages]
 black = "*"
