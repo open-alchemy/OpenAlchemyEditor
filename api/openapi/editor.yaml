@@ -21,7 +21,7 @@ paths:
         content:
           text/plain:
             schema:
-              type: string
+              $ref: "#/components/schemas/SpecValue"
       responses:
         200:
           description: The validation result
@@ -41,7 +41,7 @@ paths:
         content:
           text/plain:
             schema:
-              type: string
+              $ref: "#/components/schemas/SpecValue"
       responses:
         200:
           description: The validation result
@@ -61,7 +61,7 @@ paths:
         content:
           text/plain:
             schema:
-              type: string
+              $ref: "#/components/schemas/SpecValue"
       responses:
         200:
           description: The artifacts
@@ -164,6 +164,9 @@ components:
         - path
     SeedValue:
       description: The value of a seed.
+      type: string
+    SpecValue:
+      description: The value of a spec.
       type: string
     ValidationResponseResult:
       description: Whether the spec is valid at the global, model or property level

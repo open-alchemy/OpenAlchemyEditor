@@ -1,161 +1,57 @@
 import axios from 'axios';
 import { from, Observable } from 'rxjs';
 
-import { SpecName, SpecValue, SpecInfo, SpecVersion } from './openapi/models';
+import { SpecValue, ValidationResponse } from './types';
 
 import { SpecError } from './errors';
 import { decodeResponse } from './helpers';
 
-interface ICalculateUrlParams {
-  name: SpecName;
-  version?: SpecVersion;
-}
+export const BASE_URL = 'https://editor.api.openalchemy.io/v1/spec';
 
-function calculateUrl(params: ICalculateUrlParams): string {
-  let url = `https://package.api.openalchemy.io/v1/specs/${params.name}`;
-  if (params.version) {
-    url = `${url}/versions/${params.version}`;
-  }
-  return url;
-}
-
-interface IGetParams {
-  accessToken: string;
-  name: SpecName;
-  version?: SpecVersion;
-}
-
-interface IGetVersionsParams {
-  accessToken: string;
-  name: SpecName;
-}
-
-interface IPutParams {
-  accessToken: string;
-  name: SpecName;
+interface IValidateManagedParams {
   value: SpecValue;
   language: 'JSON' | 'YAML';
-  version?: SpecVersion;
 }
 
-interface IDeleteParams {
-  accessToken: string;
-  name: SpecName;
-}
+// interface IValidateUnManagedParams {
+//   value: SpecValue;
+//   language: 'JSON' | 'YAML';
+// }
 
 export class SpecService {
   /**
-   * Get the value of a spec
+   * Validate a spec
    *
-   * Throws SpecError is something goes wrong whilst loading the spec
+   * Throws SpecError is something goes wrong whilst validating the spec
    *
-   * @param params.accessToken The access token for the package service
-   * @param params.name Display name of the spec
-   * @param params.version (optional) Version for the spec
-   */
-  async get(params: IGetParams): Promise<SpecValue> {
-    const url = calculateUrl(params);
-
-    const response = await axios
-      .get<SpecValue>(url, {
-        headers: { Authorization: `Bearer ${params.accessToken}` },
-      })
-      .catch((error) => {
-        const message = decodeResponse(error.response.data);
-        throw new SpecError(`error whilst loading the spec: ${message}`);
-      });
-    return response.data;
-  }
-
-  get$(params: IGetParams): Observable<SpecValue> {
-    return from(this.get(params));
-  }
-
-  /**
-   * Get the versions of a spec
-   *
-   * Throws SpecError is something goes wrong whilst loading the versions of the spec
-   *
-   * @param params.accessToken The access token for the package service
-   * @param params.name Display name of the spec
-   */
-  async getVersions(params: IGetVersionsParams): Promise<SpecInfo[]> {
-    const response = await axios
-      .get<SpecInfo[]>(
-        `https://package.api.openalchemy.io/v1/specs/${params.name}/versions`,
-        {
-          headers: { Authorization: `Bearer ${params.accessToken}` },
-        }
-      )
-      .catch((error) => {
-        const message = decodeResponse(error.response.data);
-        throw new SpecError(
-          `error whilst loading the versions for the spec: ${message}`
-        );
-      });
-    return response.data;
-  }
-
-  getVersions$(params: IGetVersionsParams): Observable<SpecInfo[]> {
-    return from(this.getVersions(params));
-  }
-
-  /**
-   * Create or update a spec
-   *
-   * Throws SpecError is something goes wrong whilst creating or updating the spec
-   *
-   * @param params.accessToken The access token for the package service
-   * @param params.name Display name of the spec
    * @param params.value The value of the spec
    * @param params.language The language the spec is in
-   * @param params.version (optional) Version for the spec
    */
-  async put(params: IPutParams): Promise<void> {
-    const url = calculateUrl(params);
+  async validateManaged(
+    params: IValidateManagedParams
+  ): Promise<ValidationResponse> {
+    const url = `${BASE_URL}/validate-managed`;
 
-    await axios
-      .put<void>(url, params.value, {
+    const response = await axios
+      .post<ValidationResponse>(url, params.value, {
         headers: {
-          Authorization: `Bearer ${params.accessToken}`,
           'Content-Type': 'text/plain',
           'X-LANGUAGE': params.language,
         },
       })
       .catch((error) => {
+        console.log(error);
         const message = decodeResponse(error.response.data);
         throw new SpecError(
-          `error whilst creating or updating the spec: ${message}`
+          `error whilst validating the managed portion of the spec: ${message}`
         );
       });
-    return;
+    return response.data;
   }
 
-  put$(params: IPutParams): Observable<void> {
-    return from(this.put(params));
-  }
-
-  /**
-   * Delete a spec
-   *
-   * Throws SpecError is something goes wrong whilst deleting the spec
-   *
-   * @param params.accessToken The access token for the package service
-   * @param params.name Display name of the spec
-   */
-  async delete(params: IDeleteParams): Promise<void> {
-    await axios
-      .delete<void>(calculateUrl(params), {
-        headers: { Authorization: `Bearer ${params.accessToken}` },
-      })
-      .catch((error) => {
-        const message = decodeResponse(error.response.data);
-        throw new SpecError(`error whilst deleting the spec: ${message}`);
-      });
-    return;
-  }
-
-  delete$(params: IDeleteParams): Observable<void> {
-    return from(this.delete(params));
+  validateManaged$(
+    params: IValidateManagedParams
+  ): Observable<ValidationResponse> {
+    return from(this.validateManaged(params));
   }
 }

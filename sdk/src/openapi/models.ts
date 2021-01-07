@@ -1,11 +1,16 @@
-import { components } from './package';
+import { components } from './editor';
 
-export type SpecInfo = components['schemas']['SpecInfo'];
-export type SpecName = components['schemas']['SpecName'];
-export type SpecId = components['schemas']['SpecId'];
+export type SeedName = components['schemas']['SeedName'];
+export type SeedNamePath = components['schemas']['SeedNamePath'];
+export type SeedValue = components['schemas']['SeedValue'];
+
 export type SpecValue = components['schemas']['SpecValue'];
-export type SpecVersion = components['schemas']['SpecVersion'];
+export type ValidationResponseResult = components['schemas']['ValidationResponseResult'];
+export type ValidationResponseProperty = components['schemas']['ValidationResponseProperty'];
+export type ValidationResponseModel = components['schemas']['ValidationResponseModel'];
+export type ValidationResponse = components['schemas']['ValidationResponse'];
 
-export type PublicKey = components['schemas']['PublicKey'];
-export type SecretKey = components['schemas']['SecretKey'];
-export type Credentials = components['schemas']['Credentials'];
+export type ArtifactResponseProperty = components['schemas']['ArtifactResponseProperty'];
+export type ArtifactResponseModel = components['schemas']['ArtifactResponseModel'];
+export type ArtifactResponseModels = components['schemas']['ArtifactResponse'];
+export type ArtifactResponse = components['schemas']['ArtifactResponse'];
