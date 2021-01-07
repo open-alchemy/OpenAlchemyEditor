@@ -31,7 +31,8 @@
     "boto",
     "jmespath",
     "dateutil",
-    "pylint"
+    "pylint",
+    "Andersson"
   ],
   "dictionaries": [
     "python",
