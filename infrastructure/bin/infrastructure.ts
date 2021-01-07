@@ -8,17 +8,17 @@ import { WebStack } from '../lib/web-stack';
 import { ENVIRONMENT } from '../lib/environment';
 
 const env = {
-  account: ENVIRONMENT.AWS_ACCOUNT,
-  region: ENVIRONMENT.AWS_DEFAULT_REGION,
+  account: ENVIRONMENT.awsAccount,
+  region: ENVIRONMENT.awsDefaultRegion,
 };
 
 const app = new cdk.App();
-if (ENVIRONMENT.STACK === 'EditorApiStack') {
+if (ENVIRONMENT.stack === 'EditorApiStack') {
   new ApiStack(app, 'EditorApiStack', { env });
 }
-if (ENVIRONMENT.STACK === 'IdentityStack') {
+if (ENVIRONMENT.stack === 'IdentityStack') {
   new IdentityStack(app, 'IdentityStack', { env });
 }
-if (ENVIRONMENT.STACK === 'EditorWebStack') {
+if (ENVIRONMENT.stack === 'EditorWebStack') {
   new WebStack(app, 'EditorWebStack', { env });
 }

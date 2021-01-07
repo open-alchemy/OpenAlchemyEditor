@@ -55,7 +55,7 @@ export class ApiStack extends cdk.Stack {
     });
 
     // Certificate
-    const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN;
+    const certificateArn = ENVIRONMENT.awsOpenAlchemyCertificateArn;
     const certificate = certificatemanager.Certificate.fromCertificateArn(
       this,
       'Certificate',

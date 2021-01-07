@@ -3,55 +3,67 @@ import * as assert from 'assert';
 const STACK_KEY = 'STACK';
 const AWS_ACCOUNT_KEY = 'AWS_ACCOUNT';
 const AWS_DEFAULT_REGION_KEY = 'AWS_DEFAULT_REGION';
-const AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY =
-  'AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN';
 const AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY = 'AWS_OPEN_ALCHEMY_CERTIFICATE_ARN';
+const ALARM_EMAIL_ADDRESS_KEY = 'ALARM_EMAIL_ADDRESS';
 
-interface IEnvironment {
-  [STACK_KEY]: string;
-  [AWS_ACCOUNT_KEY]: string;
-  [AWS_DEFAULT_REGION_KEY]: string;
-  [AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY]: string;
-  [AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY]: string;
+type IStack = string;
+type IAwsAccount = string;
+type IAwsDefaultRegion = string;
+type IAwsOpenAlchemyCertificateArn = string;
+type IAlarmEmailAddress = string;
+
+class Environment {
+  private _stack: IStack | null = null;
+  private _awsAccount: IAwsAccount | null = null;
+  private _awsDefaultRegion: IAwsDefaultRegion | null = null;
+  private _awsOpenAlchemyCertificateArn: IAwsOpenAlchemyCertificateArn | null = null;
+  private _alarmEmailAddress: IAlarmEmailAddress | null = null;
+
+  private getValue(value: string | null, envKey: string): string {
+    if (value === null) {
+      const envValue = process.env[envKey];
+      assert.ok(
+        typeof envValue === 'string',
+        `${STACK_KEY} missing or not a string`
+      );
+      value = envValue;
+    }
+    return value;
+  }
+
+  get stack(): IStack {
+    this._stack = this.getValue(this._stack, STACK_KEY);
+    return this._stack;
+  }
+
+  get awsAccount(): IAwsAccount {
+    this._awsAccount = this.getValue(this._awsAccount, AWS_ACCOUNT_KEY);
+    return this._awsAccount;
+  }
+
+  get awsDefaultRegion(): IAwsDefaultRegion {
+    this._awsDefaultRegion = this.getValue(
+      this._awsDefaultRegion,
+      AWS_DEFAULT_REGION_KEY
+    );
+    return this._awsDefaultRegion;
+  }
+
+  get awsOpenAlchemyCertificateArn(): IAwsOpenAlchemyCertificateArn {
+    this._awsOpenAlchemyCertificateArn = this.getValue(
+      this._awsOpenAlchemyCertificateArn,
+      AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY
+    );
+    return this._awsOpenAlchemyCertificateArn;
+  }
+
+  get alarmEmailAddress(): IAlarmEmailAddress {
+    this._alarmEmailAddress = this.getValue(
+      this._alarmEmailAddress,
+      ALARM_EMAIL_ADDRESS_KEY
+    );
+    return this._alarmEmailAddress;
+  }
 }
 
-function getEnvironment(): IEnvironment {
-  const stack = process.env[STACK_KEY];
-  assert.ok(typeof stack === 'string', `${STACK_KEY} missing or not a string`);
-
-  const awsAccount = process.env[AWS_ACCOUNT_KEY];
-  assert.ok(
-    typeof awsAccount === 'string',
-    `${AWS_ACCOUNT_KEY} missing or not a string`
-  );
-
-  const awsDefaultRegion = process.env[AWS_DEFAULT_REGION_KEY];
-  assert.ok(
-    typeof awsDefaultRegion === 'string',
-    `${AWS_DEFAULT_REGION_KEY} missing or not a string`
-  );
-
-  const awsOpenAlchemyApiCertificateArn =
-    process.env[AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY];
-  assert.ok(
-    typeof awsOpenAlchemyApiCertificateArn === 'string',
-    `${AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY} missing or not a string`
-  );
-
-  const awsOpenAlchemyCertificateArn =
-    process.env[AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY];
-  assert.ok(
-    typeof awsOpenAlchemyCertificateArn === 'string',
-    `${AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY} missing or not a string`
-  );
-
-  return {
-    [STACK_KEY]: stack,
-    [AWS_ACCOUNT_KEY]: awsAccount,
-    [AWS_DEFAULT_REGION_KEY]: awsDefaultRegion,
-    [AWS_OPEN_ALCHEMY_API_CERTIFICATE_ARN_KEY]: awsOpenAlchemyApiCertificateArn,
-    [AWS_OPEN_ALCHEMY_CERTIFICATE_ARN_KEY]: awsOpenAlchemyCertificateArn,
-  };
-}
-
-export const ENVIRONMENT = getEnvironment();
+export const ENVIRONMENT = new Environment();

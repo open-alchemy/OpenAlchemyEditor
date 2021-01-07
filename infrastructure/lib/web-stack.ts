@@ -25,7 +25,7 @@ export class WebStack extends cdk.Stack {
     });
 
     // Certificate
-    const certificateArn = ENVIRONMENT.AWS_OPEN_ALCHEMY_CERTIFICATE_ARN;
+    const certificateArn = ENVIRONMENT.awsOpenAlchemyCertificateArn;
     const certificate = certificatemanager.Certificate.fromCertificateArn(
       this,
       'Certificate',
