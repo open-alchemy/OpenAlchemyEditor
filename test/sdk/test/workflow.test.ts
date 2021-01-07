@@ -96,7 +96,7 @@ describe('calculate artifacts of a spec', () => {
   }[]).forEach(({ description, expectation, value, language }) => {
     describe(description, () => {
       test(expectation, async () => {
-        const result = await service.calculate({ value, language });
+        let result = await service.calculate({ value, language });
         expect(result.models).toBeTruthy();
       });
     });
@@ -114,6 +114,18 @@ describe('retrieve seeds', () => {
     test('should retrieve the default seed', async () => {
       const defaultSeed = await service.getDefault();
       expect(defaultSeed).toBeTruthy();
+    });
+  });
+
+  describe('seeds', () => {
+    test('should retrieve all available seeds', async () => {
+      const seeds = await service.list();
+      expect(seeds).toBeTruthy();
+      expect(seeds.length).toBeTruthy();
+      for (let seed of seeds.slice(0, 5)) {
+        const seedValue = await service.get({ path: seed.path });
+        expect(seedValue).toBeTruthy();
+      }
     });
   });
 });
