@@ -32,7 +32,7 @@ def list_() -> typing.List[_TSeedNamePath]:
     )
 
 
-def get(seed_id: seed.types.TSeedName) -> flask.Response:
+def get(seed_path: seed.types.TSeedName) -> flask.Response:
     """
     Get the value of a seed.
 
@@ -40,7 +40,7 @@ def get(seed_id: seed.types.TSeedName) -> flask.Response:
         The seed value or a 404.
 
     """
-    seed_name = parse.unquote_plus(seed_id)
+    seed_name = parse.unquote_plus(seed_path)
 
     try:
         return flask.Response(
@@ -48,5 +48,5 @@ def get(seed_id: seed.types.TSeedName) -> flask.Response:
         )
     except seed.exceptions.SeedNotFoundError as exc:
         return flask.Response(
-            str(exc).replace(seed_name, seed_id), status=404, mimetype="text/plain"
+            str(exc).replace(seed_name, seed_path), status=404, mimetype="text/plain"
         )

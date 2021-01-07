@@ -116,10 +116,10 @@ def test_seeds_get(client, single_seed):
     )
 
 
-def test_seeds_seed_id_get(client, single_seed):
+def test_seeds_seed_path_get(client, single_seed):
     """
     GIVEN single seed is set
-    WHEN GET /v1/seeds/{seed_id} is called
+    WHEN GET /v1/seeds/{seed_path} is called
     THEN the seed value is returned.
     """
     name, value = single_seed
@@ -130,10 +130,10 @@ def test_seeds_seed_id_get(client, single_seed):
     assert respose.data.decode() == value
 
 
-def test_seeds_seed_id_get_nested(client, single_nested_seed):
+def test_seeds_seed_path_get_nested(client, single_nested_seed):
     """
     GIVEN single seed is set
-    WHEN GET /v1/seeds/{seed_id} is called
+    WHEN GET /v1/seeds/{seed_path} is called
     THEN the seed value is returned.
     """
     name, value = single_nested_seed

@@ -18,3 +18,10 @@ export class ArtifactError extends BaseError {
     this.name = 'ArtifactError';
   }
 }
+
+export class SeedError extends BaseError {
+  constructor(message: string) {
+    super(message);
+    this.name = 'SeedError';
+  }
+}

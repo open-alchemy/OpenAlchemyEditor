@@ -1,7 +1,8 @@
 import { components } from './editor';
 
 export type SeedName = components['schemas']['SeedName'];
-export type SeedNamePath = components['schemas']['SeedNamePath'];
+export type SeedPath = components['schemas']['SeedPath'];
+export type Seed = components['schemas']['Seed'];
 export type SeedValue = components['schemas']['SeedValue'];
 
 export type SpecValue = components['schemas']['SpecValue'];

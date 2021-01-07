@@ -1,6 +1,7 @@
 export {
   SeedName,
-  SeedNamePath,
+  SeedPath,
+  Seed,
   SeedValue,
   SpecValue,
   ValidationResponseResult,

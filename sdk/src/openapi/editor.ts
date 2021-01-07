@@ -19,7 +19,7 @@ export interface paths {
   '/seeds': {
     get: operations['library.seeds.list_'];
   };
-  '/seeds/{seed_id}': {
+  '/seeds/{seed_path}': {
     get: operations['library.seeds.get'];
   };
 }
@@ -107,7 +107,7 @@ export interface operations {
        * All available seeds
        */
       '200': {
-        'application/json': components['schemas']['SeedNamePath'][];
+        'application/json': components['schemas']['Seed'][];
       };
     };
   };
@@ -117,7 +117,7 @@ export interface operations {
         /**
          * The id of the seed, must be URL encoded
          */
-        seed_id: components['schemas']['SeedName'];
+        seed_path: components['schemas']['SeedPath'];
       };
     };
     responses: {
@@ -151,14 +151,15 @@ export interface components {
      */
     SeedName: string;
     /**
-     * The seed name and path
+     * The path to a seed.
      */
-    SeedNamePath: {
+    SeedPath: string;
+    /**
+     * Information about a seed
+     */
+    Seed: {
       name: components['schemas']['SeedName'];
-      /**
-       * The path to use to retrieve the seed
-       */
-      path: string;
+      path: components['schemas']['SeedPath'];
     };
     /**
      * The value of a seed.

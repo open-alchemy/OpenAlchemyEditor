@@ -104,16 +104,16 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/SeedNamePath"
-  /seeds/{seed_id}:
+                  $ref: "#/components/schemas/Seed"
+  /seeds/{seed_path}:
     get:
       summary: Get the value of a seed
       operationId: library.seeds.get
       parameters:
         - in: path
-          name: seed_id
+          name: seed_path
           schema:
-            $ref: "#/components/schemas/SeedName"
+            $ref: "#/components/schemas/SeedPath"
           required: true
           description: The id of the seed, must be URL encoded
       responses:
@@ -149,16 +149,18 @@ components:
     SeedName:
       description: The name of a seed.
       type: string
+    SeedPath:
+      description: The path to a seed.
+      type: string
       format: path
-    SeedNamePath:
-      description: The seed name and path
+    Seed:
+      description: Information about a seed
       type: object
       properties:
         name:
           $ref: "#/components/schemas/SeedName"
         path:
-          description: The path to use to retrieve the seed
-          type: string
+          $ref: "#/components/schemas/SeedPath"
       required:
         - name
         - path
