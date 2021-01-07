@@ -1,4 +1,4 @@
-name: Periodic Production Tests for the OpenAlchemy Editor
+name: API Periodic Production Tests
 
 on:
   schedule:
@@ -30,6 +30,6 @@ jobs:
         run: |
           pipenv install --dev
       - name: Run tests
-        working-directory: ./test
+        working-directory: ./test/api
         run: |
           pipenv run test
