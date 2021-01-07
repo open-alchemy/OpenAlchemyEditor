@@ -1,6 +1,17 @@
-# OpenAlchemyEditor
+# OpenAlchemy Package
 
-Web editor for OpenAlchemy OpenAPI specifications
+Offers a web editor for OpenAlchemy OpenAPI specifications available here:
+<https://editor.openalchemy.io>.
+
+This service is based on the OpenAlchemy package you can find out more about
+here: <https://github.com/jdkandersson/OpenAlchemy>
+
+## Terms of Service
+
+The Australian company Open Alchemy Pty Ltd owns and operates this service.
+
+By using this service, you agree to the terms available here:
+[https://github.com/open-alchemy/Package/blob/main/TERMS.md](https://github.com/open-alchemy/Package/blob/main/TERMS.md).
 
 ## API
 
