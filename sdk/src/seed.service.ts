@@ -39,10 +39,10 @@ export class SeedService {
    *
    * Throws SeedError is something goes wrong whilst retrieving the available seeds
    */
-  async list(): Promise<Seed> {
+  async list(): Promise<Seed[]> {
     const url = `${BASE_URL}/seeds`;
 
-    const response = await axios.get<Seed>(url).catch((error) => {
+    const response = await axios.get<Seed[]>(url).catch((error) => {
       const message = decodeResponse(error.response.data);
       throw new SeedError(
         `error whilst retrieving the available seeds: ${message}`
@@ -51,7 +51,7 @@ export class SeedService {
     return response.data;
   }
 
-  list$(): Observable<Seed> {
+  list$(): Observable<Seed[]> {
     return from(this.list());
   }
 

@@ -1,67 +1,54 @@
-# OpenAlchemy Package SDK
+# OpenAlchemy Editor SDK
 
-An SDK for interacting with the OpenAlchemy package service.
+An SDK for interacting with the OpenAlchemy editor service.
 
 For API based interactions check here:
-<https://package.api.openalchemy.io/v1/ui/>
+<https://editor.api.openalchemy.io/v1/ui/>
 
 ## Getting Started
 
-To list all available specs:
+To validate a spec:
 
 ```typescript
-import { SpecsService } from '@open-alchemy/package-sdk';
+import { SpecService } from '@open-alchemy/editor-sdk';
 
 const service = new SpecsService();
-const allSpecs = await service.list({ accessToken });
-```
-
-To interact with a particular spec:
-
-```typescript
-import { SpecService } from '@open-alchemy/package-sdk';
-
-const service = new SpecService();
-// Get the value of a spec
-const employeeSpec = await service.get({ accessToken, id: 'employee' });
-// Get the value of a particular version of a spec
-const employeeSpec = await service.get({
-  accessToken,
-  id: 'employee',
-  version: 'version 1',
+// Validate the managed portion of a spec
+const result = await service.validateManaged({
+  value: '<an OpenAlchemy OpenAPI Spec in YAML>',
+  language: 'YAML',
 });
-// Create or update a spec
-await service.put({
-  accessToken,
-  id: 'employee',
-  specValue: '<an OpenAlchemy OpenAPI Spec>',
-});
-// Create or update specific version of a spec
-await service.put({
-  accessToken,
-  id: 'employee',
-  specValue: '<an OpenAlchemy OpenAPI Spec>',
-  version: 'version 1',
-});
-// Delete a spec
-await service.delete({ accessToken, id: 'employee' });
-// List the versions of a spec
-const specVersions = await service.getVersions({
-  accessToken,
-  id: 'employee',
+// Validate the un managed portion of a spec
+const result = await service.validateManaged({
+  value: '<an OpenAlchemy OpenAPI Spec in JSON>',
+  language: 'JSON',
 });
 ```
 
-To retrieve credentials:
+To calculate the artifacts of spec:
 
 ```typescript
-import { CredentialsService } from '@open-alchemy/package-sdk';
+import { ArtifactService } from '@open-alchemy/editor-sdk';
 
-const service = new CredentialsService();
-// Get the value of credentials
-const employeeSpec = await service.get({ accessToken });
-// Delete credentials
-await service.delete({ accessToken });
+const service = new ArtifactService();
+const artifacts = await service.calculate({
+  value: '<an OpenAlchemy OpenAPI Spec in YAML>',
+  language: 'YAML',
+});
+```
+
+To retrieve seeds:
+
+```typescript
+import { SeedService } from '@open-alchemy/editor-sdk';
+
+const service = new SeedService();
+// To retrieve the default seed
+const defaultSeed = await service.getDefault();
+// To retrieve all available seed
+const availableSeeds = await service.list();
+// To retrieve a particular seed
+const seed = await service.get({ path: availableSeeds[0].path });
 ```
 
 ## CI-CD
