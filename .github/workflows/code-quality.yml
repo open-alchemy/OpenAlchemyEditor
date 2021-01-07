@@ -1,6 +1,9 @@
 name: General code quality checks
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - master
