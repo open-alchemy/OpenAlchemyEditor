@@ -1,0 +1,25 @@
+name: SDK Periodic Production Tests
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up node
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.x
+      - name: install dependencies
+        working-directory: ./test/sdk/
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: |
+          npm install
+      - name: Run tests
+        working-directory: ./test/sdk/
+        run: |
+          npm run test
