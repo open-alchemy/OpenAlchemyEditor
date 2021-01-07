@@ -32,7 +32,7 @@
     "aws-amplify": "^3.2.0",
     "ngx-ace-wrapper": "^10.0.1",
     "rxjs": "~6.6.3",
-    "tslib": "^2.0.0",
+    "tslib": "^2.1.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
