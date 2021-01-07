@@ -9,22 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
+      - name: set up python
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install pipenv
+      - name: install pipenv
         run: |
           python -m pip install --upgrade pip
           pip install pipenv
       - id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/test/Pipfile.lock') }}
-      - name: Install dependencies
-        working-directory: ./test
+          path: test/api/.venv
+          key: ${{ runner.os }}-test-api-${{ hashFiles('test/api/Pipfile.lock') }}
+      - name: install dependencies
+        working-directory: ./test/api
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
           pipenv install --dev
       - name: Run tests

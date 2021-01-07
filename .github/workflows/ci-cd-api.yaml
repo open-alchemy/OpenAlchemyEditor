@@ -160,10 +160,10 @@ jobs:
       - id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: test/.venv
-          key: ${{ runner.os }}-test-api-${{ hashFiles('test/Pipfile.lock') }}
+          path: test/api/.venv
+          key: ${{ runner.os }}-test-api-${{ hashFiles('test/api/Pipfile.lock') }}
       - name: install dependencies
-        working-directory: ./test
+        working-directory: ./test/api
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         env:
           PIPENV_VENV_IN_PROJECT: 1
