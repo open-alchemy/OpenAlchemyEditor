@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
+import { Router, NavigationStart } from '@angular/router';
+import { of, Observable } from 'rxjs';
+import { map, filter, catchError, switchMap, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SeedService } from '@open-alchemy/editor-sdk';
@@ -23,5 +24,16 @@ export class EditorEffects {
     )
   );
 
-  constructor(private actions$: Actions, private seedService: SeedService) {}
+  constructor(
+    private actions$: Actions,
+    private seedService: SeedService,
+    private router: Router
+  ) {}
+
+  currentUrl$(): Observable<string> {
+    return this.router.events.pipe(
+      filter<NavigationStart>((event) => event instanceof NavigationStart),
+      map((event) => event.url)
+    );
+  }
 }

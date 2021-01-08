@@ -1,4 +1,11 @@
-import { Observable } from 'rxjs';
+import {
+  Router,
+  RouterEvent,
+  NavigationStart,
+  NavigationEnd,
+} from '@angular/router';
+
+import { Observable, EMPTY } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { Action } from '@ngrx/store';
@@ -13,10 +20,12 @@ describe('PackageEffects', () => {
   let actions$: Observable<Action>;
   let effects: EditorEffects;
   let seedServiceSpy: jasmine.SpyObj<SeedService>;
+  let routerSpy: jasmine.SpyObj<Router>;
   let testScheduler: TestScheduler;
 
   beforeEach(() => {
     seedServiceSpy = jasmine.createSpyObj('SeedService', ['list$']);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
@@ -150,7 +159,7 @@ describe('PackageEffects', () => {
               );
 
               // WHEN seedsGet$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy);
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
               const returnedActions = effects.seedsGet$;
 
               // THEN the expected actions are returned
@@ -166,6 +175,89 @@ describe('PackageEffects', () => {
             if (seedServiceListReturnValues.length > 0) {
               expect(seedServiceSpy.list$).toHaveBeenCalledWith();
             }
+          });
+        });
+      }
+    );
+  });
+
+  describe('currentUrl$', () => {
+    ([
+      {
+        description: 'no event',
+        expectation: 'return empty urls$',
+        routerEventsMarbles: '',
+        routerEventsValues: {},
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single event different',
+        expectation: 'return empty urls$',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationEnd(1, 'url 1', 'url after redirect 1'),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single event hit',
+        expectation: 'return single url in urls$',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationStart(1, 'url 1'),
+        },
+        expectedMarbles: 'a',
+        expectedValues: { a: 'url 1' },
+      },
+      {
+        description: 'multiple event hit',
+        expectation: 'return multiple urls in urls$',
+        routerEventsMarbles: 'ab',
+        routerEventsValues: {
+          a: new NavigationStart(1, 'url 1'),
+          b: new NavigationStart(1, 'url 2'),
+        },
+        expectedMarbles: 'ab',
+        expectedValues: { a: 'url 1', b: 'url 2' },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      routerEventsMarbles: string;
+      routerEventsValues: { [key: string]: RouterEvent };
+      expectedMarbles: string;
+      expectedValues: { [key: string]: string };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        routerEventsMarbles,
+        routerEventsValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN router with events
+              const events$ = helpers.cold(
+                routerEventsMarbles,
+                routerEventsValues
+              );
+              (routerSpy as any).events = events$;
+
+              // WHEN currentUrl$ is called
+              actions$ = EMPTY;
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedUrls$ = effects.currentUrl$();
+
+              // THEN the expected urls are returned
+              helpers
+                .expectObservable(returnedUrls$)
+                .toBe(expectedMarbles, expectedValues);
+            });
           });
         });
       }
