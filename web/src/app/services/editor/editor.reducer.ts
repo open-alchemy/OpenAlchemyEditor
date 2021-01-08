@@ -44,14 +44,14 @@ const editorReducerValue = createReducer(
     ...state,
     seed: {
       ...state.seed,
-      available: { values: null, success: false, loading: true },
+      available: { values: null, success: null, loading: true },
     },
   })),
   on(EditorActions.editorComponentOnInit, (state) => ({
     ...state,
     seed: {
       ...state.seed,
-      current: { value: null, success: false, loading: true },
+      current: { value: null, success: null, loading: true },
     },
   })),
   on(EditorActions.seedComponentSelectChange, (state, action) => ({
@@ -124,3 +124,7 @@ const editorReducerValue = createReducer(
     error: { ...state.error, message: action.message },
   }))
 );
+
+export function editorReducer(state: EditorState | undefined, action: Action) {
+  return editorReducerValue(state, action);
+}
