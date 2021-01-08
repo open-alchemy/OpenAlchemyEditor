@@ -3,7 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import {
   Seed,
   SeedValue,
-  SeedName,
+  SeedPath,
   SpecValue,
   Error,
   ValidationResponse,
@@ -19,16 +19,12 @@ export const editorComponentValueChange = createAction(
 export const seedComponentOnInit = createAction('[seed component] on init');
 export const seedComponentSelectChange = createAction(
   '[seed component] select change',
-  props<{ seed: Seed }>()
+  props<{ path: SeedPath }>()
 );
 
 export const routerNavigationStartExampleId = createAction(
   '[router] navigation start example/:id',
-  props<{ name: SeedName }>()
-);
-export const routerNavigationStartExampleIdSeedSelectChange = createAction(
-  '[router] navigation start example/:id seed select change',
-  props<{ seed: Seed }>()
+  props<{ path: SeedPath }>()
 );
 
 export const localStorageSeedLoaded = createAction(
@@ -89,3 +85,25 @@ export const editorApiSeedsSeedGetError = createAction(
   '[editor API] /seeds/{seed_path} GET error',
   props<Error>()
 );
+
+export type Actions =
+  | ReturnType<typeof editorComponentOnInit>
+  | ReturnType<typeof editorComponentValueChange>
+  | ReturnType<typeof seedComponentOnInit>
+  | ReturnType<typeof seedComponentSelectChange>
+  | ReturnType<typeof routerNavigationStartExampleId>
+  | ReturnType<typeof localStorageSeedLoaded>
+  | ReturnType<typeof localStorageSeedNotFound>
+  | ReturnType<typeof editorApiSpecValidateManagedSuccess>
+  | ReturnType<typeof editorApiSpecValidateManagedError>
+  | ReturnType<typeof editorApiSpecValidateUnManagedSuccess>
+  | ReturnType<typeof editorApiSpecValidateUnManagedError>
+  | ReturnType<typeof editorApiArtifactCalculateSuccess>
+  | ReturnType<typeof editorApiArtifactCalculateError>
+  | ReturnType<typeof editorApiSeedGetSuccess>
+  | ReturnType<typeof editorApiSeedGetError>
+  | ReturnType<typeof editorApiSeedsGetSuccess>
+  | ReturnType<typeof editorApiSeedsGetError>
+  | ReturnType<typeof editorApiSeedsSeedGetSuccess>
+  | ReturnType<typeof editorApiSeedsSeedGetError>
+  | ReturnType<typeof editorApiSeedsSeedGetError>;

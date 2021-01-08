@@ -3,6 +3,7 @@
 import typing
 
 TSeedName = str
+TSeedPath = str
 TSeedNames = typing.List[TSeedName]
 TSeedValue = str
 

@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { SeedValue, Seed, Error } from './types';
+import { SeedValue, Seed, SeedPath, Error } from './types';
 import * as EditorActions from './editor.actions';
 
 export interface EditorSeedState {
@@ -9,7 +9,7 @@ export interface EditorSeedState {
     success: boolean | null;
     loading: boolean;
   };
-  selected: Seed | null;
+  selected: SeedPath | null;
   available: {
     values: Seed[] | null;
     success: boolean | null;
@@ -58,19 +58,16 @@ const editorReducerValue = createReducer(
     ...state,
     seed: {
       ...state.seed,
-      selected: { ...action.seed },
+      selected: action.path,
     },
   })),
-  on(
-    EditorActions.routerNavigationStartExampleIdSeedSelectChange,
-    (state, action) => ({
-      ...state,
-      seed: {
-        ...state.seed,
-        selected: { ...action.seed },
-      },
-    })
-  ),
+  on(EditorActions.routerNavigationStartExampleId, (state, action) => ({
+    ...state,
+    seed: {
+      ...state.seed,
+      selected: action.path,
+    },
+  })),
   on(EditorActions.localStorageSeedLoaded, (state, action) => ({
     ...state,
     seed: {

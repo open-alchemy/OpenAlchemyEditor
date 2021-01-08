@@ -5,10 +5,11 @@ import {
   NavigationEnd,
 } from '@angular/router';
 
-import { Observable, EMPTY } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { Action } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
 import { SeedService, SeedError } from '@open-alchemy/editor-sdk';
 
 import { EditorEffects, SEED_KEY } from './editor.effects';
@@ -17,14 +18,18 @@ import { SEED_1, SEED_2 } from './fixtures';
 import { Seed } from './types';
 
 describe('PackageEffects', () => {
-  let actions$: Observable<Action>;
+  let actions$: Actions<EditorActions.Actions>;
   let effects: EditorEffects;
   let seedServiceSpy: jasmine.SpyObj<SeedService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let testScheduler: TestScheduler;
 
   beforeEach(() => {
-    seedServiceSpy = jasmine.createSpyObj('SeedService', ['list$']);
+    seedServiceSpy = jasmine.createSpyObj('SeedService', [
+      'list$',
+      'getDefault$',
+      'get$',
+    ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     (routerSpy as any).events = EMPTY;
     actions$ = EMPTY;
@@ -158,8 +163,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues);
-              // AND seedService list that returns values
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
                   helpers.cold(marbles, values, new SeedError('message 1'))
@@ -348,7 +355,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues);
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -369,6 +378,335 @@ describe('PackageEffects', () => {
                 .expectObservable(returnedActions)
                 .toBe(expectedMarbles, expectedValues);
             });
+          });
+        });
+      }
+    );
+  });
+
+  describe('seedGet$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        seedServiceGetDefaultReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        seedServiceGetDefaultReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single local storage seed not found action actions getDefault$ returns default seed',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: { a: EditorActions.localStorageSeedNotFound() },
+        seedServiceGetDefaultReturnValues: [
+          { marbles: '-b|', values: { b: 'value 1' } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSeedGetSuccess({
+            value: 'value 1',
+          }),
+        },
+      },
+      {
+        description:
+          'single local storage seed not found action actions getDefault$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: { a: EditorActions.localStorageSeedNotFound() },
+        seedServiceGetDefaultReturnValues: [{ marbles: '-#|' }],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+      },
+      {
+        description:
+          'multiple local storage seed not found action actions getDefault$ returns default seed before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.localStorageSeedNotFound(),
+          d: EditorActions.localStorageSeedNotFound(),
+        },
+        seedServiceGetDefaultReturnValues: [
+          { marbles: '-b|', values: { b: 'value 1' } },
+          { marbles: '-e|', values: { e: 'value 2' } },
+        ],
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.editorApiSeedGetSuccess({
+            value: 'value 1',
+          }),
+          e: EditorActions.editorApiSeedGetSuccess({
+            value: 'value 2',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple local storage seed not found action actions getDefault$ returns default seed after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.localStorageSeedNotFound(),
+          d: EditorActions.localStorageSeedNotFound(),
+        },
+        seedServiceGetDefaultReturnValues: [
+          { marbles: '----e|', values: { e: 'value 1' } },
+          { marbles: '-e|', values: { e: 'value 2' } },
+        ],
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.editorApiSeedGetSuccess({
+            value: 'value 2',
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      seedServiceGetDefaultReturnValues: {
+        marbles: string;
+        values: { [key: string]: string };
+      }[];
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        seedServiceGetDefaultReturnValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND seedService getDefault$ that returns values
+              seedServiceSpy.getDefault$.and.returnValues(
+                ...seedServiceGetDefaultReturnValues.map(
+                  ({ marbles, values }) =>
+                    helpers.cold(marbles, values, new SeedError('message 1'))
+                )
+              );
+
+              // WHEN seedGet$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.seedGet$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService getDefault$ has been called
+            expect(seedServiceSpy.getDefault$).toHaveBeenCalledTimes(
+              seedServiceGetDefaultReturnValues.length
+            );
+            if (seedServiceGetDefaultReturnValues.length > 0) {
+              expect(seedServiceSpy.getDefault$).toHaveBeenCalledWith();
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('seedsSeedGet$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        seedServiceGetReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        seedServiceGetReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single seed component select change action actions get$ returns seed',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+        },
+        seedServiceGetReturnValues: [
+          { marbles: '-b|', values: { b: 'value 1' } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSeedsSeedGetSuccess({
+            value: 'value 1',
+          }),
+        },
+      },
+      {
+        description:
+          'single router navigation start example id action actions get$ returns seed',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.routerNavigationStartExampleId({
+            path: encodeURIComponent('path 1'),
+          }),
+        },
+        seedServiceGetReturnValues: [
+          { marbles: '-b|', values: { b: 'value 1' } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSeedsSeedGetSuccess({
+            value: 'value 1',
+          }),
+        },
+      },
+      {
+        description:
+          'single seed component select change action actions get$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+        },
+        seedServiceGetReturnValues: [{ marbles: '-#|' }],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSeedsSeedGetError({ message: 'message 1' }),
+        },
+      },
+      {
+        description:
+          'multiple seed component select change action actions get$ returns seed before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+          d: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
+        },
+        seedServiceGetReturnValues: [
+          { marbles: '-b|', values: { b: 'value 1' } },
+          { marbles: '-e|', values: { e: 'value 2' } },
+        ],
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.editorApiSeedsSeedGetSuccess({
+            value: 'value 1',
+          }),
+          e: EditorActions.editorApiSeedsSeedGetSuccess({
+            value: 'value 2',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple seed component select change action actions get$ returns seed after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+          d: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
+        },
+        seedServiceGetReturnValues: [
+          { marbles: '----e|', values: { e: 'value 1' } },
+          { marbles: '-e|', values: { e: 'value 2' } },
+        ],
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.editorApiSeedsSeedGetSuccess({
+            value: 'value 2',
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      seedServiceGetReturnValues: {
+        marbles: string;
+        values: { [key: string]: string };
+      }[];
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        seedServiceGetReturnValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND seedService get$ that returns values
+              seedServiceSpy.get$.and.returnValues(
+                ...seedServiceGetReturnValues.map(({ marbles, values }) =>
+                  helpers.cold(marbles, values, new SeedError('message 1'))
+                )
+              );
+
+              // WHEN seedsSeedGet$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.seedsSeedGet$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService get$ has been called
+            expect(seedServiceSpy.get$).toHaveBeenCalledTimes(
+              seedServiceGetReturnValues.length
+            );
+            if (seedServiceGetReturnValues.length > 0) {
+              expect(seedServiceSpy.get$).toHaveBeenCalledWith({
+                path: 'path 1',
+              });
+            }
           });
         });
       }

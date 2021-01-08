@@ -7,7 +7,6 @@ import {
   catchError,
   switchMap,
   withLatestFrom,
-  startWith,
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -53,8 +52,48 @@ export class EditorEffects {
     )
   );
 
+  seedGet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.localStorageSeedNotFound.type),
+      switchMap(() =>
+        this.seedService.getDefault$().pipe(
+          map((value) => EditorActions.editorApiSeedGetSuccess({ value })),
+          catchError((error) =>
+            of(EditorActions.editorApiSeedGetError({ message: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  seedsSeedGet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EditorActions.seedComponentSelectChange.type,
+        EditorActions.routerNavigationStartExampleId.type
+      ),
+      map((action) =>
+        action.type === EditorActions.seedComponentSelectChange.type
+          ? action.path
+          : decodeURIComponent(action.path)
+      ),
+      switchMap((path) =>
+        this.seedService.get$({ path }).pipe(
+          map((value) => EditorActions.editorApiSeedsSeedGetSuccess({ value })),
+          catchError((error) =>
+            of(
+              EditorActions.editorApiSeedsSeedGetError({
+                message: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
   constructor(
-    private actions$: Actions,
+    private actions$: Actions<EditorActions.Actions>,
     private seedService: SeedService,
     private router: Router
   ) {}

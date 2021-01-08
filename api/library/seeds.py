@@ -32,7 +32,7 @@ def list_() -> typing.List[_TSeedNamePath]:
     )
 
 
-def get(seed_path: seed.types.TSeedName) -> flask.Response:
+def get(seed_path: seed.types.TSeedPath) -> flask.Response:
     """
     Get the value of a seed.
 

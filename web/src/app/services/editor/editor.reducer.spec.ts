@@ -72,15 +72,15 @@ describe('EditorReducer', () => {
         ...editorInitialState,
         seed: {
           ...editorInitialState.seed,
-          selected: { ...SEED_1 },
+          selected: 'path 1',
         },
       },
-      action: EditorActions.seedComponentSelectChange({ seed: { ...SEED_2 } }),
+      action: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {
           ...editorInitialState.seed,
-          selected: { ...SEED_2 },
+          selected: 'path 2',
         },
       },
     },
@@ -92,17 +92,17 @@ describe('EditorReducer', () => {
         ...editorInitialState,
         seed: {
           ...editorInitialState.seed,
-          selected: { ...SEED_1 },
+          selected: 'path 1',
         },
       },
-      action: EditorActions.routerNavigationStartExampleIdSeedSelectChange({
-        seed: { ...SEED_2 },
+      action: EditorActions.routerNavigationStartExampleId({
+        path: 'path 2',
       }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {
           ...editorInitialState.seed,
-          selected: { ...SEED_2 },
+          selected: 'path 2',
         },
       },
     },

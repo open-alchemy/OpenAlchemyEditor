@@ -54,12 +54,12 @@ Events:
 
 - `seedComponentOnInit`: The seed component has started initialization.
 - `seedComponentSelectChange`: The selected seed has changed including the seed
-  that it was changed to.
+  path that it was changed to.
 
 Input:
 
 - `seeds`: All available seeds.
-- `selectedSeed`: The seed that is currently selected.
+- `selectedSeed`: The path of the seed that is currently selected.
 
 #### Results Component
 
@@ -232,7 +232,7 @@ Load the seeds:
 
 Update the seed:
 
-1. Set the `state.seed.available.values` state to the seed in the event.
+1. Set the `state.seed.available.values` state to the seeds in the event.
 
 ##### `editorApiLoadSeedsError`
 
@@ -244,28 +244,34 @@ update the seed:
 
 Change the route:
 
-1. Navigate to `examples/:<seed.path>`.
+1. Navigate to `examples/:<path>`.
 
 ##### `routerNavigationStartExampleId`
 
 Output:
 
-- `routerNavigationStartExampleIdSeedSelectChange`: The selected seed has been
-  changed, includes the selected seed..
 - `editorApiLoadSeedsSeedSuccess`: The seed loaded, includes the value.
 - `editorApiLoadSeedsSeedError`: The seed failed to load, includes the reason
   why it failed.
 
 Update the selected seed:
 
-1. Wait for the `seeds` to have been initialized.
-1. Look up the seed in `seeds` based on the name in the event.
-1. Set the `selectedSeed` in the state to the value in the event.
+1. Set the `state.selected` in the state to the value in the event.
 
 Load the requested seed:
 
-1. Wait for the `seeds` to have been initialized.
-1. Look up the seed in `seeds` based on the name in the event.
 1. Load the requested seed.
 1. If the call succeeds, return the `editorApiLoadSeedsSeedSuccess` event.
 1. If the call fails, return the `editorApiLoadSeedsSeedError` event.
+
+##### `editorApiLoadSeedsSeedSuccess`
+
+Update the seed:
+
+1. Set the `state.seed.current.value` state to the seed in the event.
+
+##### `editorApiLoadSeedsSeedError`
+
+update the seed:
+
+1. Set the `state.error.message` state to the reason.
