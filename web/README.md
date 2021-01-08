@@ -59,7 +59,7 @@ Events:
 Input:
 
 - `seeds`: All available seeds.
-- `selectedSeedPath`: The seed that is currently selected.
+- `selectedSeed`: The seed that is currently selected.
 
 #### Results Component
 
@@ -102,7 +102,7 @@ Attempt to load the seed:
 
 Update the seed:
 
-1. Set the `seed` state to the seed in the event.
+1. Set the `state.seed.current.value` state to the seed in the event.
 
 ##### `localStorageSeedNotFound`
 
@@ -122,13 +122,13 @@ Load the default seed:
 
 Update the seed:
 
-1. Set the `seed` state to the seed in the event.
+1. Set the `state.seed.current.value` state to the seed in the event.
 
 ##### `editorApiSeedGetError`
 
 Notify the user fo the error:
 
-1. Set the `error` state to the reason.
+1. Set the `state.error.message` state to the reason.
 
 ##### `editorComponentValueChange`
 
@@ -150,6 +150,10 @@ Output:
 Update the seed:
 
 1. Set the `seed` key in local storage to the value of the event.
+
+Update the route:
+
+1. Set the url to ``.
 
 Load the managed result:
 
@@ -185,7 +189,7 @@ Update the managed result:
 
 Notify the user fo the error:
 
-1. Set the `error` state to the reason.
+1. Set the `state.error.message` state to the reason.
 
 ##### `editorApiSpecValidateUnManagedSuccess`
 
@@ -197,7 +201,7 @@ Update the un managed result:
 
 Notify the user fo the error:
 
-1. Set the `error` state to the reason.
+1. Set the `state.error.message` state to the reason.
 
 ##### `editorApiArtifactCalculateSuccess`
 
@@ -209,7 +213,7 @@ Update the artifacts:
 
 Notify the user fo the error:
 
-1. Set the `error` state to the reason.
+1. Set the `state.error.message` state to the reason.
 
 ##### `seedComponentOnInit`
 
@@ -228,13 +232,13 @@ Load the seeds:
 
 Update the seed:
 
-1. Set the `seeds` state to the seed in the event.
+1. Set the `state.seed.available.values` state to the seed in the event.
 
 ##### `editorApiLoadSeedsError`
 
 update the seed:
 
-1. Set the `error` state to the reason.
+1. Set the `state.error.message` state to the reason.
 
 ##### `seedComponentSelectChange`
 
@@ -246,6 +250,8 @@ Change the route:
 
 Output:
 
+- `routerNavigationStartExampleIdSeedSelectChange`: The selected seed has been
+  changed, includes the selected seed..
 - `editorApiLoadSeedsSeedSuccess`: The seed loaded, includes the value.
 - `editorApiLoadSeedsSeedError`: The seed failed to load, includes the reason
   why it failed.

@@ -26,6 +26,10 @@ export const routerNavigationStartExampleId = createAction(
   '[router] navigation start example/:id',
   props<{ name: SeedName }>()
 );
+export const routerNavigationStartExampleIdSeedSelectChange = createAction(
+  '[router] navigation start example/:id seed select change',
+  props<{ seed: Seed }>()
+);
 
 export const localStorageSeedLoaded = createAction(
   '[localStorage] seed loaded',
