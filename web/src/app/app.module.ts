@@ -66,10 +66,8 @@ import { CompositeIndexItemComponent } from './components/artifact/composite-ind
 import { CompositeIndexComponent } from './components/artifact/composite-index/composite-index/composite-index.component';
 import { CompositeUniqueItemComponent } from './components/artifact/composite-unique/composite-unique-item/composite-unique-item.component';
 import { CompositeUniqueComponent } from './components/artifact/composite-unique/composite-unique/composite-unique.component';
-import { LoginComponent } from './components/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { BaseComponent } from './components/base/base.component';
-import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-complete.component';
 
 @NgModule({
   declarations: [
@@ -126,10 +124,8 @@ import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-c
     CompositeIndexComponent,
     CompositeUniqueItemComponent,
     CompositeUniqueComponent,
-    LoginComponent,
     ErrorComponent,
     BaseComponent,
-    SignInCompleteComponent,
   ],
   imports: [
     BrowserModule,
