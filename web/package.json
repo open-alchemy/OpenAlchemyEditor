@@ -30,6 +30,7 @@
     "@angular/router": "~11.0.2",
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
+    "@open-alchemy/editor-sdk": "^0.1.1",
     "ngx-ace-wrapper": "^11.0.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.1.0",

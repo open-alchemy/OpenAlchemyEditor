@@ -75,9 +75,10 @@ Input:
 
 Events (more information <https://angular.io/api/router/RouterEvent>):
 
-- `routerNavigatedToSeed`: The route has changed to a particular seed, detected
-  based on `NavigationStart` <https://angular.io/api/router/NavigationStart> to
-  urls of the form `example/:id`.
+- `routerNavigationStartExampleId`: The route has changed to a particular seed,
+  detected based on `NavigationStart`
+  <https://angular.io/api/router/NavigationStart> to urls of the form
+  `example/:id`.
 
 #### Reacting to Events
 
@@ -87,7 +88,7 @@ Output:
 
 - `localStorageSeedLoaded`: The seed has been loaded from local storage,
   includes the value of the seed
-- `localStorageEmpty`: There is nothing available in local storage.
+- `localStorageSeedNotFound`: There is nothing available in local storage.
 
 Attempt to load the seed:
 
@@ -95,7 +96,7 @@ Attempt to load the seed:
    because the navigation to that path will seed the editor.
 1. If the `seed` key is available in `localStorage`, return the
    `localStorageSeedLoaded` event.
-1. Return the `localStorageEmpty` event.
+1. Return the `localStorageSeedNotFound` event.
 
 ##### `localStorageSeedLoaded`
 
@@ -103,27 +104,27 @@ Update the seed:
 
 1. Set the `seed` state to the seed in the event.
 
-##### `localStorageEmpty`
+##### `localStorageSeedNotFound`
 
 Output:
 
-- `loadDefaultSeedSuccess`: The default seed has been loaded, includes the
+- `editorApiSeedGetSuccess`: The default seed has been loaded, includes the
   value of the seed
-- `loadDefaultSeedError`: The default seed could not be loaded, includes the
+- `editorApiSeedGetError`: The default seed could not be loaded, includes the
   reason
 
 Load the default seed:
 
-1. If the call succeeds, return the `loadDefaultSeedSuccess` event.
-1. If the call fails, return the `loadDefaultSeedError` event.
+1. If the call succeeds, return the `editorApiSeedGetSuccess` event.
+1. If the call fails, return the `editorApiSeedGetError` event.
 
-##### `loadDefaultSeedSuccess`
+##### `editorApiSeedGetSuccess`
 
 Update the seed:
 
 1. Set the `seed` state to the seed in the event.
 
-##### `loadDefaultSeedError`
+##### `editorApiSeedGetError`
 
 Notify the user fo the error:
 
@@ -241,7 +242,7 @@ Change the route:
 
 1. Navigate to `examples/:<seed.path>`.
 
-##### `routerNavigatedToSeed`
+##### `routerNavigationStartExampleId`
 
 Output:
 
