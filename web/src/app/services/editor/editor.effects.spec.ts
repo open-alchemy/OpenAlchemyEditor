@@ -11,7 +11,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { Action } from '@ngrx/store';
 import { SeedService, SeedError } from '@open-alchemy/editor-sdk';
 
-import { EditorEffects } from './editor.effects';
+import { EditorEffects, SEED_KEY } from './editor.effects';
 import * as EditorActions from './editor.actions';
 import { SEED_1, SEED_2 } from './fixtures';
 import { Seed } from './types';
@@ -26,10 +26,18 @@ describe('PackageEffects', () => {
   beforeEach(() => {
     seedServiceSpy = jasmine.createSpyObj('SeedService', ['list$']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    (routerSpy as any).events = EMPTY;
+    actions$ = EMPTY;
 
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
+
+    localStorage.removeItem(SEED_KEY);
+  });
+
+  afterEach(() => {
+    localStorage.removeItem(SEED_KEY);
   });
 
   describe('seedsGet$', () => {
@@ -56,7 +64,7 @@ describe('PackageEffects', () => {
       },
       {
         description:
-          'single editor component on init action actions list$ returns seeds',
+          'single seed component on init action actions list$ returns seeds',
         expectation: 'should return single success action actions',
         actionsMarbles: 'a',
         actionsValues: { a: EditorActions.seedComponentOnInit() },
@@ -72,7 +80,7 @@ describe('PackageEffects', () => {
       },
       {
         description:
-          'single editor component on init action actions list$ throws error',
+          'single seed component on init action actions list$ throws error',
         expectation: 'should return single error action actions',
         actionsMarbles: 'a',
         actionsValues: { a: EditorActions.seedComponentOnInit() },
@@ -84,7 +92,7 @@ describe('PackageEffects', () => {
       },
       {
         description:
-          'multiple editor component on init action actions list$ returns seeds before next',
+          'multiple seed component on init action actions list$ returns seeds before next',
         expectation: 'should return multiple success action actions',
         actionsMarbles: 'a--d',
         actionsValues: {
@@ -107,7 +115,7 @@ describe('PackageEffects', () => {
       },
       {
         description:
-          'multiple editor component on init action actions list$ returns seeds after next',
+          'multiple seed component on init action actions list$ returns seeds after next',
         expectation: 'should return single success actions',
         actionsMarbles: 'a--d',
         actionsValues: {
@@ -249,13 +257,116 @@ describe('PackageEffects', () => {
               (routerSpy as any).events = events$;
 
               // WHEN currentUrl$ is called
-              actions$ = EMPTY;
               effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
               const returnedUrls$ = effects.currentUrl$();
 
               // THEN the expected urls are returned
               helpers
                 .expectObservable(returnedUrls$)
+                .toBe(expectedMarbles, expectedValues);
+            });
+          });
+        });
+      }
+    );
+  });
+
+  describe('seedLocalStorage$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        routerEventsMarbles: '',
+        routerEventsValues: {},
+        localStorageSeedValue: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single editor component on init action actions router NavigationStart before on init with example url',
+        expectation: 'should return single localStorageEmpty actions',
+        actionsMarbles: '-b',
+        actionsValues: { b: EditorActions.editorComponentOnInit() },
+        routerEventsMarbles: 'a',
+        routerEventsValues: { a: new NavigationStart(1, 'example/') },
+        localStorageSeedValue: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single editor component on init action actions router NavigationStart before on init local storage empty',
+        expectation: 'should return single localStorageEmpty actions',
+        actionsMarbles: '-b',
+        actionsValues: { b: EditorActions.editorComponentOnInit() },
+        routerEventsMarbles: 'a',
+        routerEventsValues: { a: new NavigationStart(1, 'url 1') },
+        localStorageSeedValue: null,
+        expectedMarbles: '-b',
+        expectedValues: { b: EditorActions.localStorageSeedNotFound() },
+      },
+      {
+        description:
+          'single editor component on init action actions router NavigationStart before on init local storage has seed',
+        expectation: 'should return single localStorageEmpty actions',
+        actionsMarbles: '-b',
+        actionsValues: { b: EditorActions.editorComponentOnInit() },
+        routerEventsMarbles: 'a',
+        routerEventsValues: { a: new NavigationStart(1, 'url 1') },
+        localStorageSeedValue: 'value 1',
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.localStorageSeedLoaded({ value: 'value 1' }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      routerEventsMarbles: string;
+      routerEventsValues: { [key: string]: RouterEvent };
+      localStorageSeedValue: string | null;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        routerEventsMarbles,
+        routerEventsValues,
+        localStorageSeedValue,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues);
+              // AND router with events
+              const events$ = helpers.cold(
+                routerEventsMarbles,
+                routerEventsValues
+              );
+              (routerSpy as any).events = events$;
+              // AND localStorage with seed value
+              if (localStorageSeedValue !== null) {
+                localStorage.setItem('seed', localStorageSeedValue);
+              }
+
+              // WHEN seedLocalStorage$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.seedLocalStorage$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
                 .toBe(expectedMarbles, expectedValues);
             });
           });
