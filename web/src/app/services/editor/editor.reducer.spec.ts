@@ -4,16 +4,7 @@ import {
 } from './editor.reducer';
 
 import * as EditorActions from './editor.actions';
-import { Seed } from './types';
-
-const SEED_1: Seed = {
-  name: 'seed 1',
-  path: 'path 1',
-};
-const SEED_2: Seed = {
-  name: 'seed 2',
-  path: 'path 2',
-};
+import { SEED_1, SEED_2 } from './fixtures';
 
 describe('EditorReducer', () => {
   [
