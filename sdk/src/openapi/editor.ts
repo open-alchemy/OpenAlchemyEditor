@@ -201,16 +201,17 @@ export interface components {
       };
     };
     /**
+     * The results for all models, included if the spec is valid at the global level
+     */
+    ValidationResponseModels: {
+      [key: string]: components['schemas']['ValidationResponseModel'];
+    };
+    /**
      * The validation results for the spec
      */
     ValidationResponse: {
       result: components['schemas']['ValidationResponseResult'];
-      /**
-       * The results for all models, included if the spec is valid at the global level
-       */
-      models?: {
-        [key: string]: components['schemas']['ValidationResponseModel'];
-      };
+      models?: components['schemas']['ValidationResponseModels'];
     };
     /**
      * Keyword arguments

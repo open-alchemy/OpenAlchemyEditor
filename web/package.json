@@ -31,7 +31,7 @@
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
     "@ngrx/store-devtools": "^10.1.2",
-    "@open-alchemy/editor-sdk": "^0.1.4",
+    "@open-alchemy/editor-sdk": "^0.1.5",
     "ngx-ace-wrapper": "^11.0.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.1.0",

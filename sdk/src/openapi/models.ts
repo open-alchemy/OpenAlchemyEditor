@@ -9,6 +9,7 @@ export type SpecValue = components['schemas']['SpecValue'];
 export type ValidationResponseResult = components['schemas']['ValidationResponseResult'];
 export type ValidationResponseProperty = components['schemas']['ValidationResponseProperty'];
 export type ValidationResponseModel = components['schemas']['ValidationResponseModel'];
+export type ValidationResponseModels = components['schemas']['ValidationResponseModels'];
 export type ValidationResponse = components['schemas']['ValidationResponse'];
 
 export type ArtifactResponsePropertiesBase = components['schemas']['ArtifactResponsePropertiesBase'];

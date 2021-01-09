@@ -203,6 +203,11 @@ components:
             $ref: "#/components/schemas/ValidationResponseProperty"
       required:
         - result
+    ValidationResponseModels:
+      description: The results for all models, included if the spec is valid at the global level
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/ValidationResponseModel"
     ValidationResponse:
       description: The validation results for the spec
       type: object
@@ -210,10 +215,7 @@ components:
         result:
           $ref: "#/components/schemas/ValidationResponseResult"
         models:
-          description: The results for all models, included if the spec is valid at the global level
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/ValidationResponseModel"
+          $ref: "#/components/schemas/ValidationResponseModels"
       required:
         - result
     ArtifactResponseKwargs:

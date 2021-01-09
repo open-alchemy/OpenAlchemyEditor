@@ -14,29 +14,37 @@ import {
 } from '../artifacts.model';
 import {
   ResultModel,
-  ResultPropertyModel,
   ResultPropertiesModel,
   ResultModelModel,
   ResultModelsModel,
 } from '../result.model';
 
+import {
+  ValidationResponseProperty,
+  ValidationResponseProperties,
+  ValidationResponseModel,
+  ArtifactResponseProperty,
+  ArtifactResponseProperties,
+  ResultPropertyModel,
+} from '../services/editor/types';
+
 export function combinePropertyResult(
-  validator: ValidatorPropertyModel,
-  artifacts: ArtifactsPropertyModel
+  validate: ValidationResponseProperty,
+  artifacts: ArtifactResponseProperty
 ): ResultPropertyModel {
   return {
-    result: validator ? validator.result : null,
+    result: validate ? validate.result : null,
     artifacts: artifacts ? artifacts.artifacts : null,
   };
 }
 
 export function combinePropertiesResult(
-  validatorProperties: ValidatorPropertiesModel,
-  artifactProperties: ArtifactsPropertiesModel
+  validateProperties: ValidationResponseProperties,
+  artifactProperties: ArtifactResponseProperties
 ): ResultPropertiesModel {
   const allPropertyNames = [
     ...new Set([
-      ...Object.keys(validatorProperties || {}),
+      ...Object.keys(validateProperties || {}),
       ...Object.keys(artifactProperties || {}),
     ]),
   ];
@@ -44,16 +52,16 @@ export function combinePropertiesResult(
   return Object.assign(
     {},
     ...allPropertyNames.map((propertyName) => {
-      const validatorProperty = validatorProperties
-        ? validatorProperties[propertyName]
+      const validateProperty = validateProperties
+        ? validateProperties[propertyName]
         : null;
-      const artifactsProperty = artifactProperties
+      const artifactProperty = artifactProperties
         ? artifactProperties[propertyName]
         : null;
       return {
         [propertyName]: combinePropertyResult(
-          validatorProperty,
-          artifactsProperty
+          validateProperty,
+          artifactProperty
         ),
       };
     })

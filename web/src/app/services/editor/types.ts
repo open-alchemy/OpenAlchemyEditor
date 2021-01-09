@@ -7,10 +7,14 @@ import {
   ValidationResponseProperty,
   ValidationResponseModel,
   ValidationResponse,
-  ArtifactResponseProperty,
+  ArtifactResponseProperties,
   ArtifactResponseModel,
   ArtifactResponse,
 } from '@open-alchemy/editor-sdk';
+
+export interface ValidationResponseProperties {
+  [key: string]: ValidationResponseProperty;
+}
 
 export {
   Seed,
@@ -22,6 +26,7 @@ export {
   ValidationResponseModel,
   ValidationResponse,
   ArtifactResponseProperty,
+  ArtifactResponseProperties,
   ArtifactResponseModel,
   ArtifactResponse,
 };
@@ -32,7 +37,7 @@ export interface Error {
 
 export interface ResultPropertyModel
   extends ValidationResponseProperty,
-    ArtifactResponseProperty {}
+    ArtifactResponseProperties {}
 
 export interface ResultPropertiesModel {
   [key: string]: ResultPropertyModel;
