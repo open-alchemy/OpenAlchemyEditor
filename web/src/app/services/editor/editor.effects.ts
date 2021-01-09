@@ -34,7 +34,7 @@ export class EditorEffects {
     )
   );
 
-  locationGoSelectedSeed$ = createEffect(() =>
+  routerNavigationSelectedSeed$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.seedComponentSelectChange.type),
       tap((action) =>
@@ -43,6 +43,14 @@ export class EditorEffects {
         ])
       ),
       map(() => EditorActions.routerNavigationSelectedSeed())
+    )
+  );
+
+  routerNavigationBase$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.editorComponentValueChange.type),
+      tap(() => this.router.navigate([''])),
+      map(() => EditorActions.routerNavigationBase())
     )
   );
 

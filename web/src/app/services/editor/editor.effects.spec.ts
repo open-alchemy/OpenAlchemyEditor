@@ -713,7 +713,7 @@ describe('PackageEffects', () => {
     );
   });
 
-  describe('locationGoSelectedSeed$', () => {
+  describe('routerNavigationSelectedSeed$', () => {
     ([
       {
         description: 'empty actions',
@@ -736,9 +736,9 @@ describe('PackageEffects', () => {
         expectedValues: {},
       },
       {
-        description:
-          'single seed component on init action actions list$ returns seeds',
-        expectation: 'should return single success action actions',
+        description: 'single seed component select change actions',
+        expectation:
+          'should navigate to example/:<seed path> and return single action actions',
         actionsMarbles: 'a',
         actionsValues: {
           a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
@@ -773,9 +773,88 @@ describe('PackageEffects', () => {
                 EditorActions.Actions
               >;
 
-              // WHEN locationGoSelectedSeed$ is called
+              // WHEN routerNavigationSelectedSeed$ is called
               effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
-              const returnedActions = effects.locationGoSelectedSeed$;
+              const returnedActions = effects.routerNavigationSelectedSeed$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND location.go has been called
+            if (expectedPath !== null) {
+              expect(routerSpy.navigate).toHaveBeenCalledWith([expectedPath]);
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('routerNavigationBase$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+        },
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single editor component value change actions',
+        expectation: "should navigate to '' and return single action actions",
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentValueChange({ value: 'value 1' }),
+        },
+        expectedPath: '',
+        expectedMarbles: 'a',
+        expectedValues: { a: EditorActions.routerNavigationBase() },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      expectedPath: string | null;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        expectedPath,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+
+              // WHEN routerNavigationBase$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.routerNavigationBase$;
 
               // THEN the expected actions are returned
               helpers
