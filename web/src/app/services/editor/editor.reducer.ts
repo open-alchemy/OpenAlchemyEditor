@@ -23,25 +23,27 @@ export interface EditorSeedState {
     loading: boolean;
   };
 }
-export interface EditorState {
-  seed: EditorSeedState;
-  result: {
-    managed: {
-      value: ValidationResponse | null;
-      success: boolean | null;
-      loading: boolean;
-    };
-    unManaged: {
-      value: ValidationResponse | null;
-      success: boolean | null;
-      loading: boolean;
-    };
-  };
-  artifact: {
-    value: ArtifactResponse;
+export interface EditorResultState {
+  managed: {
+    value: ValidationResponse | null;
     success: boolean | null;
     loading: boolean;
   };
+  unManaged: {
+    value: ValidationResponse | null;
+    success: boolean | null;
+    loading: boolean;
+  };
+}
+export interface EditorArtifactState {
+  value: ArtifactResponse;
+  success: boolean | null;
+  loading: boolean;
+}
+export interface EditorState {
+  seed: EditorSeedState;
+  result: EditorResultState;
+  artifact: EditorArtifactState;
   error: Error | null;
 }
 
