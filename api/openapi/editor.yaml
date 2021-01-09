@@ -216,12 +216,205 @@ components:
             $ref: "#/components/schemas/ValidationResponseModel"
       required:
         - result
-    ArtifactResponseProperty:
+    ArtifactResponseKwargs:
+      description: Keyword arguments
+      type: object
+    ArtifactResponsePropertiesSimpleOpenApiType:
+      description: The type for simple property
+      type: string
+    ArtifactResponsePropertiesSimpleOpenApiFormat:
+      description: The format for simple property
+      type: string
+    ArtifactResponsePropertiesSimpleOpenApiMaxLength:
+      description: The maxLength for simple property
+      type: integer
+    ArtifactResponsePropertiesSimpleOpenApiNullable:
+      description: The nullable for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleOpenApiDefault:
+      description: The default for simple property
+      oneOf:
+        - type: integer
+        - type: number
+        - type: string
+        - type: boolean
+    ArtifactResponsePropertiesSimpleOpenApiReadOnly:
+      description: The readOnly for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleOpenApiWriteOnly:
+      description: The writeOnly for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleOpenApi:
+      description: The OpenAPI artifacts for a simple property
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiType"
+        format:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiFormat"
+        max_length:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiMaxLength"
+        nullable:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+        default:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiDefault"
+        read_only:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiReadOnly"
+        write_only:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
+      required:
+        - type
+    ArtifactResponsePropertiesSimpleExtensionPrimaryKey:
+      description: The primary key for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleExtensionAutoincrement:
+      description: The autoincrement for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleExtensionIndex:
+      description: The index for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleExtensionUnique:
+      description: The unique for simple property
+      type: boolean
+    ArtifactResponsePropertiesSimpleExtensionServerDefault:
+      description: The server default for simple property
+      type: string
+    ArtifactResponsePropertiesSimpleExtensionForeignKey:
+      description: The server foreign key for simple property
+      type: string
+    ArtifactResponsePropertiesSimpleExtension:
+      description: The extension artifacts for a simple property
+      type: object
+      properties:
+        primary_key:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionPrimaryKey"
+        autoincrement:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionAutoincrement"
+        index:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionIndex"
+        unique:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionUnique"
+        server_default:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionServerDefault"
+        foreign_key:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+        kwargs:
+          $ref: "#/components/schemas/ArtifactResponseKwargs"
+        foreign_key_kwargs:
+          $ref: "#/components/schemas/ArtifactResponseKwargs"
+      required:
+        - primary_key
+    ArtifactResponsePropertiesSimpleType:
+      description: The type for simple property
+      type: string
+    ArtifactResponsePropertiesSimpleRequired:
+      description: Whether a property is required
+      type: boolean
+    ArtifactResponsePropertiesSimple:
+      description: The artifacts for a simple property
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+        open_api:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApi"
+        required:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleRequired"
+      required:
+        - type
+        - open_api
+        - extension
+        - required
+    # ArtifactResponsePropertiesJson: JsonPropertyTypedDict
+    # ArtifactResponsePropertiesRelationship: TAnyRelationshipPropertyTypedDict
+    # ArtifactResponsePropertiesBackref: BackrefPropertyTypedDict
+    ArtifactResponseProperties:
       description: The artifacts for a property
       type: object
       properties:
         artifacts:
           type: object
+          additionalProperties:
+            oneOf:
+              - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
+              # - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
+              # - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
+              # - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
+    ArtifactResponseModelTablename:
+      description: The name of the table for the schema
+      type: string
+    ArtifactResponseModelInherits:
+      description: Whether the model inherits
+      type: boolean
+    ArtifactResponseModelParent:
+      description: The name of the parent if the model inherits
+      type: string
+    ArtifactResponseModelDescription:
+      description: A description for the model
+      type: string
+    ArtifactResponseModelMixins:
+      description: Base classes mixed into the model
+      type: array
+      items:
+        type: string
+    ArtifactResponseModelIndex:
+      description: Index for the model
+      type: object
+      properties:
+        expressions:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        unique:
+          type: boolean
+      required:
+        - expressions
+    ArtifactResponseModelCompositeIndex:
+      description: Indexes for the model
+      type: array
+      items:
+        $ref: "#/components/schemas/ArtifactResponseModelIndex"
+    ArtifactResponseModelUnique:
+      description: Unique index for the model
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+      required:
+        - columns
+    ArtifactResponseModelCompositeUnique:
+      description: Indexes for the model
+      type: array
+      items:
+        $ref: "#/components/schemas/ArtifactResponseModelIndex"
+    ArtifactResponseModelArtifacts:
+      description: The artifacts for a model
+      type: object
+      properties:
+        tablename:
+          $ref: "#/components/schemas/ArtifactResponseModelTablename"
+        inherits:
+          $ref: "#/components/schemas/ArtifactResponseModelInherits"
+        parent:
+          $ref: "#/components/schemas/ArtifactResponseModelParent"
+        description:
+          $ref: "#/components/schemas/ArtifactResponseModelDescription"
+        mixins:
+          $ref: "#/components/schemas/ArtifactResponseModelMixins"
+        kwargs:
+          $ref: "#/components/schemas/ArtifactResponseKwargs"
+        composite_index:
+          $ref: "#/components/schemas/ArtifactResponseModelCompositeIndex"
+        composite_unique:
+          $ref: "#/components/schemas/ArtifactResponseModelCompositeUnique"
+      required:
+        - tablename
     ArtifactResponseModel:
       description: The artifacts for a model
       type: object
@@ -229,8 +422,15 @@ components:
         artifacts:
           description: The artifacts for a model
           type: object
-          additionalProperties:
-            $ref: "#/components/schemas/ArtifactResponseProperty"
+          properties:
+            artifacts:
+              $ref: "#/components/schemas/ArtifactResponseModelArtifacts"
+            properties:
+              type: object
+              additionalProperties:
+                $ref: "#/components/schemas/ArtifactResponseProperties"
+          required:
+            - artifacts
     ArtifactResponseModels:
       description: The artifacts for all models
       type: object

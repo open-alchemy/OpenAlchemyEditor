@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, select } from '@ngrx/store';
 import { Store } from '@ngrx/store';
 
+import { combineResult } from '../../helpers/combine-results';
 import * as EditorActions from './editor.actions';
 import { SpecValue, SeedPath } from './types';
 import { EditorState, EditorSeedState } from './editor.reducer';
@@ -24,13 +25,16 @@ const selectEditorSeedAvailable = createSelector(
   selectEditorSeed,
   (state: EditorSeedState) => state.available
 );
-const selectEditorResult = createSelector(
+const selectEditorValidate = createSelector(
   selectEditor,
-  (state: EditorState) => state.result
+  (state: EditorState) => state.validate
 );
 const selectEditorArtifact = createSelector(
   selectEditor,
   (state: EditorState) => state.artifact
+);
+const selectEditorResult = createSelector(selectEditor, (state: EditorState) =>
+  combineResult(state.validate.managed.value, state.artifact.value)
 );
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +43,7 @@ export class EditorService {
   seedCurrent$ = this.store.pipe(select(selectEditorSeedCurrent));
   seedAvailable$ = this.store.pipe(select(selectEditorSeedAvailable));
   seedSelected$ = this.store.pipe(select(selectEditorSeedSelected));
-  result$ = this.store.pipe(select(selectEditorResult));
+  validate$ = this.store.pipe(select(selectEditorValidate));
   artifact$ = this.store.pipe(select(selectEditorArtifact));
 
   constructor(private store: Store<AppState>) {}

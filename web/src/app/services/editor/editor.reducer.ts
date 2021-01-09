@@ -27,7 +27,7 @@ export interface EditorSeedState {
   selected: EditorSeedSelectedState;
   available: EditorSeedAvailableState;
 }
-export interface EditorResultState {
+export interface EditorValidateState {
   managed: {
     value: ValidationResponse | null;
     success: boolean | null;
@@ -46,7 +46,7 @@ export interface EditorArtifactState {
 }
 export interface EditorState {
   seed: EditorSeedState;
-  result: EditorResultState;
+  validate: EditorValidateState;
   artifact: EditorArtifactState;
   error: Error | null;
 }
@@ -67,7 +67,7 @@ export const initialState: EditorState = {
       loading: false,
     },
   },
-  result: {
+  validate: {
     managed: {
       value: null,
       success: null,
@@ -174,14 +174,14 @@ const editorReducerValue = createReducer(
     EditorActions.editorComponentValueChange,
     (state) => ({
       ...state,
-      result: {
-        ...state.result,
+      validate: {
+        ...state.validate,
         managed: {
-          ...state.result.managed,
+          ...state.validate.managed,
           loading: true,
         },
         unManaged: {
-          ...state.result.managed,
+          ...state.validate.managed,
           loading: true,
         },
       },
@@ -193,10 +193,10 @@ const editorReducerValue = createReducer(
   ),
   on(EditorActions.editorApiSpecValidateManagedSuccess, (state, action) => ({
     ...state,
-    result: {
-      ...state.result,
+    validate: {
+      ...state.validate,
       managed: {
-        ...state.result.managed,
+        ...state.validate.managed,
         value: action.response,
         success: true,
         loading: false,
@@ -205,10 +205,10 @@ const editorReducerValue = createReducer(
   })),
   on(EditorActions.editorApiSpecValidateManagedError, (state, action) => ({
     ...state,
-    result: {
-      ...state.result,
+    validate: {
+      ...state.validate,
       managed: {
-        ...state.result.managed,
+        ...state.validate.managed,
         value: null,
         success: false,
         loading: false,
@@ -218,10 +218,10 @@ const editorReducerValue = createReducer(
   })),
   on(EditorActions.editorApiSpecValidateUnManagedSuccess, (state, action) => ({
     ...state,
-    result: {
-      ...state.result,
+    validate: {
+      ...state.validate,
       unManaged: {
-        ...state.result.managed,
+        ...state.validate.managed,
         value: action.response,
         success: true,
         loading: false,
@@ -230,10 +230,10 @@ const editorReducerValue = createReducer(
   })),
   on(EditorActions.editorApiSpecValidateUnManagedError, (state, action) => ({
     ...state,
-    result: {
-      ...state.result,
+    validate: {
+      ...state.validate,
       unManaged: {
-        ...state.result.managed,
+        ...state.validate.managed,
         value: null,
         success: false,
         loading: false,

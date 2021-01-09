@@ -252,8 +252,8 @@ describe('EditorReducer', () => {
       expectation: 'should set loading to true',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: null, loading: false },
           unManaged: { value: null, success: null, loading: false },
         },
@@ -262,8 +262,8 @@ describe('EditorReducer', () => {
       action: EditorActions.editorComponentSeedLoaded({ value: 'seed 1' }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: null, loading: true },
           unManaged: { value: null, success: null, loading: true },
         },
@@ -276,8 +276,8 @@ describe('EditorReducer', () => {
       expectation: 'should set loading to true',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: {
             value: { result: { valid: true } },
             success: true,
@@ -294,8 +294,8 @@ describe('EditorReducer', () => {
       action: EditorActions.editorComponentSeedLoaded({ value: 'seed 1' }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: {
             value: { result: { valid: true } },
             success: true,
@@ -316,8 +316,8 @@ describe('EditorReducer', () => {
       expectation: 'should set loading to true',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: null, loading: false },
           unManaged: { value: null, success: null, loading: false },
         },
@@ -326,8 +326,8 @@ describe('EditorReducer', () => {
       action: EditorActions.editorComponentValueChange({ value: 'seed 1' }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: null, loading: true },
           unManaged: { value: null, success: null, loading: true },
         },
@@ -341,8 +341,8 @@ describe('EditorReducer', () => {
         'should copy result into state, set success to true and set loading to false',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: null, loading: true },
         },
       },
@@ -351,8 +351,8 @@ describe('EditorReducer', () => {
       }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: {
             value: { result: { valid: true } },
             success: true,
@@ -368,8 +368,8 @@ describe('EditorReducer', () => {
         'should set vaue to null, set success to false and set loading to false and cope message into error',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: {
             value: { result: { valid: false } },
             success: null,
@@ -382,8 +382,8 @@ describe('EditorReducer', () => {
       }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           managed: { value: null, success: false, loading: false },
         },
         error: { ...editorInitialState.error, message: 'message 1' },
@@ -396,8 +396,8 @@ describe('EditorReducer', () => {
         'should copy result into state, set success to true and set loading to false',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           unManaged: { value: null, success: null, loading: true },
         },
       },
@@ -406,8 +406,8 @@ describe('EditorReducer', () => {
       }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           unManaged: {
             value: { result: { valid: true } },
             success: true,
@@ -423,8 +423,8 @@ describe('EditorReducer', () => {
         'should set vaue to null, set success to false and set loading to false and cope message into error',
       initialState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           unManaged: {
             value: { result: { valid: false } },
             success: null,
@@ -437,8 +437,8 @@ describe('EditorReducer', () => {
       }),
       expectedFinalState: {
         ...editorInitialState,
-        result: {
-          ...editorInitialState.result,
+        validate: {
+          ...editorInitialState.validate,
           unManaged: { value: null, success: false, loading: false },
         },
         error: { ...editorInitialState.error, message: 'message 1' },

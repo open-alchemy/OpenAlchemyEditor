@@ -7,7 +7,7 @@ import { AppState } from '../app.state';
 import {
   initialState as initialEditorState,
   EditorSeedState,
-  EditorResultState,
+  EditorValidateState,
   EditorArtifactState,
 } from './editor.reducer';
 import { EditorService } from './editor.service';
@@ -179,11 +179,11 @@ describe('EditorService', () => {
     });
   });
 
-  describe('result$', () => {
+  describe('validate$', () => {
     it('should pick the correct state', () => {
       testScheduler.run((helpers) => {
         // GIVEN store with initial state and then a different state
-        const resultState: EditorResultState = {
+        const validateState: EditorValidateState = {
           managed: {
             value: null,
             loading: true,
@@ -199,17 +199,17 @@ describe('EditorService', () => {
           .cold('-b', {
             b: {
               ...initialState,
-              editor: { ...initialState.editor, result: resultState },
+              editor: { ...initialState.editor, validate: validateState },
             },
           })
           .subscribe((newState) => store.setState(newState));
 
         // WHEN
 
-        // THEN the result state is returned
+        // THEN the validate state is returned
         helpers
-          .expectObservable(service.result$)
-          .toBe('ab', { a: initialEditorState.result, b: resultState });
+          .expectObservable(service.validate$)
+          .toBe('ab', { a: initialEditorState.validate, b: validateState });
       });
     });
   });
