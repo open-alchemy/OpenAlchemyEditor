@@ -20,6 +20,11 @@ export const editorComponentValueChange = createAction(
   props<{ value: SpecValue }>()
 );
 
+export const specSaved = createAction('[spec] saved');
+export const routerNavigationBase = createAction(
+  '[router] changed to base path'
+);
+
 export const seedComponentOnInit = createAction('[seed component] on init');
 export const seedComponentSelectChange = createAction(
   '[seed component] select change',
@@ -97,6 +102,8 @@ export type Actions =
   | ReturnType<typeof editorComponentOnInit>
   | ReturnType<typeof editorComponentSeedLoaded>
   | ReturnType<typeof editorComponentValueChange>
+  | ReturnType<typeof specSaved>
+  | ReturnType<typeof routerNavigationBase>
   | ReturnType<typeof seedComponentOnInit>
   | ReturnType<typeof seedComponentSelectChange>
   | ReturnType<typeof routerNavigationSelectedSeed>

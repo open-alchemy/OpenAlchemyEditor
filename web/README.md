@@ -136,6 +136,8 @@ Notify the user fo the error:
 
 Output:
 
+- `specSaved`: The spec has been saved.
+- `editorComponentSeedLoaded`: The router navigated to the base path.
 - `editorApiSpecValidateManagedSuccess`: The managed result loaded, includes
   the result.
 - `editorApiSpecValidateManagedError`: The managed result failed to load,
@@ -152,11 +154,13 @@ Output:
 Update the seed:
 
 1. Set the `seed` key in local storage to the value of the event.
+1. Return the `specSaved` event.
 
 Update the route:
 
 1. If the event is `editorComponentSeedLoaded`, return.
 1. Set the url to `` using <https://angular.io/api/router/Router#navigate>.
+1. Return the `routerNavigationBase` event.
 
 Load the managed result:
 
