@@ -16,6 +16,9 @@ import {
   SpecService,
   SpecError,
   ValidationResponse,
+  ArtifactService,
+  ArtifactError,
+  ArtifactResponse,
 } from '@open-alchemy/editor-sdk';
 
 import { EditorEffects, SEED_KEY } from './editor.effects';
@@ -28,6 +31,7 @@ describe('PackageEffects', () => {
   let effects: EditorEffects;
   let seedServiceSpy: jasmine.SpyObj<SeedService>;
   let specServiceSpy: jasmine.SpyObj<SpecService>;
+  let artifactServiceSpy: jasmine.SpyObj<ArtifactService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let testScheduler: TestScheduler;
 
@@ -40,6 +44,9 @@ describe('PackageEffects', () => {
     specServiceSpy = jasmine.createSpyObj('SpecService', [
       'validateManaged$',
       'validateUnManaged$',
+    ]);
+    artifactServiceSpy = jasmine.createSpyObj('ArtifactService', [
+      'calculate$',
     ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     (routerSpy as any).events = EMPTY;
@@ -189,6 +196,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.seedsGet$;
@@ -284,6 +292,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedUrls$ = effects.currentUrl$();
@@ -395,6 +404,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.seedLocalStorage$;
@@ -544,6 +554,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.seedGet$;
@@ -724,6 +735,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.seedsSeedGet$;
@@ -814,6 +826,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.routerNavigationSelectedSeed$;
@@ -911,6 +924,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.specSaved$;
@@ -994,6 +1008,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.routerNavigationBase$;
@@ -1166,6 +1181,7 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
               const returnedActions = effects.stableSpecValueChange$;
@@ -1181,7 +1197,7 @@ describe('PackageEffects', () => {
     );
   });
 
-  describe('validateManaged$', () => {
+  describe('specValidateManaged$', () => {
     ([
       {
         description: 'empty actions',
@@ -1321,9 +1337,10 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
-              const returnedActions = effects.validateManaged$;
+              const returnedActions = effects.specValidateManaged$;
 
               // THEN the expected actions are returned
               helpers
@@ -1347,7 +1364,7 @@ describe('PackageEffects', () => {
     );
   });
 
-  describe('validateUnManaged$', () => {
+  describe('specValidateUnManaged$', () => {
     ([
       {
         description: 'empty actions',
@@ -1487,9 +1504,10 @@ describe('PackageEffects', () => {
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
+                artifactServiceSpy,
                 routerSpy
               );
-              const returnedActions = effects.validateUnManaged$;
+              const returnedActions = effects.specValidateUnManaged$;
 
               // THEN the expected actions are returned
               helpers
@@ -1503,6 +1521,177 @@ describe('PackageEffects', () => {
             );
             if (specServiceValidateUnManagedReturnValues.length > 0) {
               expect(specServiceSpy.validateUnManaged$).toHaveBeenCalledWith({
+                value: 'value 1',
+                language: 'YAML',
+              });
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('artifactCalculate$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        artifactServiceCalculateReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        artifactServiceCalculateReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single stable spec value change action actions calculate$ returns response',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        artifactServiceCalculateReturnValues: [
+          { marbles: '-b|', values: { b: {} } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiArtifactCalculateSuccess({
+            response: {},
+          }),
+        },
+      },
+      {
+        description:
+          'single stable spec value change action actions calculate$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        artifactServiceCalculateReturnValues: [{ marbles: '-#|' }],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiArtifactCalculateError({
+            message: 'message 1',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions calculate$ returns response before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        artifactServiceCalculateReturnValues: [
+          { marbles: '-b|', values: { b: {} } },
+          { marbles: '-e|', values: { e: { models: {} } } },
+        ],
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.editorApiArtifactCalculateSuccess({
+            response: {},
+          }),
+          e: EditorActions.editorApiArtifactCalculateSuccess({
+            response: { models: {} },
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions calculate$ returns response after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        artifactServiceCalculateReturnValues: [
+          { marbles: '----e|', values: { e: {} } },
+          { marbles: '-e|', values: { e: { models: {} } } },
+        ],
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.editorApiArtifactCalculateSuccess({
+            response: { models: {} },
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      artifactServiceCalculateReturnValues: {
+        marbles: string;
+        values: { [key: string]: ArtifactResponse };
+      }[];
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        artifactServiceCalculateReturnValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND seedService get$ that returns values
+              artifactServiceSpy.calculate$.and.returnValues(
+                ...artifactServiceCalculateReturnValues.map(
+                  ({ marbles, values }) =>
+                    helpers.cold(
+                      marbles,
+                      values,
+                      new ArtifactError('message 1')
+                    )
+                )
+              );
+
+              // WHEN artifactCalculate$ is accessed
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                artifactServiceSpy,
+                routerSpy
+              );
+              const returnedActions = effects.artifactCalculate$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService calculate$ has been called
+            expect(artifactServiceSpy.calculate$).toHaveBeenCalledTimes(
+              artifactServiceCalculateReturnValues.length
+            );
+            if (artifactServiceCalculateReturnValues.length > 0) {
+              expect(artifactServiceSpy.calculate$).toHaveBeenCalledWith({
                 value: 'value 1',
                 language: 'YAML',
               });

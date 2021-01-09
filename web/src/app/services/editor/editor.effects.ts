@@ -11,7 +11,11 @@ import {
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SeedService, SpecService } from '@open-alchemy/editor-sdk';
+import {
+  SeedService,
+  SpecService,
+  ArtifactService,
+} from '@open-alchemy/editor-sdk';
 
 import * as EditorActions from './editor.actions';
 
@@ -142,7 +146,7 @@ export class EditorEffects {
     )
   );
 
-  validateManaged$ = createEffect(() =>
+  specValidateManaged$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.stableSpecValueChange.type),
       switchMap((action) =>
@@ -164,7 +168,7 @@ export class EditorEffects {
     )
   );
 
-  validateUnManaged$ = createEffect(() =>
+  specValidateUnManaged$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.stableSpecValueChange.type),
       switchMap((action) =>
@@ -186,10 +190,33 @@ export class EditorEffects {
     )
   );
 
+  artifactCalculate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.stableSpecValueChange.type),
+      switchMap((action) =>
+        this.artifactService
+          .calculate$({ value: action.value, language: SPEC_LANGUAGE })
+          .pipe(
+            map((response) =>
+              EditorActions.editorApiArtifactCalculateSuccess({ response })
+            ),
+            catchError((error) =>
+              of(
+                EditorActions.editorApiArtifactCalculateError({
+                  message: error.message,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions<EditorActions.Actions>,
     private seedService: SeedService,
     private specService: SpecService,
+    private artifactService: ArtifactService,
     private router: Router
   ) {}
 
