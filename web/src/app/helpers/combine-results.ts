@@ -1,31 +1,19 @@
 import {
-  ValidatorModel,
-  ValidatorPropertyModel,
-  ValidatorPropertiesModel,
-  ValidatorModelModel,
-  ValidatorModelsModel,
-} from '../validator.model';
-import {
-  ArtifactsModel,
-  ArtifactsPropertyModel,
-  ArtifactsPropertiesModel,
-  ArtifactsModelModel,
-  ArtifactsModelsModel,
-} from '../artifacts.model';
-import {
-  ResultModel,
-  ResultPropertiesModel,
-  ResultModelModel,
-  ResultModelsModel,
-} from '../result.model';
-
-import {
   ValidationResponseProperty,
   ValidationResponseProperties,
   ValidationResponseModel,
+  ValidationResponseModels,
+  ValidationResponse,
   ArtifactResponseProperty,
   ArtifactResponseProperties,
+  ArtifactResponseModel,
+  ArtifactResponseModels,
+  ArtifactResponse,
   ResultPropertyModel,
+  ResultPropertiesModel,
+  ResultModelModel,
+  ResultModelsModel,
+  ResultModel,
 } from '../services/editor/types';
 
 export function combinePropertyResult(
@@ -69,8 +57,8 @@ export function combinePropertiesResult(
 }
 
 export function combineModelResult(
-  validator: ValidatorModelModel,
-  artifacts: ArtifactsModelModel
+  validator: ValidationResponseModel,
+  artifacts: ArtifactResponseModel
 ): ResultModelModel {
   return {
     result: validator ? validator.result : null,
@@ -83,8 +71,8 @@ export function combineModelResult(
 }
 
 export function combineModelsResult(
-  validatorModels: ValidatorModelsModel,
-  artifactModels: ArtifactsModelsModel
+  validatorModels: ValidationResponseModels,
+  artifactModels: ArtifactResponseModels
 ): ResultModelsModel {
   const allModelNames = [
     ...new Set([
@@ -108,14 +96,14 @@ export function combineModelsResult(
 }
 
 export function combineResult(
-  validator: ValidatorModel,
-  artifacts: ArtifactsModel
+  validator: ValidationResponse,
+  artifact: ArtifactResponse
 ): ResultModel {
   return {
     result: validator ? validator.result : null,
     models: combineModelsResult(
       (validator && validator.models) || null,
-      (artifacts && artifacts.models) || null
+      (artifact && artifact.models) || null
     ),
   };
 }

@@ -495,7 +495,7 @@ export interface components {
      * The artifacts for a property
      */
     ArtifactResponseProperty: {
-      [key: string]:
+      artifacts?:
         | components['schemas']['ArtifactResponsePropertiesSimple']
         | components['schemas']['ArtifactResponsePropertiesJson']
         | components['schemas']['ArtifactResponsePropertiesRelationship']
@@ -505,7 +505,7 @@ export interface components {
      * The artifacts for the properties of a model
      */
     ArtifactResponseProperties: {
-      artifacts?: components['schemas']['ArtifactResponseProperty'];
+      [key: string]: components['schemas']['ArtifactResponseProperty'];
     };
     /**
      * The name of the table for the schema

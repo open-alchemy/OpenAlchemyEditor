@@ -6,9 +6,12 @@ import {
   SpecValue,
   ValidationResponseProperty,
   ValidationResponseModel,
+  ValidationResponseModels,
   ValidationResponse,
+  ArtifactResponseProperty,
   ArtifactResponseProperties,
   ArtifactResponseModel,
+  ArtifactResponseModels,
   ArtifactResponse,
 } from '@open-alchemy/editor-sdk';
 
@@ -24,10 +27,12 @@ export {
   SpecValue,
   ValidationResponseProperty,
   ValidationResponseModel,
+  ValidationResponseModels,
   ValidationResponse,
   ArtifactResponseProperty,
   ArtifactResponseProperties,
   ArtifactResponseModel,
+  ArtifactResponseModels,
   ArtifactResponse,
 };
 
