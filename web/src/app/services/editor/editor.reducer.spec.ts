@@ -365,7 +365,7 @@ describe('EditorReducer', () => {
       description:
         'initial state: managed value and success null, loading true, action editorApiSpecValidateManagedError',
       expectation:
-        'should set vaue to null, set success to false and set loading to false and cope message into error',
+        'should set value to null, set success to false and set loading to false and cope message into error',
       initialState: {
         ...editorInitialState,
         validate: {
@@ -420,7 +420,7 @@ describe('EditorReducer', () => {
       description:
         'initial state: managed value and success null, loading true, action editorApiSpecValidateUnManagedError',
       expectation:
-        'should set vaue to null, set success to false and set loading to false and cope message into error',
+        'should set value to null, set success to false and set loading to false and cope message into error',
       initialState: {
         ...editorInitialState,
         validate: {
@@ -469,7 +469,7 @@ describe('EditorReducer', () => {
       description:
         'initial state: managed value and success null, loading true, action editorApiArtifactCalculateError',
       expectation:
-        'should set vaue to null, set success to false and set loading to false and cope message into error',
+        'should set value to null, set success to false and set loading to false and cope message into error',
       initialState: {
         ...editorInitialState,
         artifact: { value: {}, success: null, loading: true },

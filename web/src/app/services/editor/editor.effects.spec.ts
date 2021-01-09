@@ -1047,6 +1047,98 @@ describe('PackageEffects', () => {
     );
   });
 
+  describe('routerNavigationStartExampleId$', () => {
+    ([
+      {
+        description: 'empty router events',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: '',
+        routerEventsValues: {},
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different router events',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationEnd(1, 'url 1', 'url after redirects 1'),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single router events url not match',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationStart(1, 'url 1'),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single router events url match',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationStart(1, `/example/${encodeURIComponent('path 1')}`),
+        },
+        expectedMarbles: 'a',
+        expectedValues: {
+          a: EditorActions.routerNavigationStartExampleId({ path: 'path 1' }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      routerEventsMarbles: string;
+      routerEventsValues: { [key: string]: RouterEvent };
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        routerEventsMarbles,
+        routerEventsValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = EMPTY;
+              // AND router with events
+              const events$ = helpers.cold(
+                routerEventsMarbles,
+                routerEventsValues
+              );
+              (routerSpy as any).events = events$;
+
+              // WHEN routerNavigationStartExampleId$ is called
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                artifactServiceSpy,
+                routerSpy,
+                locationSpy
+              );
+              const returnedActions = effects.routerNavigationStartExampleId$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+          });
+        });
+      }
+    );
+  });
+
   describe('stableSpecValueChange$', () => {
     ([
       {

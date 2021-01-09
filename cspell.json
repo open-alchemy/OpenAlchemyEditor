@@ -32,7 +32,8 @@
     "jmespath",
     "dateutil",
     "pylint",
-    "Andersson"
+    "Andersson",
+    "ngrx"
   ],
   "dictionaries": [
     "python",
