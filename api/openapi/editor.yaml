@@ -692,9 +692,7 @@ components:
         artifacts:
           $ref: "#/components/schemas/ArtifactResponseModelArtifacts"
         properties:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/ArtifactResponseProperties"
+          $ref: "#/components/schemas/ArtifactResponseProperties"
       required:
         - artifacts
     ArtifactResponseModels:

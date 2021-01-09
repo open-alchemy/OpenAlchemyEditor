@@ -561,9 +561,7 @@ export interface components {
      */
     ArtifactResponseModel: {
       artifacts: components['schemas']['ArtifactResponseModelArtifacts'];
-      properties?: {
-        [key: string]: components['schemas']['ArtifactResponseProperties'];
-      };
+      properties?: components['schemas']['ArtifactResponseProperties'];
     };
     /**
      * The artifacts for all models

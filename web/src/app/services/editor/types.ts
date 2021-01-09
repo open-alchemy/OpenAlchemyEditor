@@ -42,7 +42,7 @@ export interface Error {
 
 export interface ResultPropertyModel
   extends ValidationResponseProperty,
-    ArtifactResponseProperties {}
+    ArtifactResponseProperty {}
 
 export interface ResultPropertiesModel {
   [key: string]: ResultPropertyModel;
