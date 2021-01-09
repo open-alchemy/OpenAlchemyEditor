@@ -138,6 +138,30 @@ Output:
 
 - `specSaved`: The spec has been saved.
 - `editorComponentSeedLoaded`: The router navigated to the base path.
+- `stableSpecValueChange`: The new spec value stabilized for a period of time,
+  includes the spec value.
+
+Update the seed:
+
+1. Set the `seed` key in local storage to the value of the event.
+1. Return the `specSaved` event.
+
+Update the route:
+
+1. If the event is `editorComponentSeedLoaded`, return.
+1. Set the url to `` using <https://angular.io/api/router/Router#navigate>.
+1. Return the `routerNavigationBase` event.
+
+Stabilize the spec changes:
+
+1. Delay `editorComponentSeedLoaded` and `stableSpecValueChange` and switch to
+   new events if a new event occurs within the delay.
+1. Return the `stableSpecValueChange` event.
+
+##### `stableSpecValueChange`
+
+Output:
+
 - `editorApiSpecValidateManagedSuccess`: The managed result loaded, includes
   the result.
 - `editorApiSpecValidateManagedError`: The managed result failed to load,
@@ -151,37 +175,20 @@ Output:
 - `editorApiArtifactCalculateError`: The artifacts failed to load, includes the
   reason why it failed.
 
-Update the seed:
-
-1. Set the `seed` key in local storage to the value of the event.
-1. Return the `specSaved` event.
-
-Update the route:
-
-1. If the event is `editorComponentSeedLoaded`, return.
-1. Set the url to `` using <https://angular.io/api/router/Router#navigate>.
-1. Return the `routerNavigationBase` event.
-
 Load the managed result:
 
-1. Wait for a short time for the spec to stabilize discarding similar events
-   triggered within 1 second.
 1. Load the managed result.
 1. If the call succeeds, return the `editorApiSpecValidateManagedSuccess` event.
 1. If the call fails, return the `editorApiSpecValidateManagedError` event.
 
 Load the un managed result:
 
-1. Wait for a short time for the spec to stabilize discarding similar events
-   triggered within 1 second.
 1. Load the un managed result.
 1. If the call succeeds, return the `editorApiSpecValidateUnManagedSuccess` event.
 1. If the call fails, return the `editorApiSpecValidateUnManagedError` event.
 
 Load the artifacts:
 
-1. Wait for a short time for the spec to stabilize discarding similar events
-   triggered within 1 second.
 1. Load the artifacts.
 1. If the call succeeds, return the `editorApiArtifactCalculateSuccess` event.
 1. If the call fails, return the `editorApiArtifactCalculateError` event.

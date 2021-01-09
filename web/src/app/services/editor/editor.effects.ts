@@ -126,39 +126,43 @@ export class EditorEffects {
     )
   );
 
-  // validateManaged$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(
-  //       EditorActions.editorComponentSeedLoaded.type,
-  //       EditorActions.editorComponentValueChange.type
-  //     ),
-  //     switchMap((action) =>
-  //       timer(1000).pipe(
-  //         switchMap(() =>
-  //           this.specService
-  //             .validateManaged$({
-  //               value: action.value,
-  //               language: SPEC_LANGUAGE,
-  //             })
-  //             .pipe(
-  //               map((response) =>
-  //                 EditorActions.editorApiSpecValidateManagedSuccess({
-  //                   response,
-  //                 })
-  //               ),
-  //               catchError((error) =>
-  //                 of(
-  //                   EditorActions.editorApiSpecValidateManagedError({
-  //                     message: error.message,
-  //                   })
-  //                 )
-  //               )
-  //             )
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
+  stableSpecValueChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EditorActions.editorComponentSeedLoaded.type,
+        EditorActions.editorComponentValueChange.type
+      ),
+      switchMap((action) =>
+        timer(1000).pipe(
+          map(() =>
+            EditorActions.stableSpecValueChange({ value: action.value })
+          )
+        )
+      )
+    )
+  );
+
+  validateManaged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.stableSpecValueChange.type),
+      switchMap((action) =>
+        this.specService
+          .validateManaged$({ value: action.value, language: SPEC_LANGUAGE })
+          .pipe(
+            map((response) =>
+              EditorActions.editorApiSpecValidateManagedSuccess({ response })
+            ),
+            catchError((error) =>
+              of(
+                EditorActions.editorApiSpecValidateManagedError({
+                  message: error.message,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions<EditorActions.Actions>,
@@ -171,18 +175,6 @@ export class EditorEffects {
     return this.router.events.pipe(
       filter<NavigationStart>((event) => event instanceof NavigationStart),
       map((event) => event.url)
-    );
-  }
-
-  delaySeedLoadedValueChange$(
-    actions$: Actions<EditorActions.Actions>
-  ): Actions<EditorActions.SeedLoadedValueChangeActions> {
-    return actions$.pipe(
-      ofType(
-        EditorActions.editorComponentSeedLoaded.type,
-        EditorActions.editorComponentValueChange.type
-      ),
-      switchMap((action) => timer(1000).pipe(map(() => action)))
     );
   }
 }

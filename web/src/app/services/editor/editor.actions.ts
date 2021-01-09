@@ -20,6 +20,11 @@ export const editorComponentValueChange = createAction(
   props<{ value: SpecValue }>()
 );
 
+export const stableSpecValueChange = createAction(
+  '[spec] stable value change',
+  props<{ value: SpecValue }>()
+);
+
 export const specSaved = createAction('[spec] saved');
 export const routerNavigationBase = createAction(
   '[router] changed to base path'
@@ -105,6 +110,7 @@ export type Actions =
   | ReturnType<typeof editorComponentOnInit>
   | ReturnType<typeof editorComponentSeedLoaded>
   | ReturnType<typeof editorComponentValueChange>
+  | ReturnType<typeof stableSpecValueChange>
   | ReturnType<typeof specSaved>
   | ReturnType<typeof routerNavigationBase>
   | ReturnType<typeof seedComponentOnInit>

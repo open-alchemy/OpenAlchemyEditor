@@ -10,7 +10,13 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { Action } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
-import { SeedService, SeedError, SpecService } from '@open-alchemy/editor-sdk';
+import {
+  SeedService,
+  SeedError,
+  SpecService,
+  SpecError,
+  ValidationResponse,
+} from '@open-alchemy/editor-sdk';
 
 import { EditorEffects, SEED_KEY } from './editor.effects';
 import * as EditorActions from './editor.actions';
@@ -1015,7 +1021,7 @@ describe('PackageEffects', () => {
     );
   });
 
-  describe('seedsGet$', () => {
+  describe('stableSpecValueChange$', () => {
     ([
       {
         description: 'empty actions',
@@ -1045,7 +1051,7 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '1s b',
         expectedValues: {
-          b: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 1' }),
         },
       },
       {
@@ -1058,7 +1064,7 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '1s b',
         expectedValues: {
-          b: EditorActions.editorComponentValueChange({ value: 'value 1' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 1' }),
         },
       },
       {
@@ -1073,7 +1079,7 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '- 1s 500ms b',
         expectedValues: {
-          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 2' }),
         },
       },
       {
@@ -1088,7 +1094,7 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '- 1s 500ms b',
         expectedValues: {
-          b: EditorActions.editorComponentValueChange({ value: 'value 2' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 2' }),
         },
       },
       {
@@ -1103,7 +1109,7 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '- 1s 999ms b',
         expectedValues: {
-          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 2' }),
         },
       },
       {
@@ -1118,8 +1124,8 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '1s a 1s b',
         expectedValues: {
-          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
-          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 2' }),
         },
       },
       {
@@ -1134,8 +1140,8 @@ describe('PackageEffects', () => {
         },
         expectedMarbles: '1s a 2s b',
         expectedValues: {
-          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
-          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          b: EditorActions.stableSpecValueChange({ value: 'value 2' }),
         },
       },
     ] as {
@@ -1163,22 +1169,187 @@ describe('PackageEffects', () => {
                 actionsValues
               ) as Actions<EditorActions.Actions>;
 
-              // WHEN delaySeedLoadedValueChange$ is called
+              // WHEN stableSpecValueChange$ is accessed
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
                 specServiceSpy,
                 routerSpy
               );
-              const returnedActions = effects.delaySeedLoadedValueChange$(
-                actions$
-              );
+              const returnedActions = effects.stableSpecValueChange$;
 
               // THEN the expected actions are returned
               helpers
                 .expectObservable(returnedActions)
                 .toBe(expectedMarbles, expectedValues);
             });
+          });
+        });
+      }
+    );
+  });
+
+  describe('validateManaged$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        specServiceValidateManagedReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        specServiceValidateManagedReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single stable spec value change action actions validateManaged$ returns response',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        specServiceValidateManagedReturnValues: [
+          { marbles: '-b|', values: { b: { result: { valid: true } } } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateManagedSuccess({
+            response: { result: { valid: true } },
+          }),
+        },
+      },
+      {
+        description:
+          'single stable spec value change action actions validateManaged$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        specServiceValidateManagedReturnValues: [{ marbles: '-#|' }],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateManagedError({
+            message: 'message 1',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions validateManaged$ returns response before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        specServiceValidateManagedReturnValues: [
+          { marbles: '-b|', values: { b: { result: { valid: true } } } },
+          { marbles: '-e|', values: { e: { result: { valid: false } } } },
+        ],
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateManagedSuccess({
+            response: { result: { valid: true } },
+          }),
+          e: EditorActions.editorApiSpecValidateManagedSuccess({
+            response: { result: { valid: false } },
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions validateManaged$ returns response after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        specServiceValidateManagedReturnValues: [
+          { marbles: '----e|', values: { e: { result: { valid: true } } } },
+          { marbles: '-e|', values: { e: { result: { valid: false } } } },
+        ],
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.editorApiSpecValidateManagedSuccess({
+            response: { result: { valid: false } },
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      specServiceValidateManagedReturnValues: {
+        marbles: string;
+        values: { [key: string]: ValidationResponse };
+      }[];
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        specServiceValidateManagedReturnValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
+              // AND seedService get$ that returns values
+              specServiceSpy.validateManaged$.and.returnValues(
+                ...specServiceValidateManagedReturnValues.map(
+                  ({ marbles, values }) =>
+                    helpers.cold(marbles, values, new SpecError('message 1'))
+                )
+              );
+
+              // WHEN validateManaged$ is accessed
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
+              const returnedActions = effects.validateManaged$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService validateManaged$ has been called
+            expect(specServiceSpy.validateManaged$).toHaveBeenCalledTimes(
+              specServiceValidateManagedReturnValues.length
+            );
+            if (specServiceValidateManagedReturnValues.length > 0) {
+              expect(specServiceSpy.validateManaged$).toHaveBeenCalledWith({
+                value: 'value 1',
+                language: 'YAML',
+              });
+            }
           });
         });
       }
