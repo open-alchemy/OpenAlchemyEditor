@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsNotManyToManyRelationshipPropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesRelationshipNotManyToMany } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-not-many-to-many-relationship-property-artifacts',
@@ -10,11 +10,6 @@ import { ArtifactsNotManyToManyRelationshipPropertyModel } from '../../../artifa
     './not-many-to-many-relationship-property-artifacts.component.css',
   ],
 })
-export class NotManyToManyRelationshipPropertyArtifactsComponent
-  implements OnInit {
-  @Input() artifacts: ArtifactsNotManyToManyRelationshipPropertyModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class NotManyToManyRelationshipPropertyArtifactsComponent {
+  @Input() artifacts: ArtifactResponsePropertiesRelationshipNotManyToMany;
 }

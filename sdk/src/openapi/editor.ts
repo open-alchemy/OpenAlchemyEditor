@@ -491,15 +491,16 @@ export interface components {
       properties: string[];
       schema: { [key: string]: any };
     };
+    ArtifactResponsePropertiesAll:
+      | components['schemas']['ArtifactResponsePropertiesSimple']
+      | components['schemas']['ArtifactResponsePropertiesJson']
+      | components['schemas']['ArtifactResponsePropertiesRelationship']
+      | components['schemas']['ArtifactResponsePropertiesBackref'];
     /**
      * The artifacts for a property
      */
     ArtifactResponseProperty: {
-      artifacts?:
-        | components['schemas']['ArtifactResponsePropertiesSimple']
-        | components['schemas']['ArtifactResponsePropertiesJson']
-        | components['schemas']['ArtifactResponsePropertiesRelationship']
-        | components['schemas']['ArtifactResponsePropertiesBackref'];
+      artifacts?: components['schemas']['ArtifactResponsePropertiesAll'];
     };
     /**
      * The artifacts for the properties of a model

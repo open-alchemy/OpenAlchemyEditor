@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { ManyToManyRelationshipPropertyArtifactsComponent } from './many-to-many-relationship-property-artifacts.component';
-import { ArtifactsManyToManyRelationshipPropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesRelationshipManyToMany } from '../../../services/editor/types';
 
 @Component({ selector: 'app-secondary', template: '' })
 class SecondaryStubComponent {
@@ -71,7 +71,7 @@ describe('ManyToManyRelationshipPropertyArtifactsComponent', () => {
           parent: 'parent 1',
           required: true,
           secondary: 'secondary 1',
-        } as ArtifactsManyToManyRelationshipPropertyModel,
+        } as ArtifactResponsePropertiesRelationshipManyToMany,
         checkComponent: SecondaryStubComponent,
         attribute: 'secondary',
         expectedValue: 'secondary 1',

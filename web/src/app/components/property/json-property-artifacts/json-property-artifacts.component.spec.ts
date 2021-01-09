@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { JsonPropertyArtifactsComponent } from './json-property-artifacts.component';
 
-import { ArtifactsJsonPropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesJson } from '../../../services/editor/types';
 
 @Component({ selector: 'app-required', template: '' })
 class RequiredStubComponent {}
@@ -94,7 +94,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: RequiredStubComponent,
       },
       {
@@ -112,7 +112,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: NullableStubComponent,
       },
       {
@@ -124,7 +124,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', nullable: false },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: NullableStubComponent,
       },
       {
@@ -142,7 +142,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ReadOnlyStubComponent,
       },
       {
@@ -154,7 +154,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', read_only: false },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ReadOnlyStubComponent,
       },
       {
@@ -172,7 +172,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: WriteOnlyStubComponent,
       },
       {
@@ -184,7 +184,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', write_only: false },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: WriteOnlyStubComponent,
       },
       {
@@ -202,7 +202,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: PrimaryKeyStubComponent,
       },
       {
@@ -220,7 +220,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: IndexStubComponent,
       },
       {
@@ -232,7 +232,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, index: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: IndexStubComponent,
       },
       {
@@ -250,7 +250,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: UniqueStubComponent,
       },
       {
@@ -262,7 +262,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, unique: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: UniqueStubComponent,
       },
       {
@@ -280,7 +280,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ForeignKeyStubComponent,
       },
       {
@@ -298,7 +298,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: KwargsStubComponent,
       },
       {
@@ -316,7 +316,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ForeignKeyKwargsStubComponent,
       },
       {
@@ -356,7 +356,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: RequiredStubComponent,
         attribute: null,
         expectedValue: null,
@@ -370,7 +370,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', nullable: true },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: NullableStubComponent,
         attribute: null,
         expectedValue: null,
@@ -384,7 +384,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', read_only: true },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ReadOnlyStubComponent,
         attribute: null,
         expectedValue: null,
@@ -398,7 +398,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer', write_only: true },
           extension: { primary_key: false },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: WriteOnlyStubComponent,
         attribute: null,
         expectedValue: null,
@@ -412,7 +412,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: true },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: PrimaryKeyStubComponent,
         attribute: null,
         expectedValue: null,
@@ -426,7 +426,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, index: true },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: IndexStubComponent,
         attribute: null,
         expectedValue: null,
@@ -440,7 +440,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, unique: true },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: UniqueStubComponent,
         attribute: null,
         expectedValue: null,
@@ -454,7 +454,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, foreign_key: 'foreign key 1' },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ForeignKeyStubComponent,
         attribute: 'foreign_key',
         expectedValue: 'foreign key 1',
@@ -468,7 +468,7 @@ describe('JsonPropertyArtifactsComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false, kwargs: { key: 'value' } },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: KwargsStubComponent,
         attribute: 'kwargs',
         expectedValue: { key: 'value' },
@@ -485,7 +485,7 @@ describe('JsonPropertyArtifactsComponent', () => {
             foreign_key_kwargs: { key: 'value' },
           },
           schema: {},
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: ForeignKeyKwargsStubComponent,
         attribute: 'foreign_key_kwargs',
         expectedValue: { key: 'value' },
@@ -502,7 +502,7 @@ describe('JsonPropertyArtifactsComponent', () => {
             foreign_key_kwargs: { key: 'value' },
           },
           schema: { key: 'value' },
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertiesJson,
         checkComponent: SchemaStubComponent,
         attribute: 'schema',
         expectedValue: { key: 'value' },

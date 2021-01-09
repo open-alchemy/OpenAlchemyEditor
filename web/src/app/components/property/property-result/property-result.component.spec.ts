@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { PropertyResultComponent } from './property-result.component';
-import { ValidatorResultModel } from '../../../validator.model';
+import { ValidationResponseResult } from '../../../services/editor/types';
 import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
 
 @Component({ selector: 'app-result', template: '' })
 class ResultStubComponent {
-  @Input() model: ValidatorResultModel;
+  @Input() model: ValidationResponseResult;
 }
 
 @Component({ selector: 'app-property-artifacts', template: '' })

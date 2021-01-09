@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { BackrefPropertyArtifactsComponent } from './backref-property-artifacts.component';
 
-import { ArtifactsBackrefPropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesBackref } from '../../../services/editor/types';
 
 @Component({ selector: 'app-properties', template: '' })
 class PropertiesStubComponent {
@@ -68,7 +68,7 @@ describe('BackrefPropertyArtifactsComponent', () => {
           type: 'BACKREF',
           sub_type: 'OBJECT',
           properties: ['property 1'],
-        } as ArtifactsBackrefPropertyModel,
+        } as ArtifactResponsePropertiesBackref,
         checkComponent: PropertiesStubComponent,
         attribute: 'properties',
         expectedValue: ['property 1'],
@@ -115,7 +115,7 @@ describe('BackrefPropertyArtifactsComponent', () => {
           type: 'BACKREF',
           sub_type: 'OBJECT',
           properties: ['property 1'],
-        } as ArtifactsBackrefPropertyModel,
+        } as ArtifactResponsePropertiesBackref,
         expectedInnerText: 'type: object',
       },
       {
@@ -125,7 +125,7 @@ describe('BackrefPropertyArtifactsComponent', () => {
           type: 'BACKREF',
           sub_type: 'ARRAY',
           properties: ['property 1'],
-        } as ArtifactsBackrefPropertyModel,
+        } as ArtifactResponsePropertiesBackref,
         expectedInnerText: 'type: array',
       },
     ];

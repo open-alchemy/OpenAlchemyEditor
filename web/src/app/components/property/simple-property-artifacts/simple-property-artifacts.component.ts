@@ -1,15 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsSimplePropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesSimple } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-simple-property-artifacts',
   templateUrl: './simple-property-artifacts.component.html',
   styleUrls: ['./simple-property-artifacts.component.css'],
 })
-export class SimplePropertyArtifactsComponent implements OnInit {
-  @Input() artifacts: ArtifactsSimplePropertyModel;
-  constructor() {}
-
-  ngOnInit(): void {}
+export class SimplePropertyArtifactsComponent {
+  @Input() artifacts: ArtifactResponsePropertiesSimple;
 }

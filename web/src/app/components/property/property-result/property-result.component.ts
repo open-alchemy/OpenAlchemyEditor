@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ResultPropertyModel } from 'src/app/result.model';
+import { ResultPropertyModel } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-property-result',

@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsRelationshipPropertyModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertiesRelationshipBase } from '../../../services/editor/types';
 
 export interface ArtifactsRelationshipPropertyModelWithNullable
-  extends ArtifactsRelationshipPropertyModel {
+  extends ArtifactResponsePropertiesRelationshipBase {
   nullable?: boolean;
 }
 
@@ -12,9 +12,6 @@ export interface ArtifactsRelationshipPropertyModelWithNullable
   templateUrl: './relationship-property-artifacts.component.html',
   styleUrls: ['./relationship-property-artifacts.component.css'],
 })
-export class RelationshipPropertyArtifactsComponent implements OnInit {
+export class RelationshipPropertyArtifactsComponent {
   @Input() artifacts: ArtifactsRelationshipPropertyModelWithNullable;
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -15,6 +15,7 @@ export type ValidationResponse = components['schemas']['ValidationResponse'];
 export type ArtifactResponsePropertiesBase = components['schemas']['ArtifactResponsePropertiesBase'];
 export type ArtifactResponsePropertiesSimple = components['schemas']['ArtifactResponsePropertiesSimple'];
 export type ArtifactResponsePropertiesJson = components['schemas']['ArtifactResponsePropertiesJson'];
+export type ArtifactResponsePropertiesAll = components['schemas']['ArtifactResponsePropertiesAll'];
 export type ArtifactResponsePropertiesRelationshipBase = components['schemas']['ArtifactResponsePropertiesRelationshipBase'];
 // Disabling because can't do anything about how long it is defined elsewhere
 // eslint-disable-next-line max-len
