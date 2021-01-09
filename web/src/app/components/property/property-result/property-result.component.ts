@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { ResultPropertyModel } from '../../../services/editor/types';
 
@@ -7,11 +7,7 @@ import { ResultPropertyModel } from '../../../services/editor/types';
   templateUrl: './property-result.component.html',
   styleUrls: ['./property-result.component.css'],
 })
-export class PropertyResultComponent implements OnInit {
+export class PropertyResultComponent {
   @Input() name = 'id';
   @Input() model: ResultPropertyModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -4,19 +4,19 @@ import { By } from '@angular/platform-browser';
 
 import { UnmanagedModelResultComponent } from './unmanaged-model-result.component';
 import {
-  ValidatorModelModel,
-  ValidatorResultModel,
-} from '../../validator.model';
+  ValidationResponseModel,
+  ValidationResponseResult,
+} from '../../services/editor/types';
 
 @Component({ selector: 'app-model-result-badge', template: '' })
 class ModelResultBadgeStubComponent {
-  @Input() model: ValidatorModelModel;
+  @Input() model: ValidationResponseModel;
   @Input() unmanaged: boolean;
 }
 
 @Component({ selector: 'app-result', template: '' })
 class ResultStubComponent {
-  @Input() model: ValidatorResultModel;
+  @Input() model: ValidationResponseResult;
   @Input() symbol: string;
 }
 

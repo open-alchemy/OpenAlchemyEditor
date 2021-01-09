@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { EditorService } from '../../services/editor/editor.service';
-import { ValidatorModel } from 'src/app/validator.model';
+import { ValidationResponse } from '../../services/editor/types';
 
 @Component({
   selector: 'app-unmanaged-models-result',
@@ -13,7 +13,7 @@ export class UnmanagedModelsResultComponent {
 
   constructor(private editorService: EditorService) {}
 
-  hasModels(result: ValidatorModel): boolean {
+  hasModels(result: ValidationResponse): boolean {
     if (result.models === undefined || result.models === null) {
       return false;
     }

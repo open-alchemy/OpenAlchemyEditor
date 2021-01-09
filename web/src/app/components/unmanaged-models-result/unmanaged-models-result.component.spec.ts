@@ -5,12 +5,12 @@ import { By } from '@angular/platform-browser';
 
 import { UnmanagedModelsResultComponent } from './unmanaged-models-result.component';
 import { EditorService } from '../../services/editor/editor.service';
-import { ValidatorModelModel } from 'src/app/validator.model';
+import { ValidationResponseModel } from '../../services/editor/types';
 
 @Component({ selector: 'app-unmanaged-model-result', template: '' })
 class UnmanagedModelResultStubComponent {
   @Input() name: string;
-  @Input() model: ValidatorModelModel;
+  @Input() model: ValidationResponseModel;
 }
 
 describe('UnmanagedModelsResultComponent', () => {
