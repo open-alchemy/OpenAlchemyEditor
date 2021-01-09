@@ -405,18 +405,155 @@ components:
             - open_api
             - extension
             - required
-    # ArtifactResponsePropertiesRelationshipManyToOne:
-    #   description: The artifacts for a many to one relationship
-    #   type: object
-    #   properties:
-    #     type:
-    #     sub_type:
-    #     parent:
-    #     required:
-    #     foreign_key:
-    #     foreign_key_property:
-    #     backref_property:
-    # ArtifactResponsePropertiesRelationship: TAnyRelationshipPropertyTypedDict
+    ArtifactResponsePropertiesRelationshipBaseType:
+      description: The type for a relationship
+      type: string
+      enum:
+        - RELATIONSHIP
+    ArtifactResponsePropertiesRelationshipBaseSubType:
+      description: The sub type for a relationship
+      type: string
+      enum:
+        - MANY_TO_ONE
+        - ONE_TO_ONE
+        - ONE_TO_MANY
+        - MANY_TO_MANY
+    ArtifactResponsePropertiesRelationshipBaseParent:
+      description: The parent for a relationship
+      type: string
+    ArtifactResponsePropertiesRelationshipBaseBackrefProperty:
+      description: The backref property for a relationship
+      type: string
+    ArtifactResponsePropertiesRelationshipBase:
+      description: The base for all relationship artifacts
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - type: object
+          properties:
+            type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseType"
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseSubType"
+            parent:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseParent"
+            backref_property:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseBackrefProperty"
+            kwargs:
+              $ref: "#/components/schemas/ArtifactResponseKwargs"
+            write_only:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
+            required:
+              $ref: "#/components/schemas/ArtifactResponseRequired"
+          required:
+            - sub_type
+            - parent
+            - required
+    ArtifactResponsePropertiesRelationshipNotManyToManySubType:
+      description: The sub type for a relationship that is not many to many
+      type: string
+      enum:
+        - MANY_TO_ONE
+        - ONE_TO_ONE
+        - ONE_TO_MANY
+    ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty:
+      description: The foreign key property for a relationship that is not many to many
+      type: string
+    ArtifactResponsePropertiesRelationshipNotManyToMany:
+      description: The base for all not many-to-many relationship artifacts
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBase"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToManySubType"
+            foreign_key:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+            foreign_key_property:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty"
+          required:
+            - foreign_key
+            - foreign_key_property
+    ArtifactResponsePropertiesRelationshipOneToManySubType:
+      description: The sub type for a relationship that is one to many
+      type: string
+      enum:
+        - ONE_TO_MANY
+    ArtifactResponsePropertiesRelationshipOneToMany:
+      description: The artifacts for a one to many relationship
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToMany"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToManySubType"
+    ArtifactResponsePropertiesRelationshipXToOneSubType:
+      description: The sub type for a relationship that is x to one
+      type: string
+      enum:
+        - MANY_TO_ONE
+        - ONE_TO_ONE
+    ArtifactResponsePropertiesRelationshipXToOne:
+      description: The artifacts for a x to one relationship
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToMany"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOneSubType"
+            nullable:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+    ArtifactResponsePropertiesRelationshipManyToOneSubType:
+      description: The sub type for a relationship that is many to one
+      type: string
+      enum:
+        - MANY_TO_ONE
+    ArtifactResponsePropertiesRelationshipManyToOne:
+      description: The artifacts for a many to one relationship
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOne"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToOneSubType"
+    ArtifactResponsePropertiesRelationshipOneToOneSubType:
+      description: The sub type for a relationship that is one to one
+      type: string
+      enum:
+        - ONE_TO_ONE
+    ArtifactResponsePropertiesRelationshipOneToOne:
+      description: The artifacts for a one to one relationship
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOne"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToOneSubType"
+    ArtifactResponsePropertiesRelationshipManyToManySubType:
+      description: The sub type for a relationship that is many to many
+      type: string
+      enum:
+        - MANY_TO_MANY
+    ArtifactResponsePropertiesRelationshipManyToManySecondary:
+      description: The secondary for a relationship that is many to many
+      type: string
+    ArtifactResponsePropertiesRelationshipManyToMany:
+      description: The artifacts for a many to many relationship
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBase"
+        - type: object
+          properties:
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToManySubType"
+            secondary:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToManySecondary"
+          required:
+            - secondary
+    ArtifactResponsePropertiesRelationship:
+      oneOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToMany"
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToMany"
     ArtifactResponsePropertiesBackrefType:
       description: The type for backref property
       type: string
@@ -459,7 +596,7 @@ components:
             oneOf:
               - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
               - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
-              # - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
+              - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
               - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
     ArtifactResponseModelTablename:
       description: The name of the table for the schema
