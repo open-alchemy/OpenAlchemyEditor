@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { CompositeUniqueComponent } from './composite-unique.component';
 
-import { ArtifactsCompositeUniqueItemModel } from '../../../../artifacts.model';
+import { ArtifactResponseModelUnique } from '../../../../services/editor/types';
 
 @Component({ selector: 'app-composite-unique-item', template: '' })
 class CompositeUniqueItemStubComponent {
-  @Input() item: ArtifactsCompositeUniqueItemModel;
+  @Input() item: ArtifactResponseModelUnique;
 }
 
 describe('CompositeUniqueComponent', () => {

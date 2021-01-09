@@ -1,14 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tablename',
   templateUrl: './tablename.component.html',
   styleUrls: ['./tablename.component.css'],
 })
-export class TablenameComponent implements OnInit {
+export class TablenameComponent {
   @Input() tablename: string;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

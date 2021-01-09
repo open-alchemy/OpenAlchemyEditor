@@ -1,16 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsCompositeIndexModel } from '../../../../artifacts.model';
+import { ArtifactResponseModelCompositeIndex } from '../../../../services/editor/types';
 
 @Component({
   selector: 'app-composite-index',
   templateUrl: './composite-index.component.html',
   styleUrls: ['./composite-index.component.css'],
 })
-export class CompositeIndexComponent implements OnInit {
-  @Input() composite_index: ArtifactsCompositeIndexModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class CompositeIndexComponent {
+  @Input() composite_index: ArtifactResponseModelCompositeIndex;
 }

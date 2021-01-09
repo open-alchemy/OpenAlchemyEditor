@@ -1,16 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsCompositeUniqueModel } from '../../../../artifacts.model';
+import { ArtifactResponseModelCompositeUnique } from '../../../../services/editor/types';
 
 @Component({
   selector: 'app-composite-unique',
   templateUrl: './composite-unique.component.html',
   styleUrls: ['./composite-unique.component.css'],
 })
-export class CompositeUniqueComponent implements OnInit {
-  @Input() composite_unique: ArtifactsCompositeUniqueModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class CompositeUniqueComponent {
+  @Input() composite_unique: ArtifactResponseModelCompositeUnique;
 }

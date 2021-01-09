@@ -1,14 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-max-length',
   templateUrl: './max-length.component.html',
   styleUrls: ['./max-length.component.css'],
 })
-export class MaxLengthComponent implements OnInit {
+export class MaxLengthComponent {
   @Input() max_length: number;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

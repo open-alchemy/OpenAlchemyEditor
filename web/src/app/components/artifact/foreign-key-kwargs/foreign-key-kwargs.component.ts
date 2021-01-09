@@ -1,14 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-foreign-key-kwargs',
   templateUrl: './foreign-key-kwargs.component.html',
   styleUrls: ['./foreign-key-kwargs.component.css'],
 })
-export class ForeignKeyKwargsComponent implements OnInit {
+export class ForeignKeyKwargsComponent {
   @Input() foreign_key_kwargs: { [key: string]: any };
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

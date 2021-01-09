@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { CompositeIndexComponent } from './composite-index.component';
 
-import { ArtifactsCompositeIndexItemModel } from '../../../../artifacts.model';
+import { ArtifactResponseModelIndex } from '../../../../services/editor/types';
 
 @Component({ selector: 'app-composite-index-item', template: '' })
 class CompositeIndexItemStubComponent {
-  @Input() item: ArtifactsCompositeIndexItemModel;
+  @Input() item: ArtifactResponseModelIndex;
 }
 
 describe('CompositeIndexComponent', () => {
