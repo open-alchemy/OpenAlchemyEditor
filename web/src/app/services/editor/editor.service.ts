@@ -33,9 +33,9 @@ const selectEditorArtifact = createSelector(
   selectEditor,
   (state: EditorState) => state.artifact
 );
-// const selectEditorResult = createSelector(selectEditor, (state: EditorState) =>
-//   combineResult(state.validate.managed.value, state.artifact.value)
-// );
+const selectEditorResult = createSelector(selectEditor, (state: EditorState) =>
+  combineResult(state.validate.managed.value, state.artifact.value)
+);
 
 @Injectable({ providedIn: 'root' })
 export class EditorService {

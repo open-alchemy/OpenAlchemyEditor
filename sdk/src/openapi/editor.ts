@@ -537,7 +537,7 @@ export interface components {
     /**
      * Indexes for the model
      */
-    ArtifactResponseModelCompositeUnique: components['schemas']['ArtifactResponseModelIndex'][];
+    ArtifactResponseModelCompositeUnique: components['schemas']['ArtifactResponseModelUnique'][];
     /**
      * The artifacts for a model
      */

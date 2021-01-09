@@ -657,7 +657,7 @@ components:
       description: Indexes for the model
       type: array
       items:
-        $ref: "#/components/schemas/ArtifactResponseModelIndex"
+        $ref: "#/components/schemas/ArtifactResponseModelUnique"
     ArtifactResponseModelArtifacts:
       description: The artifacts for a model
       type: object
