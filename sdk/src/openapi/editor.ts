@@ -228,7 +228,7 @@ export interface components {
     /**
      * Base for the definition of a property
      */
-    ArtifactResponsePropertiesBase: {
+    ArtifactResponsePropertyBase: {
       type: 'SIMPLE' | 'JSON' | 'RELATIONSHIP' | 'BACKREF';
       required?: components['schemas']['ArtifactResponseRequired'];
       description?: components['schemas']['ArtifactResponseDescription'];
@@ -236,23 +236,23 @@ export interface components {
     /**
      * The type for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiType: string;
+    ArtifactResponsePropertySimpleOpenApiType: string;
     /**
      * The format for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiFormat: string;
+    ArtifactResponsePropertySimpleOpenApiFormat: string;
     /**
      * The maxLength for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiMaxLength: number;
+    ArtifactResponsePropertySimpleOpenApiMaxLength: number;
     /**
      * The nullable for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiNullable: boolean;
+    ArtifactResponsePropertySimpleOpenApiNullable: boolean;
     /**
      * The default for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiDefault:
+    ArtifactResponsePropertySimpleOpenApiDefault:
       | number
       | number
       | string
@@ -260,114 +260,114 @@ export interface components {
     /**
      * The readOnly for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiReadOnly: boolean;
+    ArtifactResponsePropertySimpleOpenApiReadOnly: boolean;
     /**
      * The writeOnly for simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApiWriteOnly: boolean;
+    ArtifactResponsePropertySimpleOpenApiWriteOnly: boolean;
     /**
      * The OpenAPI artifacts for a simple property
      */
-    ArtifactResponsePropertiesSimpleOpenApi: {
-      type: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiType'];
-      format?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiFormat'];
-      max_length?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiMaxLength'];
-      nullable?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiNullable'];
-      default?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiDefault'];
-      read_only?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiReadOnly'];
-      write_only?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiWriteOnly'];
+    ArtifactResponsePropertySimpleOpenApi: {
+      type: components['schemas']['ArtifactResponsePropertySimpleOpenApiType'];
+      format?: components['schemas']['ArtifactResponsePropertySimpleOpenApiFormat'];
+      max_length?: components['schemas']['ArtifactResponsePropertySimpleOpenApiMaxLength'];
+      nullable?: components['schemas']['ArtifactResponsePropertySimpleOpenApiNullable'];
+      default?: components['schemas']['ArtifactResponsePropertySimpleOpenApiDefault'];
+      read_only?: components['schemas']['ArtifactResponsePropertySimpleOpenApiReadOnly'];
+      write_only?: components['schemas']['ArtifactResponsePropertySimpleOpenApiWriteOnly'];
     };
     /**
      * The primary key for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionPrimaryKey: boolean;
+    ArtifactResponsePropertySimpleExtensionPrimaryKey: boolean;
     /**
      * The autoincrement for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionAutoincrement: boolean;
+    ArtifactResponsePropertySimpleExtensionAutoincrement: boolean;
     /**
      * The index for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionIndex: boolean;
+    ArtifactResponsePropertySimpleExtensionIndex: boolean;
     /**
      * The unique for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionUnique: boolean;
+    ArtifactResponsePropertySimpleExtensionUnique: boolean;
     /**
      * The server default for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionServerDefault: string;
+    ArtifactResponsePropertySimpleExtensionServerDefault: string;
     /**
      * The server foreign key for simple property
      */
-    ArtifactResponsePropertiesSimpleExtensionForeignKey: string;
+    ArtifactResponsePropertySimpleExtensionForeignKey: string;
     /**
      * The extension artifacts for a simple property
      */
-    ArtifactResponsePropertiesSimpleExtension: {
-      primary_key: components['schemas']['ArtifactResponsePropertiesSimpleExtensionPrimaryKey'];
-      autoincrement?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionAutoincrement'];
-      index?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionIndex'];
-      unique?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionUnique'];
-      server_default?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionServerDefault'];
-      foreign_key?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionForeignKey'];
+    ArtifactResponsePropertySimpleExtension: {
+      primary_key: components['schemas']['ArtifactResponsePropertySimpleExtensionPrimaryKey'];
+      autoincrement?: components['schemas']['ArtifactResponsePropertySimpleExtensionAutoincrement'];
+      index?: components['schemas']['ArtifactResponsePropertySimpleExtensionIndex'];
+      unique?: components['schemas']['ArtifactResponsePropertySimpleExtensionUnique'];
+      server_default?: components['schemas']['ArtifactResponsePropertySimpleExtensionServerDefault'];
+      foreign_key?: components['schemas']['ArtifactResponsePropertySimpleExtensionForeignKey'];
       kwargs?: components['schemas']['ArtifactResponseKwargs'];
       foreign_key_kwargs?: components['schemas']['ArtifactResponseKwargs'];
     };
     /**
      * The type for simple property
      */
-    ArtifactResponsePropertiesSimpleType: 'SIMPLE';
+    ArtifactResponsePropertySimpleType: 'SIMPLE';
     /**
      * The artifacts for a simple property
      */
-    ArtifactResponsePropertiesSimple: components['schemas']['ArtifactResponsePropertiesBase'] & {
-      type: components['schemas']['ArtifactResponsePropertiesSimpleType'];
-      open_api: components['schemas']['ArtifactResponsePropertiesSimpleOpenApi'];
-      extension: components['schemas']['ArtifactResponsePropertiesSimpleExtension'];
+    ArtifactResponsePropertySimple: components['schemas']['ArtifactResponsePropertyBase'] & {
+      type: components['schemas']['ArtifactResponsePropertySimpleType'];
+      open_api: components['schemas']['ArtifactResponsePropertySimpleOpenApi'];
+      extension: components['schemas']['ArtifactResponsePropertySimpleExtension'];
       required: components['schemas']['ArtifactResponseRequired'];
     };
     /**
      * The OpenAPI artifacts for a json property
      */
-    ArtifactResponsePropertiesJsonOpenApi: {
-      nullable?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiNullable'];
-      read_only?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiReadOnly'];
-      write_only?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiWriteOnly'];
+    ArtifactResponsePropertyJsonOpenApi: {
+      nullable?: components['schemas']['ArtifactResponsePropertySimpleOpenApiNullable'];
+      read_only?: components['schemas']['ArtifactResponsePropertySimpleOpenApiReadOnly'];
+      write_only?: components['schemas']['ArtifactResponsePropertySimpleOpenApiWriteOnly'];
     };
     /**
      * The extension artifacts for a Json property
      */
-    ArtifactResponsePropertiesJsonExtension: {
-      primary_key: components['schemas']['ArtifactResponsePropertiesSimpleExtensionPrimaryKey'];
-      index?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionIndex'];
-      unique?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionUnique'];
-      foreign_key?: components['schemas']['ArtifactResponsePropertiesSimpleExtensionForeignKey'];
+    ArtifactResponsePropertyJsonExtension: {
+      primary_key: components['schemas']['ArtifactResponsePropertySimpleExtensionPrimaryKey'];
+      index?: components['schemas']['ArtifactResponsePropertySimpleExtensionIndex'];
+      unique?: components['schemas']['ArtifactResponsePropertySimpleExtensionUnique'];
+      foreign_key?: components['schemas']['ArtifactResponsePropertySimpleExtensionForeignKey'];
       kwargs?: components['schemas']['ArtifactResponseKwargs'];
       foreign_key_kwargs?: components['schemas']['ArtifactResponseKwargs'];
     };
     /**
      * The type for Json property
      */
-    ArtifactResponsePropertiesJsonType: 'JSON';
+    ArtifactResponsePropertyJsonType: 'JSON';
     /**
      * The artifacts for a json property
      */
-    ArtifactResponsePropertiesJson: components['schemas']['ArtifactResponsePropertiesBase'] & {
-      type: components['schemas']['ArtifactResponsePropertiesJsonType'];
-      open_api: components['schemas']['ArtifactResponsePropertiesJsonOpenApi'];
-      extension: components['schemas']['ArtifactResponsePropertiesJsonExtension'];
+    ArtifactResponsePropertyJson: components['schemas']['ArtifactResponsePropertyBase'] & {
+      type: components['schemas']['ArtifactResponsePropertyJsonType'];
+      open_api: components['schemas']['ArtifactResponsePropertyJsonOpenApi'];
+      extension: components['schemas']['ArtifactResponsePropertyJsonExtension'];
       required: components['schemas']['ArtifactResponseRequired'];
       schema?: { [key: string]: any };
     };
     /**
      * The type for a relationship
      */
-    ArtifactResponsePropertiesRelationshipBaseType: 'RELATIONSHIP';
+    ArtifactResponsePropertyRelationshipBaseType: 'RELATIONSHIP';
     /**
      * The sub type for a relationship
      */
-    ArtifactResponsePropertiesRelationshipBaseSubType:
+    ArtifactResponsePropertyRelationshipBaseSubType:
       | 'MANY_TO_ONE'
       | 'ONE_TO_ONE'
       | 'ONE_TO_MANY'
@@ -375,132 +375,132 @@ export interface components {
     /**
      * The parent for a relationship
      */
-    ArtifactResponsePropertiesRelationshipBaseParent: string;
+    ArtifactResponsePropertyRelationshipBaseParent: string;
     /**
      * The backref property for a relationship
      */
-    ArtifactResponsePropertiesRelationshipBaseBackrefProperty: string;
+    ArtifactResponsePropertyRelationshipBaseBackrefProperty: string;
     /**
      * The base for all relationship artifacts
      */
-    ArtifactResponsePropertiesRelationshipBase: components['schemas']['ArtifactResponsePropertiesBase'] & {
-      type?: components['schemas']['ArtifactResponsePropertiesRelationshipBaseType'];
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipBaseSubType'];
-      parent: components['schemas']['ArtifactResponsePropertiesRelationshipBaseParent'];
-      backref_property?: components['schemas']['ArtifactResponsePropertiesRelationshipBaseBackrefProperty'];
+    ArtifactResponsePropertyRelationshipBase: components['schemas']['ArtifactResponsePropertyBase'] & {
+      type?: components['schemas']['ArtifactResponsePropertyRelationshipBaseType'];
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipBaseSubType'];
+      parent: components['schemas']['ArtifactResponsePropertyRelationshipBaseParent'];
+      backref_property?: components['schemas']['ArtifactResponsePropertyRelationshipBaseBackrefProperty'];
       kwargs?: components['schemas']['ArtifactResponseKwargs'];
-      write_only?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiWriteOnly'];
+      write_only?: components['schemas']['ArtifactResponsePropertySimpleOpenApiWriteOnly'];
       required: components['schemas']['ArtifactResponseRequired'];
     };
     /**
      * The sub type for a relationship that is not many to many
      */
-    ArtifactResponsePropertiesRelationshipNotManyToManySubType:
+    ArtifactResponsePropertyRelationshipNotManyToManySubType:
       | 'MANY_TO_ONE'
       | 'ONE_TO_ONE'
       | 'ONE_TO_MANY';
     /**
      * The foreign key property for a relationship that is not many to many
      */
-    ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty: string;
+    ArtifactResponsePropertyRelationshipNotManyToManyForeignKeyProperty: string;
     /**
      * The base for all not many-to-many relationship artifacts
      */
-    ArtifactResponsePropertiesRelationshipNotManyToMany: components['schemas']['ArtifactResponsePropertiesRelationshipBase'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipNotManyToManySubType'];
-      foreign_key: components['schemas']['ArtifactResponsePropertiesSimpleExtensionForeignKey'];
-      foreign_key_property: components['schemas']['ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty'];
+    ArtifactResponsePropertyRelationshipNotManyToMany: components['schemas']['ArtifactResponsePropertyRelationshipBase'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipNotManyToManySubType'];
+      foreign_key: components['schemas']['ArtifactResponsePropertySimpleExtensionForeignKey'];
+      foreign_key_property: components['schemas']['ArtifactResponsePropertyRelationshipNotManyToManyForeignKeyProperty'];
     };
     /**
      * The sub type for a relationship that is one to many
      */
-    ArtifactResponsePropertiesRelationshipOneToManySubType: 'ONE_TO_MANY';
+    ArtifactResponsePropertyRelationshipOneToManySubType: 'ONE_TO_MANY';
     /**
      * The artifacts for a one to many relationship
      */
-    ArtifactResponsePropertiesRelationshipOneToMany: components['schemas']['ArtifactResponsePropertiesRelationshipNotManyToMany'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipOneToManySubType'];
+    ArtifactResponsePropertyRelationshipOneToMany: components['schemas']['ArtifactResponsePropertyRelationshipNotManyToMany'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipOneToManySubType'];
     };
     /**
      * The sub type for a relationship that is x to one
      */
-    ArtifactResponsePropertiesRelationshipXToOneSubType:
+    ArtifactResponsePropertyRelationshipXToOneSubType:
       | 'MANY_TO_ONE'
       | 'ONE_TO_ONE';
     /**
      * The artifacts for a x to one relationship
      */
-    ArtifactResponsePropertiesRelationshipXToOne: components['schemas']['ArtifactResponsePropertiesRelationshipNotManyToMany'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipXToOneSubType'];
-      nullable?: components['schemas']['ArtifactResponsePropertiesSimpleOpenApiNullable'];
+    ArtifactResponsePropertyRelationshipXToOne: components['schemas']['ArtifactResponsePropertyRelationshipNotManyToMany'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipXToOneSubType'];
+      nullable?: components['schemas']['ArtifactResponsePropertySimpleOpenApiNullable'];
     };
     /**
      * The sub type for a relationship that is many to one
      */
-    ArtifactResponsePropertiesRelationshipManyToOneSubType: 'MANY_TO_ONE';
+    ArtifactResponsePropertyRelationshipManyToOneSubType: 'MANY_TO_ONE';
     /**
      * The artifacts for a many to one relationship
      */
-    ArtifactResponsePropertiesRelationshipManyToOne: components['schemas']['ArtifactResponsePropertiesRelationshipXToOne'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipManyToOneSubType'];
+    ArtifactResponsePropertyRelationshipManyToOne: components['schemas']['ArtifactResponsePropertyRelationshipXToOne'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipManyToOneSubType'];
     };
     /**
      * The sub type for a relationship that is one to one
      */
-    ArtifactResponsePropertiesRelationshipOneToOneSubType: 'ONE_TO_ONE';
+    ArtifactResponsePropertyRelationshipOneToOneSubType: 'ONE_TO_ONE';
     /**
      * The artifacts for a one to one relationship
      */
-    ArtifactResponsePropertiesRelationshipOneToOne: components['schemas']['ArtifactResponsePropertiesRelationshipXToOne'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipOneToOneSubType'];
+    ArtifactResponsePropertyRelationshipOneToOne: components['schemas']['ArtifactResponsePropertyRelationshipXToOne'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipOneToOneSubType'];
     };
     /**
      * The sub type for a relationship that is many to many
      */
-    ArtifactResponsePropertiesRelationshipManyToManySubType: 'MANY_TO_MANY';
+    ArtifactResponsePropertyRelationshipManyToManySubType: 'MANY_TO_MANY';
     /**
      * The secondary for a relationship that is many to many
      */
-    ArtifactResponsePropertiesRelationshipManyToManySecondary: string;
+    ArtifactResponsePropertyRelationshipManyToManySecondary: string;
     /**
      * The artifacts for a many to many relationship
      */
-    ArtifactResponsePropertiesRelationshipManyToMany: components['schemas']['ArtifactResponsePropertiesRelationshipBase'] & {
-      sub_type: components['schemas']['ArtifactResponsePropertiesRelationshipManyToManySubType'];
-      secondary: components['schemas']['ArtifactResponsePropertiesRelationshipManyToManySecondary'];
+    ArtifactResponsePropertyRelationshipManyToMany: components['schemas']['ArtifactResponsePropertyRelationshipBase'] & {
+      sub_type: components['schemas']['ArtifactResponsePropertyRelationshipManyToManySubType'];
+      secondary: components['schemas']['ArtifactResponsePropertyRelationshipManyToManySecondary'];
     };
-    ArtifactResponsePropertiesRelationship:
-      | components['schemas']['ArtifactResponsePropertiesRelationshipManyToOne']
-      | components['schemas']['ArtifactResponsePropertiesRelationshipOneToOne']
-      | components['schemas']['ArtifactResponsePropertiesRelationshipOneToMany']
-      | components['schemas']['ArtifactResponsePropertiesRelationshipManyToMany'];
+    ArtifactResponsePropertyRelationship:
+      | components['schemas']['ArtifactResponsePropertyRelationshipManyToOne']
+      | components['schemas']['ArtifactResponsePropertyRelationshipOneToOne']
+      | components['schemas']['ArtifactResponsePropertyRelationshipOneToMany']
+      | components['schemas']['ArtifactResponsePropertyRelationshipManyToMany'];
     /**
      * The type for backref property
      */
-    ArtifactResponsePropertiesBackrefType: 'BACKREF';
+    ArtifactResponsePropertyBackrefType: 'BACKREF';
     /**
      * The sub type for backref property
      */
-    ArtifactResponsePropertiesBackrefSubType: 'OBJECT' | 'ARRAY';
+    ArtifactResponsePropertyBackrefSubType: 'OBJECT' | 'ARRAY';
     /**
      * The artifacts for a backref property
      */
-    ArtifactResponsePropertiesBackref: components['schemas']['ArtifactResponsePropertiesBase'] & {
-      type: components['schemas']['ArtifactResponsePropertiesBackrefType'];
-      sub_type: components['schemas']['ArtifactResponsePropertiesBackrefSubType'];
+    ArtifactResponsePropertyBackref: components['schemas']['ArtifactResponsePropertyBase'] & {
+      type: components['schemas']['ArtifactResponsePropertyBackrefType'];
+      sub_type: components['schemas']['ArtifactResponsePropertyBackrefSubType'];
       properties: string[];
       schema: { [key: string]: any };
     };
-    ArtifactResponsePropertiesAll:
-      | components['schemas']['ArtifactResponsePropertiesSimple']
-      | components['schemas']['ArtifactResponsePropertiesJson']
-      | components['schemas']['ArtifactResponsePropertiesRelationship']
-      | components['schemas']['ArtifactResponsePropertiesBackref'];
+    ArtifactResponsePropertyAll:
+      | components['schemas']['ArtifactResponsePropertySimple']
+      | components['schemas']['ArtifactResponsePropertyJson']
+      | components['schemas']['ArtifactResponsePropertyRelationship']
+      | components['schemas']['ArtifactResponsePropertyBackref'];
     /**
      * The artifacts for a property
      */
     ArtifactResponseProperty: {
-      artifacts?: components['schemas']['ArtifactResponsePropertiesAll'];
+      artifacts?: components['schemas']['ArtifactResponsePropertyAll'];
     };
     /**
      * The artifacts for the properties of a model

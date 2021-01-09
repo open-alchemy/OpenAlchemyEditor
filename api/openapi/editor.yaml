@@ -227,7 +227,7 @@ components:
     ArtifactResponseRequired:
       description: Whether a property is required
       type: boolean
-    ArtifactResponsePropertiesBase:
+    ArtifactResponsePropertyBase:
       description: Base for the definition of a property
       type: object
       properties:
@@ -244,108 +244,108 @@ components:
           $ref: "#/components/schemas/ArtifactResponseDescription"
       required:
         - type
-    ArtifactResponsePropertiesSimpleOpenApiType:
+    ArtifactResponsePropertySimpleOpenApiType:
       description: The type for simple property
       type: string
-    ArtifactResponsePropertiesSimpleOpenApiFormat:
+    ArtifactResponsePropertySimpleOpenApiFormat:
       description: The format for simple property
       type: string
-    ArtifactResponsePropertiesSimpleOpenApiMaxLength:
+    ArtifactResponsePropertySimpleOpenApiMaxLength:
       description: The maxLength for simple property
       type: integer
-    ArtifactResponsePropertiesSimpleOpenApiNullable:
+    ArtifactResponsePropertySimpleOpenApiNullable:
       description: The nullable for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleOpenApiDefault:
+    ArtifactResponsePropertySimpleOpenApiDefault:
       description: The default for simple property
       oneOf:
         - type: integer
         - type: number
         - type: string
         - type: boolean
-    ArtifactResponsePropertiesSimpleOpenApiReadOnly:
+    ArtifactResponsePropertySimpleOpenApiReadOnly:
       description: The readOnly for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleOpenApiWriteOnly:
+    ArtifactResponsePropertySimpleOpenApiWriteOnly:
       description: The writeOnly for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleOpenApi:
+    ArtifactResponsePropertySimpleOpenApi:
       description: The OpenAPI artifacts for a simple property
       type: object
       properties:
         type:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiType"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiType"
         format:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiFormat"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiFormat"
         max_length:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiMaxLength"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiMaxLength"
         nullable:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiNullable"
         default:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiDefault"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiDefault"
         read_only:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiReadOnly"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiReadOnly"
         write_only:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiWriteOnly"
       required:
         - type
-    ArtifactResponsePropertiesSimpleExtensionPrimaryKey:
+    ArtifactResponsePropertySimpleExtensionPrimaryKey:
       description: The primary key for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleExtensionAutoincrement:
+    ArtifactResponsePropertySimpleExtensionAutoincrement:
       description: The autoincrement for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleExtensionIndex:
+    ArtifactResponsePropertySimpleExtensionIndex:
       description: The index for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleExtensionUnique:
+    ArtifactResponsePropertySimpleExtensionUnique:
       description: The unique for simple property
       type: boolean
-    ArtifactResponsePropertiesSimpleExtensionServerDefault:
+    ArtifactResponsePropertySimpleExtensionServerDefault:
       description: The server default for simple property
       type: string
-    ArtifactResponsePropertiesSimpleExtensionForeignKey:
+    ArtifactResponsePropertySimpleExtensionForeignKey:
       description: The server foreign key for simple property
       type: string
-    ArtifactResponsePropertiesSimpleExtension:
+    ArtifactResponsePropertySimpleExtension:
       description: The extension artifacts for a simple property
       type: object
       properties:
         primary_key:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionPrimaryKey"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionPrimaryKey"
         autoincrement:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionAutoincrement"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionAutoincrement"
         index:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionIndex"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionIndex"
         unique:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionUnique"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionUnique"
         server_default:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionServerDefault"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionServerDefault"
         foreign_key:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionForeignKey"
         kwargs:
           $ref: "#/components/schemas/ArtifactResponseKwargs"
         foreign_key_kwargs:
           $ref: "#/components/schemas/ArtifactResponseKwargs"
       required:
         - primary_key
-    ArtifactResponsePropertiesSimpleType:
+    ArtifactResponsePropertySimpleType:
       description: The type for simple property
       type: string
       enum:
         - SIMPLE
-    ArtifactResponsePropertiesSimple:
+    ArtifactResponsePropertySimple:
       description: The artifacts for a simple property
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyBase"
         - type: object
           properties:
             type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleType"
             open_api:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApi"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApi"
             extension:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtension"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtension"
             required:
               $ref: "#/components/schemas/ArtifactResponseRequired"
           required:
@@ -353,51 +353,51 @@ components:
             - open_api
             - extension
             - required
-    ArtifactResponsePropertiesJsonOpenApi:
+    ArtifactResponsePropertyJsonOpenApi:
       description: The OpenAPI artifacts for a json property
       type: object
       properties:
         nullable:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiNullable"
         read_only:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiReadOnly"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiReadOnly"
         write_only:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
-    ArtifactResponsePropertiesJsonExtension:
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiWriteOnly"
+    ArtifactResponsePropertyJsonExtension:
       description: The extension artifacts for a Json property
       type: object
       properties:
         primary_key:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionPrimaryKey"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionPrimaryKey"
         index:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionIndex"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionIndex"
         unique:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionUnique"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionUnique"
         foreign_key:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+          $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionForeignKey"
         kwargs:
           $ref: "#/components/schemas/ArtifactResponseKwargs"
         foreign_key_kwargs:
           $ref: "#/components/schemas/ArtifactResponseKwargs"
       required:
         - primary_key
-    ArtifactResponsePropertiesJsonType:
+    ArtifactResponsePropertyJsonType:
       description: The type for Json property
       type: string
       enum:
         - JSON
-    ArtifactResponsePropertiesJson:
+    ArtifactResponsePropertyJson:
       description: The artifacts for a json property
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyBase"
         - type: object
           properties:
             type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyJsonType"
             open_api:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonOpenApi"
+              $ref: "#/components/schemas/ArtifactResponsePropertyJsonOpenApi"
             extension:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonExtension"
+              $ref: "#/components/schemas/ArtifactResponsePropertyJsonExtension"
             required:
               $ref: "#/components/schemas/ArtifactResponseRequired"
             schema:
@@ -407,12 +407,12 @@ components:
             - open_api
             - extension
             - required
-    ArtifactResponsePropertiesRelationshipBaseType:
+    ArtifactResponsePropertyRelationshipBaseType:
       description: The type for a relationship
       type: string
       enum:
         - RELATIONSHIP
-    ArtifactResponsePropertiesRelationshipBaseSubType:
+    ArtifactResponsePropertyRelationshipBaseSubType:
       description: The sub type for a relationship
       type: string
       enum:
@@ -420,173 +420,173 @@ components:
         - ONE_TO_ONE
         - ONE_TO_MANY
         - MANY_TO_MANY
-    ArtifactResponsePropertiesRelationshipBaseParent:
+    ArtifactResponsePropertyRelationshipBaseParent:
       description: The parent for a relationship
       type: string
-    ArtifactResponsePropertiesRelationshipBaseBackrefProperty:
+    ArtifactResponsePropertyRelationshipBaseBackrefProperty:
       description: The backref property for a relationship
       type: string
-    ArtifactResponsePropertiesRelationshipBase:
+    ArtifactResponsePropertyRelationshipBase:
       description: The base for all relationship artifacts
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyBase"
         - type: object
           properties:
             type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBaseType"
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseSubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBaseSubType"
             parent:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseParent"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBaseParent"
             backref_property:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBaseBackrefProperty"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBaseBackrefProperty"
             kwargs:
               $ref: "#/components/schemas/ArtifactResponseKwargs"
             write_only:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiWriteOnly"
             required:
               $ref: "#/components/schemas/ArtifactResponseRequired"
           required:
             - sub_type
             - parent
             - required
-    ArtifactResponsePropertiesRelationshipNotManyToManySubType:
+    ArtifactResponsePropertyRelationshipNotManyToManySubType:
       description: The sub type for a relationship that is not many to many
       type: string
       enum:
         - MANY_TO_ONE
         - ONE_TO_ONE
         - ONE_TO_MANY
-    ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty:
+    ArtifactResponsePropertyRelationshipNotManyToManyForeignKeyProperty:
       description: The foreign key property for a relationship that is not many to many
       type: string
-    ArtifactResponsePropertiesRelationshipNotManyToMany:
+    ArtifactResponsePropertyRelationshipNotManyToMany:
       description: The base for all not many-to-many relationship artifacts
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBase"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToManySubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipNotManyToManySubType"
             foreign_key:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleExtensionForeignKey"
             foreign_key_property:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToManyForeignKeyProperty"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipNotManyToManyForeignKeyProperty"
           required:
             - foreign_key
             - foreign_key_property
             - sub_type
-    ArtifactResponsePropertiesRelationshipOneToManySubType:
+    ArtifactResponsePropertyRelationshipOneToManySubType:
       description: The sub type for a relationship that is one to many
       type: string
       enum:
         - ONE_TO_MANY
-    ArtifactResponsePropertiesRelationshipOneToMany:
+    ArtifactResponsePropertyRelationshipOneToMany:
       description: The artifacts for a one to many relationship
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToMany"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipNotManyToMany"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToManySubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipOneToManySubType"
           required:
             - sub_type
-    ArtifactResponsePropertiesRelationshipXToOneSubType:
+    ArtifactResponsePropertyRelationshipXToOneSubType:
       description: The sub type for a relationship that is x to one
       type: string
       enum:
         - MANY_TO_ONE
         - ONE_TO_ONE
-    ArtifactResponsePropertiesRelationshipXToOne:
+    ArtifactResponsePropertyRelationshipXToOne:
       description: The artifacts for a x to one relationship
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipNotManyToMany"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipNotManyToMany"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOneSubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipXToOneSubType"
             nullable:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+              $ref: "#/components/schemas/ArtifactResponsePropertySimpleOpenApiNullable"
           required:
             - sub_type
-    ArtifactResponsePropertiesRelationshipManyToOneSubType:
+    ArtifactResponsePropertyRelationshipManyToOneSubType:
       description: The sub type for a relationship that is many to one
       type: string
       enum:
         - MANY_TO_ONE
-    ArtifactResponsePropertiesRelationshipManyToOne:
+    ArtifactResponsePropertyRelationshipManyToOne:
       description: The artifacts for a many to one relationship
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipXToOne"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToOneSubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipManyToOneSubType"
           required:
             - sub_type
-    ArtifactResponsePropertiesRelationshipOneToOneSubType:
+    ArtifactResponsePropertyRelationshipOneToOneSubType:
       description: The sub type for a relationship that is one to one
       type: string
       enum:
         - ONE_TO_ONE
-    ArtifactResponsePropertiesRelationshipOneToOne:
+    ArtifactResponsePropertyRelationshipOneToOne:
       description: The artifacts for a one to one relationship
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipXToOne"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToOneSubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipOneToOneSubType"
           required:
             - sub_type
-    ArtifactResponsePropertiesRelationshipManyToManySubType:
+    ArtifactResponsePropertyRelationshipManyToManySubType:
       description: The sub type for a relationship that is many to many
       type: string
       enum:
         - MANY_TO_MANY
-    ArtifactResponsePropertiesRelationshipManyToManySecondary:
+    ArtifactResponsePropertyRelationshipManyToManySecondary:
       description: The secondary for a relationship that is many to many
       type: string
-    ArtifactResponsePropertiesRelationshipManyToMany:
+    ArtifactResponsePropertyRelationshipManyToMany:
       description: The artifacts for a many to many relationship
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipBase"
         - type: object
           properties:
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToManySubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipManyToManySubType"
             secondary:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToManySecondary"
+              $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipManyToManySecondary"
           required:
             - sub_type
             - secondary
-    ArtifactResponsePropertiesRelationship:
+    ArtifactResponsePropertyRelationship:
       oneOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToOne"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToOne"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToMany"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToMany"
-    ArtifactResponsePropertiesBackrefType:
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipManyToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipOneToOne"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipOneToMany"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationshipManyToMany"
+    ArtifactResponsePropertyBackrefType:
       description: The type for backref property
       type: string
       enum:
         - BACKREF
-    ArtifactResponsePropertiesBackrefSubType:
+    ArtifactResponsePropertyBackrefSubType:
       description: The sub type for backref property
       type: string
       enum:
         - OBJECT
         - ARRAY
-    ArtifactResponsePropertiesBackref:
+    ArtifactResponsePropertyBackref:
       description: The artifacts for a backref property
       allOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyBase"
         - type: object
           properties:
             type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesBackrefType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyBackrefType"
             sub_type:
-              $ref: "#/components/schemas/ArtifactResponsePropertiesBackrefSubType"
+              $ref: "#/components/schemas/ArtifactResponsePropertyBackrefSubType"
             properties:
               type: array
               items:
@@ -598,18 +598,18 @@ components:
             - sub_type
             - properties
             - schema
-    ArtifactResponsePropertiesAll:
+    ArtifactResponsePropertyAll:
       oneOf:
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
-        - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
+        - $ref: "#/components/schemas/ArtifactResponsePropertySimple"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyJson"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyRelationship"
+        - $ref: "#/components/schemas/ArtifactResponsePropertyBackref"
     ArtifactResponseProperty:
       description: The artifacts for a property
       type: object
       properties:
         artifacts:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesAll"
+          $ref: "#/components/schemas/ArtifactResponsePropertyAll"
     ArtifactResponseProperties:
       description: The artifacts for the properties of a model
       type: object
