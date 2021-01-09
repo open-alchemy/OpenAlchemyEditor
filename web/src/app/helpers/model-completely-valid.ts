@@ -1,6 +1,6 @@
-import { ValidatorModelModel } from '../validator.model';
+import { ValidationResponseModel } from '../services/editor/types';
 
-export function modelCompletelyValid(model: ValidatorModelModel): boolean {
+export function modelCompletelyValid(model: ValidationResponseModel): boolean {
   if (!model || !model.result || model.result.valid === false) {
     return false;
   }
