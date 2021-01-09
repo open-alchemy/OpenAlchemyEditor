@@ -15,7 +15,6 @@ export class SeedComponent implements OnInit {
   constructor(private editorService: EditorService) {}
 
   ngOnInit(): void {
-    this.selected$.subscribe(console.log);
     this.editorService.seedComponentOnInit();
   }
 

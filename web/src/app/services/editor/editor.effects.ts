@@ -68,9 +68,7 @@ export class EditorEffects {
 
   routerNavigationStartExampleId$ = createEffect(() =>
     this.currentUrl$().pipe(
-      tap(console.log),
       filter((url) => url.startsWith(SEED_URL_PREFIX)),
-      tap(console.log),
       map((url) =>
         EditorActions.routerNavigationStartExampleId({
           path: decodeURIComponent(url.slice(SEED_URL_PREFIX.length)),

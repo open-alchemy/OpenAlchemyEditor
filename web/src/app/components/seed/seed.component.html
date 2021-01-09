@@ -2,17 +2,8 @@
   <ng-container *ngIf="selected$ | async as selected">
     <ng-container *ngIf="available.success">
       <mat-label>Example: </mat-label>
-      <select
-        matNativeControl
-        required
-        [(ngModel)]="selectedValue"
-        (ngModelChange)="selectChange($event)"
-      >
-        <option
-          *ngFor="let seed of available.values"
-          [ngValue]="seed.path"
-          selected="seed.path == selected.value"
-        >
+      <select [ngModel]="selected.value" (ngModelChange)="selectChange($event)">
+        <option *ngFor="let seed of available.values" [ngValue]="seed.path">
           {{ seed.name }}
         </option>
       </select>
