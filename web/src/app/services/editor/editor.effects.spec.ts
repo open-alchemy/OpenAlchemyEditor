@@ -793,6 +793,97 @@ describe('PackageEffects', () => {
     );
   });
 
+  describe('specSaved$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        expectedLocalStorageSeedValue: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedsGetError({ message: 'message 1' }),
+        },
+        expectedLocalStorageSeedValue: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single editor component seed loaded actions',
+        expectation:
+          'should save spec to localStorage and return single specSaved actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'seed 1' }),
+        },
+        expectedLocalStorageSeedValue: 'seed 1',
+        expectedMarbles: 'a',
+        expectedValues: { a: EditorActions.specSaved() },
+      },
+      {
+        description: 'single editor component value change actions',
+        expectation:
+          'should save spec to localStorage and return single specSaved actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentValueChange({ value: 'seed 1' }),
+        },
+        expectedLocalStorageSeedValue: 'seed 1',
+        expectedMarbles: 'a',
+        expectedValues: { a: EditorActions.specSaved() },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      expectedLocalStorageSeedValue: string | null;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        expectedLocalStorageSeedValue,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+
+              // WHEN specSaved$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.specSaved$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+            // AND localStorage has the expected seed value
+            expect(localStorage.getItem(SEED_KEY)).toEqual(
+              expectedLocalStorageSeedValue
+            );
+          });
+        });
+      }
+    );
+  });
+
   describe('routerNavigationBase$', () => {
     ([
       {

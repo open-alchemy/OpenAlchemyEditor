@@ -46,6 +46,17 @@ export class EditorEffects {
     )
   );
 
+  specSaved$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        EditorActions.editorComponentSeedLoaded.type,
+        EditorActions.editorComponentValueChange.type
+      ),
+      tap((action) => localStorage.setItem(SEED_KEY, action.value)),
+      map(() => EditorActions.specSaved())
+    )
+  );
+
   routerNavigationBase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.editorComponentValueChange.type),
