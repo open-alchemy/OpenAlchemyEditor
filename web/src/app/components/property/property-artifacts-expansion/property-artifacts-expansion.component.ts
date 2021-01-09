@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-property-artifacts-expansion',
@@ -8,7 +8,7 @@ import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
   styleUrls: ['./property-artifacts-expansion.component.css'],
 })
 export class PropertyArtifactsExpansionComponent implements OnInit {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 
   constructor() {}
 

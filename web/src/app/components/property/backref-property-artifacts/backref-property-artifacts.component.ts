@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ArtifactResponsePropertiesBackref } from '../../../services/editor/types';
+import { ArtifactResponsePropertyBackref } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-backref-property-artifacts',
@@ -8,5 +8,5 @@ import { ArtifactResponsePropertiesBackref } from '../../../services/editor/type
   styleUrls: ['./backref-property-artifacts.component.css'],
 })
 export class BackrefPropertyArtifactsComponent {
-  @Input() artifacts: ArtifactResponsePropertiesBackref;
+  @Input() artifacts: ArtifactResponsePropertyBackref;
 }

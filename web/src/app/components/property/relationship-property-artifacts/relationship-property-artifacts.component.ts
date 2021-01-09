@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-import { ArtifactResponsePropertiesRelationshipBase } from '../../../services/editor/types';
+import { ArtifactResponsePropertyRelationshipBase } from '../../../services/editor/types';
 
 export interface ArtifactsRelationshipPropertyModelWithNullable
-  extends ArtifactResponsePropertiesRelationshipBase {
+  extends ArtifactResponsePropertyRelationshipBase {
   nullable?: boolean;
 }
 

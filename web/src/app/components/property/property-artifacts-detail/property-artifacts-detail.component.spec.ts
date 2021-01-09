@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
 
 import { PropertyArtifactsDetailComponent } from './property-artifacts-detail.component';
 import {
@@ -14,22 +14,22 @@ import {
 
 @Component({ selector: 'app-simple-property-artifacts', template: '' })
 class SimplePropertyArtifactsStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 @Component({ selector: 'app-json-property-artifacts', template: '' })
 class JsonPropertyArtifactsStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 @Component({ selector: 'app-relationship-property-artifacts', template: '' })
 class RelationshipPropertyArtifactsStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 @Component({ selector: 'app-backref-property-artifacts', template: '' })
 class BackrefPropertyArtifactsStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 describe('PropertyArtifactsDetailComponent', () => {

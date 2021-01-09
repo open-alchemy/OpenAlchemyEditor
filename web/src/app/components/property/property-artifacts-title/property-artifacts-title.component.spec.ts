@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 
 import { PropertyArtifactsTitleComponent } from './property-artifacts-title.component';
 import {
-  ArtifactsSimplePropertyModel,
-  ArtifactsJsonPropertyModel,
-  ArtifactsManyToManyRelationshipPropertyModel,
-  ArtifactsBackrefPropertyModel,
-} from '../../../artifacts.model';
+  ArtifactResponsePropertyRelationshipManyToMany,
+  ArtifactResponsePropertyBackref,
+  ArtifactResponsePropertyJson,
+  ArtifactResponsePropertySimple,
+} from '../../../services/editor/types';
 
 @Component({ selector: 'app-description', template: '' })
 class DescriptionStubComponent {
@@ -71,7 +71,7 @@ describe('PropertyArtifactsTitleComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           required: false,
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
         expectedInnerText: 'basic',
       },
       {
@@ -82,7 +82,7 @@ describe('PropertyArtifactsTitleComponent', () => {
           open_api: {},
           extension: { primary_key: false },
           required: false,
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertyJson,
         expectedInnerText: 'json',
       },
       {
@@ -94,7 +94,7 @@ describe('PropertyArtifactsTitleComponent', () => {
           parent: 'parent 1',
           required: false,
           secondary: 'secondary 1',
-        } as ArtifactsManyToManyRelationshipPropertyModel,
+        } as ArtifactResponsePropertyRelationshipManyToMany,
         expectedInnerText: 'relationship',
       },
       {
@@ -106,7 +106,7 @@ describe('PropertyArtifactsTitleComponent', () => {
           required: false,
           properties: [],
           schema: {},
-        } as ArtifactsBackrefPropertyModel,
+        } as ArtifactResponsePropertyBackref,
         expectedInnerText: 'back reference',
       },
     ];

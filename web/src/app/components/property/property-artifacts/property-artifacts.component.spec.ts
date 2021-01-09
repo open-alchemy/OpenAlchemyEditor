@@ -3,11 +3,11 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { PropertyArtifactsComponent } from './property-artifacts.component';
-import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
+import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
 
 @Component({ selector: 'app-property-artifacts-expansion', template: '' })
 class PropertyArtifactsExpansionStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 describe('PropertyArtifactsComponent', () => {

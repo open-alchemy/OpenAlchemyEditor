@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ArtifactResponsePropertiesRelationshipNotManyToMany } from '../../../services/editor/types';
+import { ArtifactResponsePropertyRelationshipNotManyToMany } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-not-many-to-many-relationship-property-artifacts',
@@ -11,5 +11,5 @@ import { ArtifactResponsePropertiesRelationshipNotManyToMany } from '../../../se
   ],
 })
 export class NotManyToManyRelationshipPropertyArtifactsComponent {
-  @Input() artifacts: ArtifactResponsePropertiesRelationshipNotManyToMany;
+  @Input() artifacts: ArtifactResponsePropertyRelationshipNotManyToMany;
 }

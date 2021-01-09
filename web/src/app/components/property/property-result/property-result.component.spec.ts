@@ -3,8 +3,10 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { PropertyResultComponent } from './property-result.component';
-import { ValidationResponseResult } from '../../../services/editor/types';
-import { ArtifactsPropertyArtifactsModel } from '../../../artifacts.model';
+import {
+  ValidationResponseResult,
+  ArtifactResponsePropertyAll,
+} from '../../../services/editor/types';
 
 @Component({ selector: 'app-result', template: '' })
 class ResultStubComponent {
@@ -13,7 +15,7 @@ class ResultStubComponent {
 
 @Component({ selector: 'app-property-artifacts', template: '' })
 class PropertyArtifactsStubComponent {
-  @Input() artifacts: ArtifactsPropertyArtifactsModel;
+  @Input() artifacts: ArtifactResponsePropertyAll;
 }
 
 describe('PropertyResultComponent', () => {

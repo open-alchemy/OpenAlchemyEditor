@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { NotManyToManyRelationshipPropertyArtifactsComponent } from './not-many-to-many-relationship-property-artifacts.component';
-import { ArtifactResponsePropertiesRelationshipNotManyToMany } from '../../../services/editor/types';
+import { ArtifactResponsePropertyRelationshipNotManyToMany } from '../../../services/editor/types';
 
 @Component({ selector: 'app-foreign-key', template: '' })
 class ForeignKeyStubComponent {
@@ -84,7 +84,7 @@ describe('NotManyToManyRelationshipPropertyArtifactsComponent', () => {
           required: true,
           foreign_key: 'foreign.key',
           foreign_key_property: 'foreign_key',
-        } as ArtifactResponsePropertiesRelationshipNotManyToMany,
+        } as ArtifactResponsePropertyRelationshipNotManyToMany,
         checkComponent: ForeignKeyStubComponent,
         attribute: 'foreign_key',
         expectedValue: 'foreign.key',
@@ -99,7 +99,7 @@ describe('NotManyToManyRelationshipPropertyArtifactsComponent', () => {
           required: true,
           foreign_key: 'foreign.key',
           foreign_key_property: 'foreign_key',
-        } as ArtifactResponsePropertiesRelationshipNotManyToMany,
+        } as ArtifactResponsePropertyRelationshipNotManyToMany,
         checkComponent: ForeignKeyPropertyStubComponent,
         attribute: 'foreign_key_property',
         expectedValue: 'foreign_key',

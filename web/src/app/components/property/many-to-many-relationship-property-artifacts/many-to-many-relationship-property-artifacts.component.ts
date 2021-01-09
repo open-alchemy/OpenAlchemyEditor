@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ArtifactResponsePropertiesRelationshipManyToMany } from '../../../services/editor/types';
+import { ArtifactResponsePropertyRelationshipManyToMany } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-many-to-many-relationship-property-artifacts',
@@ -8,5 +8,5 @@ import { ArtifactResponsePropertiesRelationshipManyToMany } from '../../../servi
   styleUrls: ['./many-to-many-relationship-property-artifacts.component.css'],
 })
 export class ManyToManyRelationshipPropertyArtifactsComponent {
-  @Input() artifacts: ArtifactResponsePropertiesRelationshipManyToMany;
+  @Input() artifacts: ArtifactResponsePropertyRelationshipManyToMany;
 }
