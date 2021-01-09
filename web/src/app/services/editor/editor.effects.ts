@@ -42,7 +42,7 @@ export class EditorEffects {
           `${SEED_URL_PREFIX}${encodeURIComponent(action.path)}`,
         ])
       ),
-      map(() => EditorActions.locationGoSelectedSeed())
+      map(() => EditorActions.routerNavigationSelectedSeed())
     )
   );
 

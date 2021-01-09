@@ -39,8 +39,10 @@ Enables the user to edit the value of a spec.
 Events:
 
 - `editorComponentOnInit`: The editor component has started initialization.
-- `editorComponentValueChange`: The spec in the editor has changed, includes the
-  value it has changed to.
+- `editorComponentSeedLoaded`: The seed has been loaded into the editor,
+  includes the value of the seed.
+- `editorComponentValueChange`: The spec in the editor has been changed by the
+  user, includes the value it has changed to.
 
 Input:
 
@@ -130,7 +132,7 @@ Notify the user fo the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `editorComponentValueChange`
+##### `editorComponentSeedLoaded` and `editorComponentValueChange`
 
 Output:
 
@@ -153,7 +155,8 @@ Update the seed:
 
 Update the route:
 
-1. Set the url to ``.
+1. If the event is `editorComponentSeedLoaded`, return.
+1. Set the url to `` using <https://angular.io/api/router/Router#navigate>.
 
 Load the managed result:
 
@@ -242,9 +245,15 @@ update the seed:
 
 ##### `seedComponentSelectChange`
 
+Output:
+
+- `locationGoSelectedSeed`: The router has been navigated to the selected seed.
+
 Change the route:
 
-1. Navigate to `examples/:<path>`.
+1. Navigate to `examples/:<path>` using using
+   <https://angular.io/api/router/Router#navigate>.
+1. Return the `locationGoSelectedSeed` event.
 
 ##### `routerNavigationStartExampleId`
 

@@ -4,7 +4,7 @@ import {
 } from './editor.reducer';
 
 import * as EditorActions from './editor.actions';
-import { SEED_1, SEED_2 } from './fixtures';
+import { SEED_1 } from './fixtures';
 
 describe('EditorReducer', () => {
   [
@@ -70,18 +70,12 @@ describe('EditorReducer', () => {
       expectation: 'should set selected value to the seed in the action',
       initialState: {
         ...editorInitialState,
-        seed: {
-          ...editorInitialState.seed,
-          selected: 'path 1',
-        },
+        seed: { ...editorInitialState.seed, selected: 'path 1' },
       },
       action: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
-        seed: {
-          ...editorInitialState.seed,
-          selected: 'path 2',
-        },
+        seed: { ...editorInitialState.seed, selected: 'path 2' },
       },
     },
     {
@@ -90,20 +84,12 @@ describe('EditorReducer', () => {
       expectation: 'should set selected value to the seed in the action',
       initialState: {
         ...editorInitialState,
-        seed: {
-          ...editorInitialState.seed,
-          selected: 'path 1',
-        },
+        seed: { ...editorInitialState.seed, selected: 'path 1' },
       },
-      action: EditorActions.routerNavigationStartExampleId({
-        path: 'path 2',
-      }),
+      action: EditorActions.routerNavigationStartExampleId({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
-        seed: {
-          ...editorInitialState.seed,
-          selected: 'path 2',
-        },
+        seed: { ...editorInitialState.seed, selected: 'path 2' },
       },
     },
     {
@@ -167,10 +153,7 @@ describe('EditorReducer', () => {
           ...editorInitialState.seed,
           current: { value: null, success: false, loading: false },
         },
-        error: {
-          ...editorInitialState.error,
-          message: 'message 1',
-        },
+        error: { ...editorInitialState.error, message: 'message 1' },
       },
     },
     {
@@ -208,19 +191,14 @@ describe('EditorReducer', () => {
           available: { values: null, success: null, loading: true },
         },
       },
-      action: EditorActions.editorApiSeedsGetError({
-        message: 'message 1',
-      }),
+      action: EditorActions.editorApiSeedsGetError({ message: 'message 1' }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {
           ...editorInitialState.seed,
           available: { values: null, success: false, loading: false },
         },
-        error: {
-          ...editorInitialState.error,
-          message: 'message 1',
-        },
+        error: { ...editorInitialState.error, message: 'message 1' },
       },
     },
     {
@@ -235,9 +213,7 @@ describe('EditorReducer', () => {
           current: { value: null, success: null, loading: true },
         },
       },
-      action: EditorActions.editorApiSeedsSeedGetSuccess({
-        value: 'seed 1',
-      }),
+      action: EditorActions.editorApiSeedsSeedGetSuccess({ value: 'seed 1' }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {
@@ -267,10 +243,244 @@ describe('EditorReducer', () => {
           ...editorInitialState.seed,
           current: { value: null, success: false, loading: false },
         },
-        error: {
-          ...editorInitialState.error,
-          message: 'message 1',
+        error: { ...editorInitialState.error, message: 'message 1' },
+      },
+    },
+    {
+      description:
+        'initial state: managed, un managed and artifact value and success null, action editorComponentSeedLoaded',
+      expectation: 'should set loading to true',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: null, loading: false },
+          unManaged: { value: null, success: null, loading: false },
         },
+        artifact: { value: null, success: null, loading: false },
+      },
+      action: EditorActions.editorComponentSeedLoaded({ value: 'seed 1' }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: null, loading: true },
+          unManaged: { value: null, success: null, loading: true },
+        },
+        artifact: { value: null, success: null, loading: true },
+      },
+    },
+    {
+      description:
+        'initial state: managed, un managed and artifact value set and success true, action editorComponentSeedLoaded',
+      expectation: 'should set loading to true',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: false,
+          },
+          unManaged: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: false,
+          },
+        },
+        artifact: { value: {}, success: true, loading: false },
+      },
+      action: EditorActions.editorComponentSeedLoaded({ value: 'seed 1' }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: true,
+          },
+          unManaged: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: true,
+          },
+        },
+        artifact: { value: {}, success: true, loading: true },
+      },
+    },
+    {
+      description:
+        'initial state: managed, un managed and artifact value and success null, action editorComponentValueChange',
+      expectation: 'should set loading to true',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: null, loading: false },
+          unManaged: { value: null, success: null, loading: false },
+        },
+        artifact: { value: null, success: null, loading: false },
+      },
+      action: EditorActions.editorComponentValueChange({ value: 'seed 1' }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: null, loading: true },
+          unManaged: { value: null, success: null, loading: true },
+        },
+        artifact: { value: null, success: null, loading: true },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiSpecValidateManagedSuccess',
+      expectation:
+        'should copy result into state, set success to true and set loading to false',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: null, loading: true },
+        },
+      },
+      action: EditorActions.editorApiSpecValidateManagedSuccess({
+        response: { result: { valid: true } },
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: false,
+          },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiSpecValidateManagedError',
+      expectation:
+        'should set vaue to null, set success to false and set loading to false and cope message into error',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: {
+            value: { result: { valid: false } },
+            success: null,
+            loading: true,
+          },
+        },
+      },
+      action: EditorActions.editorApiSpecValidateManagedError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          managed: { value: null, success: false, loading: false },
+        },
+        error: { ...editorInitialState.error, message: 'message 1' },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiSpecValidateUnManagedSuccess',
+      expectation:
+        'should copy result into state, set success to true and set loading to false',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          unManaged: { value: null, success: null, loading: true },
+        },
+      },
+      action: EditorActions.editorApiSpecValidateUnManagedSuccess({
+        response: { result: { valid: true } },
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          unManaged: {
+            value: { result: { valid: true } },
+            success: true,
+            loading: false,
+          },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiSpecValidateUnManagedError',
+      expectation:
+        'should set vaue to null, set success to false and set loading to false and cope message into error',
+      initialState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          unManaged: {
+            value: { result: { valid: false } },
+            success: null,
+            loading: true,
+          },
+        },
+      },
+      action: EditorActions.editorApiSpecValidateUnManagedError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        result: {
+          ...editorInitialState.result,
+          unManaged: { value: null, success: false, loading: false },
+        },
+        error: { ...editorInitialState.error, message: 'message 1' },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiArtifactCalculateSuccess',
+      expectation:
+        'should copy result into state, set success to true and set loading to false',
+      initialState: {
+        ...editorInitialState,
+        artifact: { value: null, success: null, loading: true },
+      },
+      action: EditorActions.editorApiArtifactCalculateSuccess({
+        response: {},
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        artifact: {
+          value: {},
+          success: true,
+          loading: false,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: managed value and success null, loading true, action editorApiArtifactCalculateError',
+      expectation:
+        'should set vaue to null, set success to false and set loading to false and cope message into error',
+      initialState: {
+        ...editorInitialState,
+        artifact: { value: {}, success: null, loading: true },
+      },
+      action: EditorActions.editorApiArtifactCalculateError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        artifact: { value: null, success: false, loading: false },
+        error: { ...editorInitialState.error, message: 'message 1' },
       },
     },
   ].forEach(

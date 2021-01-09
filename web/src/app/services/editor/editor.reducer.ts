@@ -1,6 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { SeedValue, Seed, SeedPath, Error } from './types';
+import {
+  SeedValue,
+  Seed,
+  SeedPath,
+  Error,
+  ValidationResponse,
+  ArtifactResponse,
+} from './types';
 import * as EditorActions from './editor.actions';
 
 export interface EditorSeedState {
@@ -18,6 +25,23 @@ export interface EditorSeedState {
 }
 export interface EditorState {
   seed: EditorSeedState;
+  result: {
+    managed: {
+      value: ValidationResponse | null;
+      success: boolean | null;
+      loading: boolean;
+    };
+    unManaged: {
+      value: ValidationResponse | null;
+      success: boolean | null;
+      loading: boolean;
+    };
+  };
+  artifact: {
+    value: ArtifactResponse;
+    success: boolean | null;
+    loading: boolean;
+  };
   error: Error | null;
 }
 
@@ -34,6 +58,23 @@ export const initialState: EditorState = {
       success: null,
       loading: false,
     },
+  },
+  result: {
+    managed: {
+      value: null,
+      success: null,
+      loading: false,
+    },
+    unManaged: {
+      value: null,
+      success: null,
+      loading: false,
+    },
+  },
+  artifact: {
+    value: null,
+    success: null,
+    loading: false,
   },
   error: null,
 };
@@ -117,6 +158,97 @@ const editorReducerValue = createReducer(
     seed: {
       ...state.seed,
       current: { value: null, success: false, loading: false },
+    },
+    error: { ...state.error, message: action.message },
+  })),
+  on(
+    EditorActions.editorComponentSeedLoaded,
+    EditorActions.editorComponentValueChange,
+    (state) => ({
+      ...state,
+      result: {
+        ...state.result,
+        managed: {
+          ...state.result.managed,
+          loading: true,
+        },
+        unManaged: {
+          ...state.result.managed,
+          loading: true,
+        },
+      },
+      artifact: {
+        ...state.artifact,
+        loading: true,
+      },
+    })
+  ),
+  on(EditorActions.editorApiSpecValidateManagedSuccess, (state, action) => ({
+    ...state,
+    result: {
+      ...state.result,
+      managed: {
+        ...state.result.managed,
+        value: action.response,
+        success: true,
+        loading: false,
+      },
+    },
+  })),
+  on(EditorActions.editorApiSpecValidateManagedError, (state, action) => ({
+    ...state,
+    result: {
+      ...state.result,
+      managed: {
+        ...state.result.managed,
+        value: null,
+        success: false,
+        loading: false,
+      },
+    },
+    error: { ...state.error, message: action.message },
+  })),
+  on(EditorActions.editorApiSpecValidateUnManagedSuccess, (state, action) => ({
+    ...state,
+    result: {
+      ...state.result,
+      unManaged: {
+        ...state.result.managed,
+        value: action.response,
+        success: true,
+        loading: false,
+      },
+    },
+  })),
+  on(EditorActions.editorApiSpecValidateUnManagedError, (state, action) => ({
+    ...state,
+    result: {
+      ...state.result,
+      unManaged: {
+        ...state.result.managed,
+        value: null,
+        success: false,
+        loading: false,
+      },
+    },
+    error: { ...state.error, message: action.message },
+  })),
+  on(EditorActions.editorApiArtifactCalculateSuccess, (state, action) => ({
+    ...state,
+    artifact: {
+      ...state.artifact,
+      value: action.response,
+      success: true,
+      loading: false,
+    },
+  })),
+  on(EditorActions.editorApiArtifactCalculateError, (state, action) => ({
+    ...state,
+    artifact: {
+      ...state.artifact,
+      value: null,
+      success: false,
+      loading: false,
     },
     error: { ...state.error, message: action.message },
   }))
