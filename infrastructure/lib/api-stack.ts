@@ -23,11 +23,6 @@ export class ApiStack extends cdk.Stack {
 
     // Lambda function
     const deploymentPackage = 'resources/api/deployment-package.zip';
-    const deploymentPackageContents = fs.readFileSync(deploymentPackage);
-    const deploymentPackageHash = crypto
-      .createHash('sha256')
-      .update(deploymentPackageContents)
-      .digest('hex');
     const functionName = 'editor-service';
     const func = new lambda.Function(this, 'ApiFunc', {
       functionName,
@@ -43,6 +38,12 @@ export class ApiStack extends cdk.Stack {
       },
       timeout: cdk.Duration.seconds(15),
     });
+    const deploymentPackageContents = fs.readFileSync(deploymentPackage);
+    const deploymentPackageHash = crypto
+      .createHash('sha256')
+      .update(deploymentPackageContents)
+      .update(func.toString())
+      .digest('hex');
     const version = new lambda.Version(
       this,
       `LambdaVersion-${deploymentPackageHash}`,
