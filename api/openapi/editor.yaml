@@ -380,7 +380,24 @@ components:
         - extension
         - required
     # ArtifactResponsePropertiesRelationship: TAnyRelationshipPropertyTypedDict
-    # ArtifactResponsePropertiesBackref: BackrefPropertyTypedDict
+    ArtifactResponsePropertiesBackref:
+      description: The artifacts for a backref property
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+        sub_type:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+        properties:
+          type: array
+          items:
+            type: string
+        description:
+          $ref: "#/components/schemas/ArtifactResponseDescription"
+      required:
+        - type
+        - sub_type
+        - properties
     ArtifactResponseProperties:
       description: The artifacts for a property
       type: object
@@ -392,7 +409,7 @@ components:
               - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
               - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
               # - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
-              # - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
+              - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
     ArtifactResponseModelTablename:
       description: The name of the table for the schema
       type: string
