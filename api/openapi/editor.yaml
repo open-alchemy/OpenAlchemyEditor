@@ -222,6 +222,26 @@ components:
     ArtifactResponseDescription:
       description: A description for the model
       type: string
+    ArtifactResponseRequired:
+      description: Whether a property is required
+      type: boolean
+    ArtifactResponsePropertiesBase:
+      description: Base for the definition of a property
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SIMPLE
+            - JSON
+            - RELATIONSHIP
+            - BACKREF
+        required:
+          $ref: "#/components/schemas/ArtifactResponseRequired"
+        description:
+          $ref: "#/components/schemas/ArtifactResponseDescription"
+      required:
+        - type
     ArtifactResponsePropertiesSimpleOpenApiType:
       description: The type for simple property
       type: string
@@ -310,28 +330,27 @@ components:
     ArtifactResponsePropertiesSimpleType:
       description: The type for simple property
       type: string
-    ArtifactResponsePropertiesSimpleRequired:
-      description: Whether a property is required
-      type: boolean
+      enum:
+        - SIMPLE
     ArtifactResponsePropertiesSimple:
       description: The artifacts for a simple property
-      type: object
-      properties:
-        type:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
-        open_api:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApi"
-        extension:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtension"
-        required:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleRequired"
-        description:
-          $ref: "#/components/schemas/ArtifactResponseDescription"
-      required:
-        - type
-        - open_api
-        - extension
-        - required
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - type: object
+          properties:
+            type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+            open_api:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApi"
+            extension:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtension"
+            required:
+              $ref: "#/components/schemas/ArtifactResponseRequired"
+          required:
+            - type
+            - open_api
+            - extension
+            - required
     ArtifactResponsePropertiesJsonOpenApi:
       description: The OpenAPI artifacts for a json property
       type: object
@@ -360,44 +379,76 @@ components:
           $ref: "#/components/schemas/ArtifactResponseKwargs"
       required:
         - primary_key
+    ArtifactResponsePropertiesJsonType:
+      description: The type for Json property
+      type: string
+      enum:
+        - JSON
     ArtifactResponsePropertiesJson:
       description: The artifacts for a json property
-      type: object
-      properties:
-        type:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
-        open_api:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesJsonOpenApi"
-        extension:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesJsonExtension"
-        required:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleRequired"
-        description:
-          $ref: "#/components/schemas/ArtifactResponseDescription"
-      required:
-        - type
-        - open_api
-        - extension
-        - required
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - type: object
+          properties:
+            type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonType"
+            open_api:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonOpenApi"
+            extension:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesJsonExtension"
+            required:
+              $ref: "#/components/schemas/ArtifactResponseRequired"
+            schema:
+              type: object
+          required:
+            - type
+            - open_api
+            - extension
+            - required
+    # ArtifactResponsePropertiesRelationshipManyToOne:
+    #   description: The artifacts for a many to one relationship
+    #   type: object
+    #   properties:
+    #     type:
+    #     sub_type:
+    #     parent:
+    #     required:
+    #     foreign_key:
+    #     foreign_key_property:
+    #     backref_property:
     # ArtifactResponsePropertiesRelationship: TAnyRelationshipPropertyTypedDict
+    ArtifactResponsePropertiesBackrefType:
+      description: The type for backref property
+      type: string
+      enum:
+        - BACKREF
+    ArtifactResponsePropertiesBackrefSubType:
+      description: The sub type for backref property
+      type: string
+      enum:
+        - OBJECT
+        - ARRAY
     ArtifactResponsePropertiesBackref:
       description: The artifacts for a backref property
-      type: object
-      properties:
-        type:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
-        sub_type:
-          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
-        properties:
-          type: array
-          items:
-            type: string
-        description:
-          $ref: "#/components/schemas/ArtifactResponseDescription"
-      required:
-        - type
-        - sub_type
-        - properties
+      allOf:
+        - $ref: "#/components/schemas/ArtifactResponsePropertiesBase"
+        - type: object
+          properties:
+            type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesBackrefType"
+            sub_type:
+              $ref: "#/components/schemas/ArtifactResponsePropertiesBackrefSubType"
+            properties:
+              type: array
+              items:
+                type: string
+            schema:
+              type: object
+          required:
+            - type
+            - sub_type
+            - properties
+            - schema
     ArtifactResponseProperties:
       description: The artifacts for a property
       type: object
