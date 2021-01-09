@@ -6,7 +6,11 @@ import { Store } from '@ngrx/store';
 import { combineResult } from '../../helpers/combine-results';
 import * as EditorActions from './editor.actions';
 import { SpecValue, SeedPath } from './types';
-import { EditorState, EditorSeedState } from './editor.reducer';
+import {
+  EditorState,
+  EditorSeedState,
+  EditorValidateState,
+} from './editor.reducer';
 import { AppState, selectEditor } from '../app.state';
 
 const selectEditorSeed = createSelector(
@@ -29,12 +33,20 @@ const selectEditorValidate = createSelector(
   selectEditor,
   (state: EditorState) => state.validate
 );
+const selectEditorValidateManaged = createSelector(
+  selectEditorValidate,
+  (state: EditorValidateState) => state.managed
+);
+const selectEditorValidateUnManaged = createSelector(
+  selectEditorValidate,
+  (state: EditorValidateState) => state.unManaged
+);
 const selectEditorArtifact = createSelector(
   selectEditor,
   (state: EditorState) => state.artifact
 );
 const selectEditorResult = createSelector(selectEditor, (state: EditorState) =>
-  combineResult(state.validate.managed.value, state.artifact.value)
+  combineResult(state.validate.managed.value, state.artifact.value as any)
 );
 
 @Injectable({ providedIn: 'root' })
@@ -44,7 +56,10 @@ export class EditorService {
   seedAvailable$ = this.store.pipe(select(selectEditorSeedAvailable));
   seedSelected$ = this.store.pipe(select(selectEditorSeedSelected));
   validate$ = this.store.pipe(select(selectEditorValidate));
+  validateManaged$ = this.store.pipe(select(selectEditorValidateManaged));
+  validateUnManaged$ = this.store.pipe(select(selectEditorValidateUnManaged));
   artifact$ = this.store.pipe(select(selectEditorArtifact));
+  result$ = this.store.pipe(select(selectEditorResult));
 
   constructor(private store: Store<AppState>) {}
 

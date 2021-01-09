@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 
-import { ValidatorResultService } from 'src/app/validator-result.service';
+import { EditorService } from '../../services/editor/editor.service';
 import { ValidatorModel } from 'src/app/validator.model';
 
 @Component({
@@ -9,14 +8,10 @@ import { ValidatorModel } from 'src/app/validator.model';
   templateUrl: './unmanaged-models-result.component.html',
   styleUrls: ['./unmanaged-models-result.component.css'],
 })
-export class UnmanagedModelsResultComponent implements OnInit {
-  result$: Observable<ValidatorModel>;
+export class UnmanagedModelsResultComponent {
+  result$ = this.editorService.validateUnManaged$;
 
-  constructor(private validatorResultService: ValidatorResultService) {}
-
-  ngOnInit(): void {
-    this.result$ = this.validatorResultService.unmanagedResult$();
-  }
+  constructor(private editorService: EditorService) {}
 
   hasModels(result: ValidatorModel): boolean {
     if (result.models === undefined || result.models === null) {
