@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
-import { SeedService } from '../../seed.service';
-import { SeedsModel, SeedModel } from '../../seed.model';
+import { EditorService } from '../../services/editor/editor.service';
+import { SeedPath } from '../../services/editor/types';
 
 @Component({
   selector: 'app-seed',
@@ -10,16 +9,17 @@ import { SeedsModel, SeedModel } from '../../seed.model';
   styleUrls: ['./seed.component.css'],
 })
 export class SeedComponent implements OnInit {
-  public seeds$: Observable<SeedsModel>;
+  public available$ = this.editorService.seedAvailable$;
+  public selected$ = this.editorService.seedSelected$;
 
-  constructor(private seedService: SeedService) {}
+  constructor(private editorService: EditorService) {}
 
   ngOnInit(): void {
-    this.seeds$ = this.seedService.seeds$();
-    this.seedService.loadSeeds();
+    this.selected$.subscribe(console.log);
+    this.editorService.seedComponentOnInit();
   }
 
-  selectChange(seed: SeedModel): void {
-    this.seedService.selectSeed(seed.name);
+  selectChange(path: SeedPath): void {
+    this.editorService.seedComponentSelectChange(path);
   }
 }

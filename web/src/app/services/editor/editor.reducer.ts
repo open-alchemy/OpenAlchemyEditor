@@ -16,7 +16,9 @@ export interface EditorSeedState {
     success: boolean | null;
     loading: boolean;
   };
-  selected: SeedPath | null;
+  selected: {
+    value: SeedPath | null;
+  };
   available: {
     values: Seed[] | null;
     success: boolean | null;
@@ -54,7 +56,9 @@ export const initialState: EditorState = {
       success: null,
       loading: false,
     },
-    selected: null,
+    selected: {
+      value: null,
+    },
     available: {
       values: null,
       success: null,
@@ -101,14 +105,14 @@ const editorReducerValue = createReducer(
     ...state,
     seed: {
       ...state.seed,
-      selected: action.path,
+      selected: { value: action.path },
     },
   })),
   on(EditorActions.routerNavigationStartExampleId, (state, action) => ({
     ...state,
     seed: {
       ...state.seed,
-      selected: action.path,
+      selected: { value: action.path },
     },
   })),
   on(EditorActions.localStorageSeedLoaded, (state, action) => ({

@@ -11,9 +11,20 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import {
+  SeedService,
+  SpecService,
+  ArtifactService,
+} from '@open-alchemy/editor-sdk';
 
+import { AppRoutingModule } from './app-routing.module';
+
+import { editorReducer } from './services/editor/editor.reducer';
+import { EditorEffects } from './services/editor/editor.effects';
+
+import { AppComponent } from './app.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { ModelsResultComponent } from './components/models-result/models-result.component';
 import { ModelResultComponent } from './components/model/model-result/model-result.component';
@@ -139,8 +150,15 @@ import { BaseComponent } from './components/base/base.component';
     MatExpansionModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+
+    StoreModule.forRoot({ editor: editorReducer }),
+    EffectsModule.forRoot([EditorEffects]),
   ],
-  providers: [],
+  providers: [
+    { provide: SeedService, useValue: new SeedService() },
+    { provide: SpecService, useValue: new SpecService() },
+    { provide: ArtifactService, useValue: new ArtifactService() },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
