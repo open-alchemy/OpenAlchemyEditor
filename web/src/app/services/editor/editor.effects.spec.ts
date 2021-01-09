@@ -4,6 +4,7 @@ import {
   NavigationStart,
   NavigationEnd,
 } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { EMPTY } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
@@ -33,6 +34,7 @@ describe('PackageEffects', () => {
   let specServiceSpy: jasmine.SpyObj<SpecService>;
   let artifactServiceSpy: jasmine.SpyObj<ArtifactService>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let locationSpy: jasmine.SpyObj<Location>;
   let testScheduler: TestScheduler;
 
   beforeEach(() => {
@@ -49,6 +51,7 @@ describe('PackageEffects', () => {
       'calculate$',
     ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    locationSpy = jasmine.createSpyObj('Location', ['go']);
     (routerSpy as any).events = EMPTY;
     actions$ = EMPTY;
 
@@ -198,7 +201,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.seedsGet$;
 
@@ -294,7 +298,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedUrls$ = effects.currentUrl$();
 
@@ -407,7 +412,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.seedLocalStorage$;
 
@@ -558,7 +564,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.seedGet$;
 
@@ -740,7 +747,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.seedsSeedGet$;
 
@@ -832,7 +840,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.routerNavigationSelectedSeed$;
 
@@ -931,7 +940,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.specSaved$;
 
@@ -1016,7 +1026,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.routerNavigationBase$;
 
@@ -1028,7 +1039,7 @@ describe('PackageEffects', () => {
 
             // AND location.go has been called
             if (expectedPath !== null) {
-              expect(routerSpy.navigate).toHaveBeenCalledWith([expectedPath]);
+              expect(locationSpy.go).toHaveBeenCalledWith(expectedPath);
             }
           });
         });
@@ -1190,7 +1201,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.stableSpecValueChange$;
 
@@ -1347,7 +1359,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.specValidateManaged$;
 
@@ -1515,7 +1528,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.specValidateUnManaged$;
 
@@ -1687,7 +1701,8 @@ describe('PackageEffects', () => {
                 seedServiceSpy,
                 specServiceSpy,
                 artifactServiceSpy,
-                routerSpy
+                routerSpy,
+                locationSpy
               );
               const returnedActions = effects.artifactCalculate$;
 

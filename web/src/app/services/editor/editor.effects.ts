@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, NavigationStart } from '@angular/router';
 import { of, Observable, timer } from 'rxjs';
 import {
@@ -61,7 +62,7 @@ export class EditorEffects {
   routerNavigationBase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.editorComponentValueChange.type),
-      tap(() => this.router.navigate([''])),
+      tap(() => this.location.go('')),
       map(() => EditorActions.routerNavigationBase())
     )
   );
@@ -224,7 +225,8 @@ export class EditorEffects {
     private seedService: SeedService,
     private specService: SpecService,
     private artifactService: ArtifactService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   currentUrl$(): Observable<string> {

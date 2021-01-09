@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import 'brace';
 import 'brace/mode/yaml';
 import 'brace/theme/terminal';
 import { AceComponent } from 'ngx-ace-wrapper';
 
-import { SeedService } from 'src/app/seed.service';
-import { SpecService } from 'src/app/spec.service';
+import { EditorService } from '../../services/editor/editor.service';
 
 @Component({
   selector: 'app-editor',
@@ -16,21 +14,21 @@ import { SpecService } from 'src/app/spec.service';
 })
 export class EditorComponent implements OnInit {
   @ViewChild('ace', { static: false }) ace: AceComponent;
-  public seed$: Observable<string>;
+  public seed$ = this.editorService.seedCurrent$;
 
   config = { tabSize: 2 };
 
-  constructor(
-    private seedService: SeedService,
-    private specService: SpecService
-  ) {}
+  constructor(private editorService: EditorService) {}
 
   ngOnInit(): void {
-    this.seed$ = this.seedService.seed$();
-    this.seedService.loadSeed();
+    this.editorService.editorComponentOnInit();
   }
 
-  onChange(spec: string): void {
-    this.specService.updateSpec(spec);
+  onChange(spec: string, sameAsSeed: boolean): void {
+    if (sameAsSeed) {
+      this.editorService.editorComponentSeedLoaded(spec);
+    } else {
+      this.editorService.editorComponentValueChange(spec);
+    }
   }
 }

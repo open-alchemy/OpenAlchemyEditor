@@ -12,6 +12,10 @@ const selectEditorSeed = createSelector(
   selectEditor,
   (state: EditorState) => state.seed
 );
+const selectEditorSeedCurrent = createSelector(
+  selectEditorSeed,
+  (state: EditorSeedState) => state.current
+);
 const selectEditorSeedSelected = createSelector(
   selectEditorSeed,
   (state: EditorSeedState) => state.selected
@@ -32,6 +36,7 @@ const selectEditorArtifact = createSelector(
 @Injectable({ providedIn: 'root' })
 export class EditorService {
   seed$ = this.store.pipe(select(selectEditorSeed));
+  seedCurrent$ = this.store.pipe(select(selectEditorSeedCurrent));
   seedAvailable$ = this.store.pipe(select(selectEditorSeedAvailable));
   seedSelected$ = this.store.pipe(select(selectEditorSeedSelected));
   result$ = this.store.pipe(select(selectEditorResult));

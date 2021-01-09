@@ -68,6 +68,43 @@ describe('EditorService', () => {
     });
   });
 
+  describe('seedCurrent$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const seedState: EditorSeedState = {
+          current: {
+            value: null,
+            loading: true,
+            success: null,
+          },
+          selected: { value: 'path 1' },
+          available: {
+            values: null,
+            loading: true,
+            success: null,
+          },
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              editor: { ...initialState.editor, seed: seedState },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the seed state is returned
+        helpers.expectObservable(service.seedCurrent$).toBe('ab', {
+          a: initialEditorState.seed.current,
+          b: seedState.current,
+        });
+      });
+    });
+  });
+
   describe('seedAvailable$', () => {
     it('should pick the correct state', () => {
       testScheduler.run((helpers) => {
