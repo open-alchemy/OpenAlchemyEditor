@@ -6,6 +6,11 @@ import {
   combineModelResult,
   combineModelsResult,
 } from './combine-results';
+import {
+  ValidationResponse,
+  ArtifactResponse,
+  ResultModel,
+} from '../services/editor/types';
 
 describe('combinePropertyResult', () => {
   const parameters = [
@@ -492,35 +497,41 @@ describe('combineModelResult', () => {
 });
 
 describe('combineModelsResult', () => {
-  const parameters = [
+  const parameters: {
+    description: string;
+    expectation: string;
+    validate: ValidationResponse | {} | null;
+    artifact: ArtifactResponse | {} | null;
+    expectedResult: ResultModel | {};
+  }[] = [
     {
       description: 'both null',
       expectation: 'should return empty',
-      validator: null,
-      artifacts: null,
+      validate: null,
+      artifact: null,
       expectedResult: {},
     },
     {
       description: 'both empty',
       expectation: 'should return empty',
-      validator: {},
-      artifacts: {},
+      validate: {},
+      artifact: {},
       expectedResult: {},
     },
     {
-      description: 'validator single artifacts null',
+      description: 'validate single artifacts null',
       expectation: 'should return empty',
-      validator: { model1: { result: { valid: true } } },
-      artifacts: null,
+      validate: { model1: { result: { valid: true } } },
+      artifact: null,
       expectedResult: {
         model1: { result: { valid: true }, artifacts: null, properties: {} },
       },
     },
     {
-      description: 'artifacts single validator null',
+      description: 'artifacts single validate null',
       expectation: 'should return empty',
-      validator: null,
-      artifacts: {
+      validate: null,
+      artifact: {
         model1: {
           result: null,
           artifacts: {
@@ -539,10 +550,10 @@ describe('combineModelsResult', () => {
       },
     },
     {
-      description: 'validator single',
-      expectation: 'should return validator',
-      validator: { model1: { result: { valid: true } } },
-      artifacts: {},
+      description: 'validate single',
+      expectation: 'should return validate',
+      validate: { model1: { result: { valid: true } } },
+      artifact: {},
       expectedResult: {
         model1: { result: { valid: true }, artifacts: null, properties: {} },
       },
@@ -550,8 +561,8 @@ describe('combineModelsResult', () => {
     {
       description: 'artifacts single',
       expectation: 'should return artifacts',
-      validator: {},
-      artifacts: {
+      validate: {},
+      artifact: {
         model1: {
           artifacts: {
             tablename: 'table_1',
@@ -571,8 +582,8 @@ describe('combineModelsResult', () => {
     {
       description: 'both different',
       expectation: 'should return both',
-      validator: { model1: { result: { valid: true } } },
-      artifacts: {
+      validate: { model1: { result: { valid: true } } },
+      artifact: {
         model2: {
           artifacts: {
             tablename: 'table_1',
@@ -593,8 +604,8 @@ describe('combineModelsResult', () => {
     {
       description: 'both same',
       expectation: 'should return both',
-      validator: { model1: { result: { valid: true } } },
-      artifacts: {
+      validate: { model1: { result: { valid: true } } },
+      artifact: {
         model1: {
           artifacts: {
             tablename: 'table_1',
@@ -614,11 +625,11 @@ describe('combineModelsResult', () => {
     {
       description: 'multiple all different',
       expectation: 'should return all',
-      validator: {
+      validate: {
         model1: { result: { valid: true } },
         model2: { result: { valid: false } },
       },
-      artifacts: {
+      artifact: {
         model3: {
           artifacts: {
             tablename: 'table_1',
@@ -660,11 +671,11 @@ describe('combineModelsResult', () => {
     {
       description: 'multiple single overlap',
       expectation: 'should return all',
-      validator: {
+      validate: {
         model1: { result: { valid: true } },
         model2: { result: { valid: false } },
       },
-      artifacts: {
+      artifact: {
         model2: {
           artifacts: {
             tablename: 'table_1',
@@ -701,11 +712,11 @@ describe('combineModelsResult', () => {
     {
       description: 'multiple all overlap',
       expectation: 'should return all',
-      validator: {
+      validate: {
         model1: { result: { valid: true } },
         model2: { result: { valid: false } },
       },
-      artifacts: {
+      artifact: {
         model1: {
           artifacts: {
             tablename: 'table_1',
@@ -737,11 +748,11 @@ describe('combineModelsResult', () => {
   ];
 
   parameters.forEach(
-    ({ description, expectation, validator, artifacts, expectedResult }) => {
+    ({ description, expectation, validate, artifact, expectedResult }) => {
       describe(description, () => {
         it(expectation, () => {
-          expect(combineModelsResult(validator, artifacts)).toEqual(
-            expectedResult
+          expect(combineModelsResult(validate as any, artifact as any)).toEqual(
+            expectedResult as any
           );
         });
       });

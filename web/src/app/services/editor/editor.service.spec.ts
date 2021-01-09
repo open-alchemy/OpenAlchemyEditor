@@ -3,6 +3,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { combineResult } from '../../helpers/combine-results';
 import { AppState } from '../app.state';
 import {
   initialState as initialEditorState,
@@ -214,6 +215,78 @@ describe('EditorService', () => {
     });
   });
 
+  describe('validateManaged$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const validateState: EditorValidateState = {
+          managed: {
+            value: null,
+            loading: true,
+            success: false,
+          },
+          unManaged: {
+            value: null,
+            loading: true,
+            success: null,
+          },
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              editor: { ...initialState.editor, validate: validateState },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the validateManaged state is returned
+        helpers.expectObservable(service.validateManaged$).toBe('ab', {
+          a: initialEditorState.validate.managed,
+          b: validateState.managed,
+        });
+      });
+    });
+  });
+
+  describe('validateUnManaged$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const validateState: EditorValidateState = {
+          managed: {
+            value: null,
+            loading: true,
+            success: false,
+          },
+          unManaged: {
+            value: null,
+            loading: true,
+            success: null,
+          },
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              editor: { ...initialState.editor, validate: validateState },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the validateUnManaged state is returned
+        helpers.expectObservable(service.validateUnManaged$).toBe('ab', {
+          a: initialEditorState.validate.unManaged,
+          b: validateState.unManaged,
+        });
+      });
+    });
+  });
+
   describe('artifact$', () => {
     it('should pick the correct state', () => {
       testScheduler.run((helpers) => {
@@ -238,6 +311,48 @@ describe('EditorService', () => {
         helpers
           .expectObservable(service.artifact$)
           .toBe('ab', { a: initialEditorState.artifact, b: artifactState });
+      });
+    });
+  });
+
+  describe('result$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const validateState: EditorValidateState = {
+          managed: {
+            value: null,
+            loading: true,
+            success: false,
+          },
+          unManaged: {
+            value: null,
+            loading: true,
+            success: null,
+          },
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              editor: { ...initialState.editor, validate: validateState },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the result state is returned
+        helpers.expectObservable(service.result$).toBe('ab', {
+          a: combineResult(
+            initialEditorState.validate.managed.value,
+            initialEditorState.artifact.value
+          ),
+          b: combineResult(
+            validateState.managed.value,
+            initialEditorState.artifact.value
+          ),
+        });
       });
     });
   });
