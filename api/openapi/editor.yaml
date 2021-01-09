@@ -596,18 +596,21 @@ components:
             - sub_type
             - properties
             - schema
-    ArtifactResponseProperties:
+    ArtifactResponseProperty:
       description: The artifacts for a property
+      type: object
+      additionalProperties:
+        oneOf:
+          - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
+          - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
+          - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
+          - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
+    ArtifactResponseProperties:
+      description: The artifacts for the properties of a model
       type: object
       properties:
         artifacts:
-          type: object
-          additionalProperties:
-            oneOf:
-              - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
-              - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
-              - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
-              - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
+          $ref: "#/components/schemas/ArtifactResponseProperty"
     ArtifactResponseModelTablename:
       description: The name of the table for the schema
       type: string

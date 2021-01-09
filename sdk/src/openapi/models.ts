@@ -25,6 +25,7 @@ export type ArtifactResponsePropertiesRelationshipOneToOne = components['schemas
 export type ArtifactResponsePropertiesRelationshipManyToMany = components['schemas']['ArtifactResponsePropertiesRelationshipManyToMany'];
 export type ArtifactResponsePropertiesRelationship = components['schemas']['ArtifactResponsePropertiesRelationship'];
 export type ArtifactResponsePropertiesBackref = components['schemas']['ArtifactResponsePropertiesBackref'];
+export type ArtifactResponseProperty = components['schemas']['ArtifactResponseProperty'];
 export type ArtifactResponseProperties = components['schemas']['ArtifactResponseProperties'];
 export type ArtifactResponseModelCompositeIndex = components['schemas']['ArtifactResponseModelCompositeIndex'];
 export type ArtifactResponseModelCompositeUnique = components['schemas']['ArtifactResponseModelCompositeUnique'];

@@ -493,14 +493,18 @@ export interface components {
     /**
      * The artifacts for a property
      */
+    ArtifactResponseProperty: {
+      [key: string]:
+        | components['schemas']['ArtifactResponsePropertiesSimple']
+        | components['schemas']['ArtifactResponsePropertiesJson']
+        | components['schemas']['ArtifactResponsePropertiesRelationship']
+        | components['schemas']['ArtifactResponsePropertiesBackref'];
+    };
+    /**
+     * The artifacts for the properties of a model
+     */
     ArtifactResponseProperties: {
-      artifacts?: {
-        [key: string]:
-          | components['schemas']['ArtifactResponsePropertiesSimple']
-          | components['schemas']['ArtifactResponsePropertiesJson']
-          | components['schemas']['ArtifactResponsePropertiesRelationship']
-          | components['schemas']['ArtifactResponsePropertiesBackref'];
-      };
+      artifacts?: components['schemas']['ArtifactResponseProperty'];
     };
     /**
      * The name of the table for the schema
