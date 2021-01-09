@@ -1,4 +1,4 @@
-import { ArtifactsSimplePropertyModel } from '../artifacts.model';
+import { ArtifactResponsePropertySimple } from '../services/editor/types';
 import {
   combineResult,
   combinePropertyResult,
@@ -38,7 +38,7 @@ describe('combinePropertyResult', () => {
           required: false,
           open_api: { type: 'integer' },
           extension: { primary_key: false },
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
       },
       expectedResult: {
         result: null,
@@ -47,7 +47,7 @@ describe('combinePropertyResult', () => {
           required: false,
           open_api: { type: 'integer' },
           extension: { primary_key: false },
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
       },
     },
     {
@@ -60,7 +60,7 @@ describe('combinePropertyResult', () => {
           required: false,
           open_api: { type: 'integer' },
           extension: { primary_key: false },
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
       },
       expectedResult: {
         result: { valid: true },
@@ -69,7 +69,7 @@ describe('combinePropertyResult', () => {
           required: false,
           open_api: { type: 'integer' },
           extension: { primary_key: false },
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
       },
     },
   ];
@@ -121,7 +121,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -132,7 +132,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -154,7 +154,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -165,7 +165,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -180,7 +180,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -192,7 +192,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -207,7 +207,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -218,7 +218,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -236,7 +236,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop4: {
           artifacts: {
@@ -244,7 +244,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -263,7 +263,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop4: {
           result: null,
@@ -272,7 +272,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -290,7 +290,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop3: {
           artifacts: {
@@ -298,7 +298,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -313,7 +313,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop3: {
           result: null,
@@ -322,7 +322,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -340,7 +340,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop2: {
           artifacts: {
@@ -348,7 +348,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
       expectedResult: {
@@ -359,7 +359,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'integer' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
         prop2: {
           result: { valid: false },
@@ -368,7 +368,7 @@ describe('combinePropertiesResult', () => {
             required: false,
             open_api: { type: 'string' },
             extension: { primary_key: false },
-          } as ArtifactsSimplePropertyModel,
+          } as ArtifactResponsePropertySimple,
         },
       },
     },
@@ -459,7 +459,7 @@ describe('combineModelResult', () => {
               required: false,
               open_api: { type: 'integer' },
               extension: { primary_key: false },
-            } as ArtifactsSimplePropertyModel,
+            } as ArtifactResponsePropertySimple,
           },
         },
       },
@@ -476,7 +476,7 @@ describe('combineModelResult', () => {
               required: false,
               open_api: { type: 'integer' },
               extension: { primary_key: false },
-            } as ArtifactsSimplePropertyModel,
+            } as ArtifactResponsePropertySimple,
           },
         },
       },
@@ -500,9 +500,9 @@ describe('combineModelsResult', () => {
   const parameters: {
     description: string;
     expectation: string;
-    validate: ValidationResponse | {} | null;
-    artifact: ArtifactResponse | {} | null;
-    expectedResult: ResultModel | {};
+    validate: ValidationResponse | Record<string, unknown> | null;
+    artifact: ArtifactResponse | Record<string, unknown> | null;
+    expectedResult: ResultModel | Record<string, unknown>;
   }[] = [
     {
       description: 'both null',

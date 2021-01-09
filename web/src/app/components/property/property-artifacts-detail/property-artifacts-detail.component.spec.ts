@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
+import {
+  ArtifactResponsePropertyAll,
+  ArtifactResponsePropertySimple,
+  ArtifactResponsePropertyJson,
+  ArtifactResponsePropertyRelationshipManyToMany,
+  ArtifactResponsePropertyBackref,
+} from '../../../services/editor/types';
 
 import { PropertyArtifactsDetailComponent } from './property-artifacts-detail.component';
-import {
-  ArtifactsSimplePropertyModel,
-  ArtifactsJsonPropertyModel,
-  ArtifactsManyToManyRelationshipPropertyModel,
-  ArtifactsBackrefPropertyModel,
-} from '../../../artifacts.model';
 
 @Component({ selector: 'app-simple-property-artifacts', template: '' })
 class SimplePropertyArtifactsStubComponent {
@@ -88,7 +88,7 @@ describe('PropertyArtifactsDetailComponent', () => {
           open_api: { type: 'integer' },
           extension: { primary_key: false },
           required: false,
-        } as ArtifactsSimplePropertyModel,
+        } as ArtifactResponsePropertySimple,
         expectedComponent: SimplePropertyArtifactsStubComponent,
       },
       {
@@ -99,7 +99,7 @@ describe('PropertyArtifactsDetailComponent', () => {
           open_api: {},
           extension: { primary_key: false },
           required: false,
-        } as ArtifactsJsonPropertyModel,
+        } as ArtifactResponsePropertyJson,
         expectedComponent: JsonPropertyArtifactsStubComponent,
       },
       {
@@ -111,7 +111,7 @@ describe('PropertyArtifactsDetailComponent', () => {
           parent: 'parent 1',
           required: false,
           secondary: 'secondary 1',
-        } as ArtifactsManyToManyRelationshipPropertyModel,
+        } as ArtifactResponsePropertyRelationshipManyToMany,
         expectedComponent: RelationshipPropertyArtifactsStubComponent,
       },
       {
@@ -123,7 +123,7 @@ describe('PropertyArtifactsDetailComponent', () => {
           required: false,
           properties: [],
           schema: {},
-        } as ArtifactsBackrefPropertyModel,
+        } as ArtifactResponsePropertyBackref,
         expectedComponent: BackrefPropertyArtifactsStubComponent,
       },
     ];
