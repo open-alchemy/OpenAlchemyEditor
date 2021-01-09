@@ -219,6 +219,9 @@ components:
     ArtifactResponseKwargs:
       description: Keyword arguments
       type: object
+    ArtifactResponseDescription:
+      description: A description for the model
+      type: string
     ArtifactResponsePropertiesSimpleOpenApiType:
       description: The type for simple property
       type: string
@@ -318,14 +321,64 @@ components:
           $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
         open_api:
           $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApi"
+        extension:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtension"
         required:
           $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleRequired"
+        description:
+          $ref: "#/components/schemas/ArtifactResponseDescription"
       required:
         - type
         - open_api
         - extension
         - required
-    # ArtifactResponsePropertiesJson: JsonPropertyTypedDict
+    ArtifactResponsePropertiesJsonOpenApi:
+      description: The OpenAPI artifacts for a json property
+      type: object
+      properties:
+        nullable:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+        read_only:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiReadOnly"
+        write_only:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiWriteOnly"
+    ArtifactResponsePropertiesJsonExtension:
+      description: The extension artifacts for a Json property
+      type: object
+      properties:
+        primary_key:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionPrimaryKey"
+        index:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionIndex"
+        unique:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionUnique"
+        foreign_key:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleExtensionForeignKey"
+        kwargs:
+          $ref: "#/components/schemas/ArtifactResponseKwargs"
+        foreign_key_kwargs:
+          $ref: "#/components/schemas/ArtifactResponseKwargs"
+      required:
+        - primary_key
+    ArtifactResponsePropertiesJson:
+      description: The artifacts for a json property
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleType"
+        open_api:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesJsonOpenApi"
+        extension:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesJsonExtension"
+        required:
+          $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleRequired"
+        description:
+          $ref: "#/components/schemas/ArtifactResponseDescription"
+      required:
+        - type
+        - open_api
+        - extension
+        - required
     # ArtifactResponsePropertiesRelationship: TAnyRelationshipPropertyTypedDict
     # ArtifactResponsePropertiesBackref: BackrefPropertyTypedDict
     ArtifactResponseProperties:
@@ -337,7 +390,7 @@ components:
           additionalProperties:
             oneOf:
               - $ref: "#/components/schemas/ArtifactResponsePropertiesSimple"
-              # - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
+              - $ref: "#/components/schemas/ArtifactResponsePropertiesJson"
               # - $ref: "#/components/schemas/ArtifactResponsePropertiesRelationship"
               # - $ref: "#/components/schemas/ArtifactResponsePropertiesBackref"
     ArtifactResponseModelTablename:
@@ -348,9 +401,6 @@ components:
       type: boolean
     ArtifactResponseModelParent:
       description: The name of the parent if the model inherits
-      type: string
-    ArtifactResponseModelDescription:
-      description: A description for the model
       type: string
     ArtifactResponseModelMixins:
       description: Base classes mixed into the model
@@ -404,7 +454,7 @@ components:
         parent:
           $ref: "#/components/schemas/ArtifactResponseModelParent"
         description:
-          $ref: "#/components/schemas/ArtifactResponseModelDescription"
+          $ref: "#/components/schemas/ArtifactResponseDescription"
         mixins:
           $ref: "#/components/schemas/ArtifactResponseModelMixins"
         kwargs:
