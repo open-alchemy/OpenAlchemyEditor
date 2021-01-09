@@ -174,10 +174,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
@@ -377,10 +376,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -530,10 +528,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService getDefault$ that returns values
               seedServiceSpy.getDefault$.and.returnValues(
                 ...seedServiceGetDefaultReturnValues.map(
@@ -712,10 +709,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               seedServiceSpy.get$.and.returnValues(
                 ...seedServiceGetReturnValues.map(({ marbles, values }) =>
@@ -809,10 +805,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN routerNavigationSelectedSeed$ is called
               effects = new EditorEffects(
@@ -907,10 +902,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN specSaved$ is called
               effects = new EditorEffects(
@@ -991,10 +985,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN routerNavigationBase$ is called
               effects = new EditorEffects(
@@ -1164,10 +1157,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN stableSpecValueChange$ is accessed
               effects = new EditorEffects(
@@ -1313,10 +1305,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               specServiceSpy.validateManaged$.and.returnValues(
                 ...specServiceValidateManagedReturnValues.map(
@@ -1346,6 +1337,172 @@ describe('PackageEffects', () => {
             );
             if (specServiceValidateManagedReturnValues.length > 0) {
               expect(specServiceSpy.validateManaged$).toHaveBeenCalledWith({
+                value: 'value 1',
+                language: 'YAML',
+              });
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('validateUnManaged$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        specServiceValidateUnManagedReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        specServiceValidateUnManagedReturnValues: [],
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single stable spec value change action actions validateUnManaged$ returns response',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        specServiceValidateUnManagedReturnValues: [
+          { marbles: '-b|', values: { b: { result: { valid: true } } } },
+        ],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateUnManagedSuccess({
+            response: { result: { valid: true } },
+          }),
+        },
+      },
+      {
+        description:
+          'single stable spec value change action actions validateUnManaged$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+        },
+        specServiceValidateUnManagedReturnValues: [{ marbles: '-#|' }],
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateUnManagedError({
+            message: 'message 1',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions validateUnManaged$ returns response before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        specServiceValidateUnManagedReturnValues: [
+          { marbles: '-b|', values: { b: { result: { valid: true } } } },
+          { marbles: '-e|', values: { e: { result: { valid: false } } } },
+        ],
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.editorApiSpecValidateUnManagedSuccess({
+            response: { result: { valid: true } },
+          }),
+          e: EditorActions.editorApiSpecValidateUnManagedSuccess({
+            response: { result: { valid: false } },
+          }),
+        },
+      },
+      {
+        description:
+          'multiple stable spec value change action actions validateUnManaged$ returns response after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.stableSpecValueChange({ value: 'value 1' }),
+          d: EditorActions.stableSpecValueChange({ value: 'value 2' }),
+        },
+        specServiceValidateUnManagedReturnValues: [
+          { marbles: '----e|', values: { e: { result: { valid: true } } } },
+          { marbles: '-e|', values: { e: { result: { valid: false } } } },
+        ],
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.editorApiSpecValidateUnManagedSuccess({
+            response: { result: { valid: false } },
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      specServiceValidateUnManagedReturnValues: {
+        marbles: string;
+        values: { [key: string]: ValidationResponse };
+      }[];
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        specServiceValidateUnManagedReturnValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND seedService get$ that returns values
+              specServiceSpy.validateUnManaged$.and.returnValues(
+                ...specServiceValidateUnManagedReturnValues.map(
+                  ({ marbles, values }) =>
+                    helpers.cold(marbles, values, new SpecError('message 1'))
+                )
+              );
+
+              // WHEN validateUnManaged$ is accessed
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
+              const returnedActions = effects.validateUnManaged$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService validateUnManaged$ has been called
+            expect(specServiceSpy.validateUnManaged$).toHaveBeenCalledTimes(
+              specServiceValidateUnManagedReturnValues.length
+            );
+            if (specServiceValidateUnManagedReturnValues.length > 0) {
+              expect(specServiceSpy.validateUnManaged$).toHaveBeenCalledWith({
                 value: 'value 1',
                 language: 'YAML',
               });

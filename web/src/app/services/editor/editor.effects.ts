@@ -164,6 +164,28 @@ export class EditorEffects {
     )
   );
 
+  validateUnManaged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.stableSpecValueChange.type),
+      switchMap((action) =>
+        this.specService
+          .validateUnManaged$({ value: action.value, language: SPEC_LANGUAGE })
+          .pipe(
+            map((response) =>
+              EditorActions.editorApiSpecValidateUnManagedSuccess({ response })
+            ),
+            catchError((error) =>
+              of(
+                EditorActions.editorApiSpecValidateUnManagedError({
+                  message: error.message,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions<EditorActions.Actions>,
     private seedService: SeedService,
