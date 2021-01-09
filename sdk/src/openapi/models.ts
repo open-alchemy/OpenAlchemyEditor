@@ -15,6 +15,7 @@ export type ArtifactResponsePropertiesBase = components['schemas']['ArtifactResp
 export type ArtifactResponsePropertiesSimple = components['schemas']['ArtifactResponsePropertiesSimple'];
 export type ArtifactResponsePropertiesJson = components['schemas']['ArtifactResponsePropertiesJson'];
 export type ArtifactResponsePropertiesRelationshipBase = components['schemas']['ArtifactResponsePropertiesRelationshipBase'];
+// Disabling because can't do anything about how long it is defined elsewhere
 // eslint-disable-next-line max-len
 export type ArtifactResponsePropertiesRelationshipNotManyToMany = components['schemas']['ArtifactResponsePropertiesRelationshipNotManyToMany'];
 export type ArtifactResponsePropertiesRelationshipOneToMany = components['schemas']['ArtifactResponsePropertiesRelationshipOneToMany'];
