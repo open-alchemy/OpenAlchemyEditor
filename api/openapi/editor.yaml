@@ -685,17 +685,13 @@ components:
       type: object
       properties:
         artifacts:
-          description: The artifacts for a model
+          $ref: "#/components/schemas/ArtifactResponseModelArtifacts"
+        properties:
           type: object
-          properties:
-            artifacts:
-              $ref: "#/components/schemas/ArtifactResponseModelArtifacts"
-            properties:
-              type: object
-              additionalProperties:
-                $ref: "#/components/schemas/ArtifactResponseProperties"
-          required:
-            - artifacts
+          additionalProperties:
+            $ref: "#/components/schemas/ArtifactResponseProperties"
+      required:
+        - artifacts
     ArtifactResponseModels:
       description: The artifacts for all models
       type: object

@@ -555,14 +555,9 @@ export interface components {
      * The artifacts for a model
      */
     ArtifactResponseModel: {
-      /**
-       * The artifacts for a model
-       */
-      artifacts?: {
-        artifacts: components['schemas']['ArtifactResponseModelArtifacts'];
-        properties?: {
-          [key: string]: components['schemas']['ArtifactResponseProperties'];
-        };
+      artifacts: components['schemas']['ArtifactResponseModelArtifacts'];
+      properties?: {
+        [key: string]: components['schemas']['ArtifactResponseProperties'];
       };
     };
     /**
