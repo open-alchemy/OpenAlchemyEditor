@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
 
@@ -7,10 +7,6 @@ import { ArtifactResponsePropertyAll } from '../../../services/editor/types';
   templateUrl: './property-artifacts.component.html',
   styleUrls: ['./property-artifacts.component.css'],
 })
-export class PropertyArtifactsComponent implements OnInit {
+export class PropertyArtifactsComponent {
   @Input() artifacts: ArtifactResponsePropertyAll;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
