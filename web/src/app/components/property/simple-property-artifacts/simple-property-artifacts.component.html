@@ -36,6 +36,11 @@
 <div *ngIf="artifacts && artifacts.open_api.default !== undefined">
   <app-default [default]="artifacts.open_api.default"></app-default>
 </div>
+<div *ngIf="artifacts && artifacts.extension.server_default !== undefined">
+  <app-server-default
+    [server_default]="artifacts.extension.server_default"
+  ></app-server-default>
+</div>
 <div *ngIf="artifacts && artifacts.extension.foreign_key">
   <app-foreign-key
     [foreign_key]="artifacts.extension.foreign_key"

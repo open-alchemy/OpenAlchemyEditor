@@ -55,6 +55,7 @@ import { AutoincrementComponent } from './components/artifact/autoincrement/auto
 import { IndexComponent } from './components/artifact/index/index.component';
 import { UniqueComponent } from './components/artifact/unique/unique.component';
 import { DefaultComponent } from './components/artifact/default/default.component';
+import { ServerDefaultComponent } from './components/artifact/server-default/server-default.component';
 import { ForeignKeyComponent } from './components/artifact/foreign-key/foreign-key.component';
 import { FormatComponent } from './components/artifact/format/format.component';
 import { MaxLengthComponent } from './components/artifact/max-length/max-length.component';
@@ -112,6 +113,7 @@ import { BaseComponent } from './components/base/base.component';
     IndexComponent,
     UniqueComponent,
     DefaultComponent,
+    ServerDefaultComponent,
     ForeignKeyComponent,
     FormatComponent,
     MaxLengthComponent,

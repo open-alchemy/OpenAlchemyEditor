@@ -49,6 +49,10 @@ class MaxLengthStubComponent {
 class DefaultStubComponent {
   @Input() default: number | string | boolean;
 }
+@Component({ selector: 'app-server-default', template: '' })
+class ServerDefaultStubComponent {
+  @Input() server_default: string;
+}
 
 @Component({ selector: 'app-foreign-key', template: '' })
 class ForeignKeyStubComponent {
@@ -85,6 +89,7 @@ describe('SimplePropertyArtifactsComponent', () => {
         FormatStubComponent,
         MaxLengthStubComponent,
         DefaultStubComponent,
+        ServerDefaultStubComponent,
         ForeignKeyStubComponent,
         KwargsStubComponent,
         ForeignKeyKwargsStubComponent,
@@ -362,6 +367,23 @@ describe('SimplePropertyArtifactsComponent', () => {
       },
       {
         description: 'artifacts null',
+        expectation: 'should not display server default',
+        artifacts: null,
+        checkComponent: ServerDefaultStubComponent,
+      },
+      {
+        description: 'artifacts server default not defined',
+        expectation: 'should not display server default',
+        artifacts: {
+          type: 'SIMPLE',
+          required: false,
+          open_api: { type: 'integer' },
+          extension: { primary_key: false },
+        } as ArtifactResponsePropertySimple,
+        checkComponent: ServerDefaultStubComponent,
+      },
+      {
+        description: 'artifacts null',
         expectation: 'should not display foreign key',
         artifacts: null,
         checkComponent: ForeignKeyStubComponent,
@@ -614,6 +636,32 @@ describe('SimplePropertyArtifactsComponent', () => {
         checkComponent: DefaultStubComponent,
         attribute: 'default',
         expectedValue: 0,
+      },
+      {
+        description: 'artifacts server default defined',
+        expectation: 'should display server default',
+        artifacts: {
+          type: 'SIMPLE',
+          required: false,
+          open_api: { type: 'integer' },
+          extension: { primary_key: false, server_default: 'server default 1' },
+        } as ArtifactResponsePropertySimple,
+        checkComponent: ServerDefaultStubComponent,
+        attribute: 'server_default',
+        expectedValue: 'server default 1',
+      },
+      {
+        description: 'artifacts server default defined empty',
+        expectation: 'should display server default',
+        artifacts: {
+          type: 'SIMPLE',
+          required: false,
+          open_api: { type: 'integer' },
+          extension: { primary_key: false, server_default: '' },
+        } as ArtifactResponsePropertySimple,
+        checkComponent: ServerDefaultStubComponent,
+        attribute: 'server_default',
+        expectedValue: '',
       },
       {
         description: 'artifacts foreign key defined',
