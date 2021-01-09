@@ -3,9 +3,12 @@ import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { ModelResultComponent } from './model-result.component';
-import { ResultModelModel, ResultPropertyModel } from '../../../result.model';
-import { ValidatorResultModel } from '../../../validator.model';
-import { ArtifactsModelArtifactsModel } from '../../../artifacts.model';
+import {
+  ResultModelModel,
+  ResultPropertyModel,
+  ValidationResponseResult,
+  ArtifactResponseModelArtifacts,
+} from '../../../services/editor/types';
 
 @Component({ selector: 'app-model-result-badge', template: '' })
 class ModelResultBadgeStubComponent {
@@ -14,12 +17,12 @@ class ModelResultBadgeStubComponent {
 
 @Component({ selector: 'app-result', template: '' })
 class ResultStubComponent {
-  @Input() model: ValidatorResultModel;
+  @Input() model: ValidationResponseResult;
 }
 
 @Component({ selector: 'app-model-artifacts', template: '' })
 class ModelArtifactsStubComponent {
-  @Input() artifacts: ArtifactsModelArtifactsModel;
+  @Input() artifacts: ArtifactResponseModelArtifacts;
 }
 
 @Component({ selector: 'app-property-result', template: '' })

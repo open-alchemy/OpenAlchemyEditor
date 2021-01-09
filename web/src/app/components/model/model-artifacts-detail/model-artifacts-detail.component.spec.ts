@@ -4,9 +4,9 @@ import { By } from '@angular/platform-browser';
 
 import { ModelArtifactsDetailComponent } from './model-artifacts-detail.component';
 import {
-  ArtifactsCompositeIndexModel,
-  ArtifactsCompositeUniqueModel,
-} from '../../../artifacts.model';
+  ArtifactResponseModelCompositeIndex,
+  ArtifactResponseModelCompositeUnique,
+} from '../../../services/editor/types';
 
 @Component({ selector: 'app-inherits', template: '' })
 class InheritsStubComponent {}
@@ -28,12 +28,12 @@ class KwargsStubComponent {
 
 @Component({ selector: 'app-composite-index', template: '' })
 class CompositeIndexStubComponent {
-  @Input() composite_index: ArtifactsCompositeIndexModel;
+  @Input() composite_index: ArtifactResponseModelCompositeIndex;
 }
 
 @Component({ selector: 'app-composite-unique', template: '' })
 class CompositeUniqueStubComponent {
-  @Input() composite_unique: ArtifactsCompositeUniqueModel;
+  @Input() composite_unique: ArtifactResponseModelCompositeUnique;
 }
 
 describe('ModelArtifactsDetailComponent', () => {

@@ -1,16 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { ArtifactsModelArtifactsModel } from '../../../artifacts.model';
+import { ArtifactResponseModelArtifacts } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-model-artifacts',
   templateUrl: './model-artifacts.component.html',
   styleUrls: ['./model-artifacts.component.css'],
 })
-export class ModelArtifactsComponent implements OnInit {
-  @Input() artifacts: ArtifactsModelArtifactsModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class ModelArtifactsComponent {
+  @Input() artifacts: ArtifactResponseModelArtifacts;
 }

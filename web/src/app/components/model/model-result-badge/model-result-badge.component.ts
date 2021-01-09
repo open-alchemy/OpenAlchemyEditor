@@ -1,20 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { modelCompletelyValid } from 'src/app/helpers/model-completely-valid';
-import { ValidatorModelModel } from 'src/app/validator.model';
+import { ValidationResponseModel } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-model-result-badge',
   templateUrl: './model-result-badge.component.html',
   styleUrls: ['./model-result-badge.component.css'],
 })
-export class ModelResultBadgeComponent implements OnInit {
+export class ModelResultBadgeComponent {
   @Input() unmanaged = false;
-  @Input() model: ValidatorModelModel;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  @Input() model: ValidationResponseModel;
 
   modelCompletelyValid(): boolean {
     return modelCompletelyValid(this.model);

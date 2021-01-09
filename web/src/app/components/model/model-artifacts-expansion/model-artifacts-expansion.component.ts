@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ArtifactsModelArtifactsModel } from '../../../artifacts.model';
+import { ArtifactResponseModelArtifacts } from '../../../services/editor/types';
 
 @Component({
   selector: 'app-model-artifacts-expansion',
@@ -8,7 +8,7 @@ import { ArtifactsModelArtifactsModel } from '../../../artifacts.model';
   styleUrls: ['./model-artifacts-expansion.component.css'],
 })
 export class ModelArtifactsExpansionComponent implements OnInit {
-  @Input() artifacts: ArtifactsModelArtifactsModel;
+  @Input() artifacts: ArtifactResponseModelArtifacts;
 
   constructor() {}
 
