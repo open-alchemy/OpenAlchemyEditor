@@ -20,7 +20,7 @@ import {
 import * as EditorActions from './editor.actions';
 
 export const SEED_KEY = 'seed';
-export const SEED_URL_PREFIX = 'example/';
+export const SEED_URL_PREFIX = '/example/';
 export const SPEC_LANGUAGE = 'YAML';
 
 @Injectable()
@@ -42,11 +42,7 @@ export class EditorEffects {
   routerNavigationSelectedSeed$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.seedComponentSelectChange.type),
-      tap((action) =>
-        this.router.navigate([
-          `${SEED_URL_PREFIX}${encodeURIComponent(action.path)}`,
-        ])
-      ),
+      tap((action) => this.router.navigate([SEED_URL_PREFIX, action.path])),
       map(() => EditorActions.routerNavigationSelectedSeed())
     )
   );
@@ -67,6 +63,19 @@ export class EditorEffects {
       ofType(EditorActions.editorComponentValueChange.type),
       tap(() => this.router.navigate([''])),
       map(() => EditorActions.routerNavigationBase())
+    )
+  );
+
+  routerNavigationStartExampleId$ = createEffect(() =>
+    this.currentUrl$().pipe(
+      tap(console.log),
+      filter((url) => url.startsWith(SEED_URL_PREFIX)),
+      tap(console.log),
+      map((url) =>
+        EditorActions.routerNavigationStartExampleId({
+          path: decodeURIComponent(url.slice(SEED_URL_PREFIX.length)),
+        })
+      )
     )
   );
 

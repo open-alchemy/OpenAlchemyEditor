@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import {
   SeedService,
@@ -24,6 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { editorReducer } from './services/editor/editor.reducer';
 import { EditorEffects } from './services/editor/editor.effects';
 
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { ModelsResultComponent } from './components/models-result/models-result.component';
@@ -153,6 +155,10 @@ import { BaseComponent } from './components/base/base.component';
 
     StoreModule.forRoot({ editor: editorReducer }),
     EffectsModule.forRoot([EditorEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     { provide: SeedService, useValue: new SeedService() },
