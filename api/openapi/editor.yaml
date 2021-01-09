@@ -473,6 +473,7 @@ components:
           required:
             - foreign_key
             - foreign_key_property
+            - sub_type
     ArtifactResponsePropertiesRelationshipOneToManySubType:
       description: The sub type for a relationship that is one to many
       type: string
@@ -486,6 +487,8 @@ components:
           properties:
             sub_type:
               $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToManySubType"
+          required:
+            - sub_type
     ArtifactResponsePropertiesRelationshipXToOneSubType:
       description: The sub type for a relationship that is x to one
       type: string
@@ -502,6 +505,8 @@ components:
               $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipXToOneSubType"
             nullable:
               $ref: "#/components/schemas/ArtifactResponsePropertiesSimpleOpenApiNullable"
+          required:
+            - sub_type
     ArtifactResponsePropertiesRelationshipManyToOneSubType:
       description: The sub type for a relationship that is many to one
       type: string
@@ -515,6 +520,8 @@ components:
           properties:
             sub_type:
               $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToOneSubType"
+          required:
+            - sub_type
     ArtifactResponsePropertiesRelationshipOneToOneSubType:
       description: The sub type for a relationship that is one to one
       type: string
@@ -528,6 +535,8 @@ components:
           properties:
             sub_type:
               $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipOneToOneSubType"
+          required:
+            - sub_type
     ArtifactResponsePropertiesRelationshipManyToManySubType:
       description: The sub type for a relationship that is many to many
       type: string
@@ -547,6 +556,7 @@ components:
             secondary:
               $ref: "#/components/schemas/ArtifactResponsePropertiesRelationshipManyToManySecondary"
           required:
+            - sub_type
             - secondary
     ArtifactResponsePropertiesRelationship:
       oneOf:
