@@ -10,20 +10,22 @@ import {
 } from './types';
 import * as EditorActions from './editor.actions';
 
+export interface EditorSeedSelectedState {
+  value: SeedPath | null;
+}
+export interface EditorSeedAvailableState {
+  values: Seed[] | null;
+  success: boolean | null;
+  loading: boolean;
+}
 export interface EditorSeedState {
   current: {
     value: SeedValue | null;
     success: boolean | null;
     loading: boolean;
   };
-  selected: {
-    value: SeedPath | null;
-  };
-  available: {
-    values: Seed[] | null;
-    success: boolean | null;
-    loading: boolean;
-  };
+  selected: EditorSeedSelectedState;
+  available: EditorSeedAvailableState;
 }
 export interface EditorResultState {
   managed: {

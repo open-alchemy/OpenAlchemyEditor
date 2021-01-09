@@ -3,29 +3,30 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
-import { AceComponent } from 'ngx-ace-wrapper';
-
 import { SeedComponent } from './seed.component';
-import { SeedService } from 'src/app/seed.service';
+import { EditorService } from '../../services/editor/editor.service';
+import {
+  EditorSeedSelectedState,
+  EditorSeedAvailableState,
+} from '../../services/editor/editor.reducer';
 
 @Component({ selector: 'mat-label', template: '' })
 class MatLabelStubComponent {}
 
 describe('SeedComponent', () => {
-  let seedServiceSpy: jasmine.SpyObj<SeedService>;
+  let editorServiceSpy: jasmine.SpyObj<EditorService>;
   let component: SeedComponent;
   let fixture: ComponentFixture<SeedComponent>;
 
   beforeEach(() => {
-    seedServiceSpy = jasmine.createSpyObj('SeedService', [
-      'seeds$',
-      'loadSeeds',
-      'selectSeed',
+    editorServiceSpy = jasmine.createSpyObj('EditorService', [
+      'seedComponentOnInit',
+      'seedComponentSelectChange',
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [SeedComponent, AceComponent, MatLabelStubComponent],
-      providers: [{ provide: SeedService, useValue: seedServiceSpy }],
+      declarations: [SeedComponent, MatLabelStubComponent],
+      providers: [{ provide: EditorService, useValue: editorServiceSpy }],
       imports: [FormsModule],
     });
 
@@ -37,44 +38,108 @@ describe('SeedComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call loadSeeds after initialization', () => {
-    expect(seedServiceSpy.loadSeeds).not.toHaveBeenCalled();
+  it('should call seedComponentOnInit after initialization', () => {
+    expect(editorServiceSpy.seedComponentOnInit).not.toHaveBeenCalled();
 
     fixture.detectChanges();
 
-    expect(seedServiceSpy.loadSeeds).toHaveBeenCalledWith();
+    expect(editorServiceSpy.seedComponentOnInit).toHaveBeenCalledWith();
   });
 
   describe('option display', () => {
-    const parameters = [
+    const parameters: {
+      description: string;
+      expectation: string;
+      available: EditorSeedAvailableState;
+      selected: EditorSeedSelectedState;
+      expectedInnerTexts: string[];
+    }[] = [
       {
-        description: 'empty seed',
+        description: 'values null',
         expectation: 'should not display any options',
-        seeds: [],
+        available: { values: null, success: true, loading: false },
+        selected: { value: null },
         expectedInnerTexts: [],
       },
       {
-        description: 'single seed',
+        description: 'empty values',
         expectation: 'should not display any options',
-        seeds: [{ name: 'seed 1', path: 'path 1' }],
+        available: { values: [], success: true, loading: false },
+        selected: { value: null },
+        expectedInnerTexts: [],
+      },
+      {
+        description: 'single values success null',
+        expectation: 'should not display any options',
+        available: {
+          values: [{ name: 'seed 1', path: 'path 1' }],
+          success: null,
+          loading: false,
+        },
+        selected: { value: 'path 1' },
+        expectedInnerTexts: [],
+      },
+      {
+        description: 'single values success true selected value null',
+        expectation: 'should display single option that is not selected',
+        available: {
+          values: [{ name: 'seed 1', path: 'path 1' }],
+          success: true,
+          loading: false,
+        },
+        selected: { value: null },
         expectedInnerTexts: [' seed 1 '],
       },
       {
-        description: 'multiple seed',
-        expectation: 'should not display any options',
-        seeds: [
-          { name: 'seed 1', path: 'path 1' },
-          { name: 'seed 2', path: 'path 2' },
-        ],
+        description: 'single values success true selected value different',
+        expectation: 'should display single option that is not selected',
+        available: {
+          values: [{ name: 'seed 1', path: 'path 1' }],
+          success: true,
+          loading: false,
+        },
+        selected: { value: 'path 2' },
+        expectedInnerTexts: [' seed 1 '],
+      },
+      {
+        description: 'single values success true selected value same',
+        expectation: 'should display single option that is selected',
+        available: {
+          values: [{ name: 'seed 1', path: 'path 1' }],
+          success: true,
+          loading: false,
+        },
+        selected: { value: 'path 1' },
+        expectedInnerTexts: [' seed 1 '],
+      },
+      {
+        description: 'multiple values success true selected value same',
+        expectation: 'should display single option that is selected',
+        available: {
+          values: [
+            { name: 'seed 1', path: 'path 1' },
+            { name: 'seed 2', path: 'path 2' },
+          ],
+          success: true,
+          loading: false,
+        },
+        selected: { value: 'path 1' },
         expectedInnerTexts: [' seed 1 ', ' seed 2 '],
       },
     ];
 
     parameters.forEach(
-      ({ description, expectation, seeds, expectedInnerTexts }) => {
+      ({
+        description,
+        expectation,
+        available,
+        selected,
+        expectedInnerTexts,
+      }) => {
         describe(description, () => {
           it(expectation, () => {
-            seedServiceSpy.seeds$.and.returnValue(of(seeds));
+            component.available$ = of(available);
+            component.selected$ = of(selected);
 
             fixture.detectChanges();
 
@@ -85,7 +150,6 @@ describe('SeedComponent', () => {
             options.forEach((option, index) =>
               expect(option.innerText).toEqual(expectedInnerTexts[index])
             );
-            options.forEach((option) => expect(option.selected).toBeFalse());
           });
         });
       }
@@ -93,10 +157,13 @@ describe('SeedComponent', () => {
   });
 
   it('should pass the seed value to the seed service when select is changed', () => {
-    expect(seedServiceSpy.selectSeed).toHaveBeenCalledTimes(0);
-    seedServiceSpy.seeds$.and.returnValue(
-      of([{ name: ' seed 1 ', path: 'path 1' }])
-    );
+    expect(editorServiceSpy.seedComponentSelectChange).toHaveBeenCalledTimes(0);
+    component.available$ = of({
+      values: [{ name: 'seed 1', path: 'path 1' }],
+      success: true,
+      loading: false,
+    });
+    component.selected$ = of({ value: 'path 1' });
 
     fixture.detectChanges();
 
@@ -113,7 +180,9 @@ describe('SeedComponent', () => {
 
     fixture.detectChanges();
 
-    expect(seedServiceSpy.selectSeed).toHaveBeenCalledTimes(1);
-    expect(seedServiceSpy.selectSeed).toHaveBeenCalledWith(' seed 1 ');
+    expect(editorServiceSpy.seedComponentSelectChange).toHaveBeenCalledTimes(1);
+    expect(editorServiceSpy.seedComponentSelectChange).toHaveBeenCalledWith(
+      'path 1'
+    );
   });
 });
