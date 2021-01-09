@@ -163,9 +163,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
@@ -355,9 +356,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -502,9 +504,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService getDefault$ that returns values
               seedServiceSpy.getDefault$.and.returnValues(
                 ...seedServiceGetDefaultReturnValues.map(
@@ -678,9 +681,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               seedServiceSpy.get$.and.returnValues(
                 ...seedServiceGetReturnValues.map(({ marbles, values }) =>
@@ -706,6 +710,87 @@ describe('PackageEffects', () => {
               expect(seedServiceSpy.get$).toHaveBeenCalledWith({
                 path: 'path 1',
               });
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('locationGoSelectedSeed$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedsGetError({ message: 'message 1' }),
+        },
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single seed component on init action actions list$ returns seeds',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+        },
+        expectedPath: `example/${encodeURIComponent('path 1')}`,
+        expectedMarbles: 'a',
+        expectedValues: { a: EditorActions.locationGoSelectedSeed() },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      expectedPath: string | null;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        expectedPath,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
+
+              // WHEN locationGoSelectedSeed$ is called
+              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              const returnedActions = effects.locationGoSelectedSeed$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND location.go has been called
+            if (expectedPath !== null) {
+              expect(routerSpy.navigate).toHaveBeenCalledWith([expectedPath]);
             }
           });
         });

@@ -7,6 +7,7 @@ import {
   catchError,
   switchMap,
   withLatestFrom,
+  tap,
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -15,6 +16,7 @@ import { SeedService } from '@open-alchemy/editor-sdk';
 import * as EditorActions from './editor.actions';
 
 export const SEED_KEY = 'seed';
+export const SEED_URL_PREFIX = 'example/';
 
 @Injectable()
 export class EditorEffects {
@@ -32,6 +34,18 @@ export class EditorEffects {
     )
   );
 
+  locationGoSelectedSeed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.seedComponentSelectChange.type),
+      tap((action) =>
+        this.router.navigate([
+          `${SEED_URL_PREFIX}${encodeURIComponent(action.path)}`,
+        ])
+      ),
+      map(() => EditorActions.locationGoSelectedSeed())
+    )
+  );
+
   seedLocalStorage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.editorComponentOnInit.type),
@@ -41,7 +55,7 @@ export class EditorEffects {
         action,
         url,
       })),
-      filter(({ url }) => !url.startsWith('example/')),
+      filter(({ url }) => !url.startsWith(SEED_URL_PREFIX)),
       map(() => {
         return localStorage.getItem(SEED_KEY) !== null
           ? EditorActions.localStorageSeedLoaded({

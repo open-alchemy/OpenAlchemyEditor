@@ -21,6 +21,9 @@ export const seedComponentSelectChange = createAction(
   '[seed component] select change',
   props<{ path: SeedPath }>()
 );
+export const locationGoSelectedSeed = createAction(
+  '[location] changed to seed location'
+);
 
 export const routerNavigationStartExampleId = createAction(
   '[router] navigation start example/:id',
