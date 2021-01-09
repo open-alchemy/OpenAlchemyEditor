@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { of, Observable } from 'rxjs';
+import { of, Observable, timer } from 'rxjs';
 import {
   map,
   filter,
@@ -11,12 +11,13 @@ import {
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SeedService } from '@open-alchemy/editor-sdk';
+import { SeedService, SpecService } from '@open-alchemy/editor-sdk';
 
 import * as EditorActions from './editor.actions';
 
 export const SEED_KEY = 'seed';
 export const SEED_URL_PREFIX = 'example/';
+export const SPEC_LANGUAGE = 'YAML';
 
 @Injectable()
 export class EditorEffects {
@@ -125,9 +126,44 @@ export class EditorEffects {
     )
   );
 
+  // validateManaged$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(
+  //       EditorActions.editorComponentSeedLoaded.type,
+  //       EditorActions.editorComponentValueChange.type
+  //     ),
+  //     switchMap((action) =>
+  //       timer(1000).pipe(
+  //         switchMap(() =>
+  //           this.specService
+  //             .validateManaged$({
+  //               value: action.value,
+  //               language: SPEC_LANGUAGE,
+  //             })
+  //             .pipe(
+  //               map((response) =>
+  //                 EditorActions.editorApiSpecValidateManagedSuccess({
+  //                   response,
+  //                 })
+  //               ),
+  //               catchError((error) =>
+  //                 of(
+  //                   EditorActions.editorApiSpecValidateManagedError({
+  //                     message: error.message,
+  //                   })
+  //                 )
+  //               )
+  //             )
+  //         )
+  //       )
+  //     )
+  //   )
+  // );
+
   constructor(
     private actions$: Actions<EditorActions.Actions>,
     private seedService: SeedService,
+    private specService: SpecService,
     private router: Router
   ) {}
 
@@ -135,6 +171,18 @@ export class EditorEffects {
     return this.router.events.pipe(
       filter<NavigationStart>((event) => event instanceof NavigationStart),
       map((event) => event.url)
+    );
+  }
+
+  delaySeedLoadedValueChange$(
+    actions$: Actions<EditorActions.Actions>
+  ): Actions<EditorActions.SeedLoadedValueChangeActions> {
+    return actions$.pipe(
+      ofType(
+        EditorActions.editorComponentSeedLoaded.type,
+        EditorActions.editorComponentValueChange.type
+      ),
+      switchMap((action) => timer(1000).pipe(map(() => action)))
     );
   }
 }

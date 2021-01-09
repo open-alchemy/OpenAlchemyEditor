@@ -97,6 +97,9 @@ export const editorApiSeedsSeedGetError = createAction(
   '[editor API] /seeds/{seed_path} GET error',
   props<Error>()
 );
+export type SeedLoadedValueChangeActions =
+  | ReturnType<typeof editorComponentSeedLoaded>
+  | ReturnType<typeof editorComponentValueChange>;
 
 export type Actions =
   | ReturnType<typeof editorComponentOnInit>

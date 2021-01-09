@@ -10,7 +10,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { Action } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
-import { SeedService, SeedError } from '@open-alchemy/editor-sdk';
+import { SeedService, SeedError, SpecService } from '@open-alchemy/editor-sdk';
 
 import { EditorEffects, SEED_KEY } from './editor.effects';
 import * as EditorActions from './editor.actions';
@@ -21,6 +21,7 @@ describe('PackageEffects', () => {
   let actions$: Actions<EditorActions.Actions>;
   let effects: EditorEffects;
   let seedServiceSpy: jasmine.SpyObj<SeedService>;
+  let specServiceSpy: jasmine.SpyObj<SpecService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let testScheduler: TestScheduler;
 
@@ -29,6 +30,10 @@ describe('PackageEffects', () => {
       'list$',
       'getDefault$',
       'get$',
+    ]);
+    specServiceSpy = jasmine.createSpyObj('SpecService', [
+      'validateManaged$',
+      'validateUnManaged$',
     ]);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     (routerSpy as any).events = EMPTY;
@@ -163,9 +168,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
@@ -174,7 +180,12 @@ describe('PackageEffects', () => {
               );
 
               // WHEN seedsGet$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.seedsGet$;
 
               // THEN the expected actions are returned
@@ -264,7 +275,12 @@ describe('PackageEffects', () => {
               (routerSpy as any).events = events$;
 
               // WHEN currentUrl$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedUrls$ = effects.currentUrl$();
 
               // THEN the expected urls are returned
@@ -355,9 +371,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -370,7 +387,12 @@ describe('PackageEffects', () => {
               }
 
               // WHEN seedLocalStorage$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.seedLocalStorage$;
 
               // THEN the expected actions are returned
@@ -502,9 +524,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService getDefault$ that returns values
               seedServiceSpy.getDefault$.and.returnValues(
                 ...seedServiceGetDefaultReturnValues.map(
@@ -514,7 +537,12 @@ describe('PackageEffects', () => {
               );
 
               // WHEN seedGet$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.seedGet$;
 
               // THEN the expected actions are returned
@@ -678,9 +706,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               seedServiceSpy.get$.and.returnValues(
                 ...seedServiceGetReturnValues.map(({ marbles, values }) =>
@@ -689,7 +718,12 @@ describe('PackageEffects', () => {
               );
 
               // WHEN seedsSeedGet$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.seedsSeedGet$;
 
               // THEN the expected actions are returned
@@ -769,12 +803,18 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN routerNavigationSelectedSeed$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.routerNavigationSelectedSeed$;
 
               // THEN the expected actions are returned
@@ -861,12 +901,18 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN specSaved$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.specSaved$;
 
               // THEN the expected actions are returned
@@ -908,7 +954,7 @@ describe('PackageEffects', () => {
       },
       {
         description: 'single editor component value change actions',
-        expectation: "should navigate to '' and return single action actions",
+        expectation: 'should navigate to base and return single action actions',
         actionsMarbles: 'a',
         actionsValues: {
           a: EditorActions.editorComponentValueChange({ value: 'value 1' }),
@@ -939,12 +985,18 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN routerNavigationBase$ is called
-              effects = new EditorEffects(actions$, seedServiceSpy, routerSpy);
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
               const returnedActions = effects.routerNavigationBase$;
 
               // THEN the expected actions are returned
@@ -957,6 +1009,176 @@ describe('PackageEffects', () => {
             if (expectedPath !== null) {
               expect(routerSpy.navigate).toHaveBeenCalledWith([expectedPath]);
             }
+          });
+        });
+      }
+    );
+  });
+
+  describe('seedsGet$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedsGetError({ message: 'message 1' }),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single editor component seed loaded action actions',
+        expectation:
+          'should return delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+        },
+        expectedMarbles: '1s b',
+        expectedValues: {
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+        },
+      },
+      {
+        description: 'single editor component value change action actions',
+        expectation:
+          'should return delayed editor component value change action  actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorComponentValueChange({ value: 'value 1' }),
+        },
+        expectedMarbles: '1s b',
+        expectedValues: {
+          b: EditorActions.editorComponentValueChange({ value: 'value 1' }),
+        },
+      },
+      {
+        description:
+          'multiple editor component seed loaded action within 1 second actions',
+        expectation:
+          'should return last delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a 500ms b',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+        expectedMarbles: '- 1s 500ms b',
+        expectedValues: {
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+      },
+      {
+        description:
+          'single editor component seed loaded and value change action within 1 second actions',
+        expectation:
+          'should return last delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a 500ms b',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentValueChange({ value: 'value 2' }),
+        },
+        expectedMarbles: '- 1s 500ms b',
+        expectedValues: {
+          b: EditorActions.editorComponentValueChange({ value: 'value 2' }),
+        },
+      },
+      {
+        description:
+          'multiple editor component seed loaded action just within 1 second actions',
+        expectation:
+          'should return last delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a 999ms b',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+        expectedMarbles: '- 1s 999ms b',
+        expectedValues: {
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+      },
+      {
+        description:
+          'multiple editor component seed loaded action just outside 1 second actions',
+        expectation:
+          'should return all delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a 1s b',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+        expectedMarbles: '1s a 1s b',
+        expectedValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+      },
+      {
+        description:
+          'multiple editor component seed loaded action well outside 1 second actions',
+        expectation:
+          'should return all delayed editor component seed loaded action  actions',
+        actionsMarbles: 'a 2s b',
+        actionsValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+        expectedMarbles: '1s a 2s b',
+        expectedValues: {
+          a: EditorActions.editorComponentSeedLoaded({ value: 'value 1' }),
+          b: EditorActions.editorComponentSeedLoaded({ value: 'value 2' }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
+
+              // WHEN delaySeedLoadedValueChange$ is called
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                specServiceSpy,
+                routerSpy
+              );
+              const returnedActions = effects.delaySeedLoadedValueChange$(
+                actions$
+              );
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
           });
         });
       }
