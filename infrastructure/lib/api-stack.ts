@@ -41,6 +41,7 @@ export class ApiStack extends cdk.Stack {
         ACCESS_CONTROL_ALLOW_ORIGIN: '*',
         ACCESS_CONTROL_ALLOW_HEADERS: 'x-language',
       },
+      timeout: cdk.Duration.seconds(15),
     });
     const version = new lambda.Version(
       this,
