@@ -70,27 +70,85 @@ describe('EditorComponent', () => {
     });
   });
 
-  it('should call editorComponentSeedLoaded when onChange is called when the seed is equal to the value', () => {
-    expect(editorServiceSpy.editorComponentSeedLoaded).not.toHaveBeenCalled();
-    expect(editorServiceSpy.editorComponentValueChange).not.toHaveBeenCalled();
+  describe('onChange', () => {
+    [
+      {
+        description: 'spec empty and seed spec the same',
+        expectation:
+          'should not call editorComponentValueChange nor editorComponentSeedLoaded',
+        spec: '',
+        sameAsSeed: false,
+        expectEditorComponentSeedLoadedCall: false,
+        expectEditorComponentValueChangeCall: false,
+      },
+      {
+        description: 'spec empty and seed spec the same',
+        expectation:
+          'should not call editorComponentValueChange nor editorComponentSeedLoaded',
+        spec: '',
+        sameAsSeed: true,
+        expectEditorComponentSeedLoadedCall: false,
+        expectEditorComponentValueChangeCall: false,
+      },
+      {
+        description: 'spec empty and seed spec the same',
+        expectation:
+          'should not call editorComponentValueChange nor editorComponentSeedLoaded',
+        spec: 'spec 1',
+        sameAsSeed: false,
+        expectEditorComponentSeedLoadedCall: false,
+        expectEditorComponentValueChangeCall: true,
+      },
+      {
+        description: 'spec empty and seed spec the same',
+        expectation:
+          'should not call editorComponentValueChange nor editorComponentSeedLoaded',
+        spec: 'spec 1',
+        sameAsSeed: true,
+        expectEditorComponentSeedLoadedCall: true,
+        expectEditorComponentValueChangeCall: false,
+      },
+    ].forEach(
+      ({
+        description,
+        expectation,
+        spec,
+        sameAsSeed,
+        expectEditorComponentSeedLoadedCall,
+        expectEditorComponentValueChangeCall,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            expect(
+              editorServiceSpy.editorComponentSeedLoaded
+            ).not.toHaveBeenCalled();
+            expect(
+              editorServiceSpy.editorComponentValueChange
+            ).not.toHaveBeenCalled();
 
-    component.onChange('value 1', true);
+            component.onChange(spec, sameAsSeed);
 
-    expect(editorServiceSpy.editorComponentSeedLoaded).toHaveBeenCalledWith(
-      'value 1'
+            if (expectEditorComponentSeedLoadedCall) {
+              expect(
+                editorServiceSpy.editorComponentSeedLoaded
+              ).toHaveBeenCalled();
+            } else {
+              expect(
+                editorServiceSpy.editorComponentSeedLoaded
+              ).not.toHaveBeenCalled();
+            }
+            if (expectEditorComponentValueChangeCall) {
+              expect(
+                editorServiceSpy.editorComponentValueChange
+              ).toHaveBeenCalled();
+            } else {
+              expect(
+                editorServiceSpy.editorComponentValueChange
+              ).not.toHaveBeenCalled();
+            }
+          });
+        });
+      }
     );
-    expect(editorServiceSpy.editorComponentValueChange).not.toHaveBeenCalled();
-  });
-
-  it('should call editorComponentValueChange when onChange is called when the seed is equal to the value', () => {
-    expect(editorServiceSpy.editorComponentSeedLoaded).not.toHaveBeenCalled();
-    expect(editorServiceSpy.editorComponentValueChange).not.toHaveBeenCalled();
-
-    component.onChange('value 1', false);
-
-    expect(editorServiceSpy.editorComponentValueChange).toHaveBeenCalledWith(
-      'value 1'
-    );
-    expect(editorServiceSpy.editorComponentSeedLoaded).not.toHaveBeenCalled();
   });
 });

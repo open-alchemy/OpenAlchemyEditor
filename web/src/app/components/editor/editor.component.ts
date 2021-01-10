@@ -25,6 +25,10 @@ export class EditorComponent implements OnInit {
   }
 
   onChange(spec: string, sameAsSeed: boolean): void {
+    if (!spec) {
+      return;
+    }
+
     if (sameAsSeed) {
       this.editorService.editorComponentSeedLoaded(spec);
     } else {
