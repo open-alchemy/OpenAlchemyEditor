@@ -4,7 +4,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { combineResult } from '../../helpers/combine-results';
-import { AppState } from '../app.state';
+import { AppState, initialState } from '../app.state';
 import {
   initialState as initialEditorState,
   EditorSeedState,
@@ -18,8 +18,6 @@ describe('EditorService', () => {
   let service: EditorService;
   let store: MockStore<AppState>;
   let testScheduler: TestScheduler;
-
-  const initialState = { editor: initialEditorState };
 
   beforeEach(() => {
     const injector = Injector.create({
