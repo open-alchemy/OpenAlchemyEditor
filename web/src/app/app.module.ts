@@ -24,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { editorReducer } from './services/editor/editor.reducer';
 import { EditorEffects } from './services/editor/editor.effects';
+import { packageReducer } from './services/package/package.reducer';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -82,6 +83,7 @@ import { CompositeUniqueItemComponent } from './components/artifact/composite-un
 import { CompositeUniqueComponent } from './components/artifact/composite-unique/composite-unique/composite-unique.component';
 import { ErrorComponent } from './components/error/error.component';
 import { BaseComponent } from './components/base/base.component';
+import { PackageComponent } from './components/package/package.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +143,7 @@ import { BaseComponent } from './components/base/base.component';
     CompositeUniqueComponent,
     ErrorComponent,
     BaseComponent,
+    PackageComponent,
   ],
   imports: [
     BrowserModule,
@@ -155,7 +158,7 @@ import { BaseComponent } from './components/base/base.component';
     MatButtonModule,
     MatProgressSpinnerModule,
 
-    StoreModule.forRoot({ editor: editorReducer }),
+    StoreModule.forRoot({ editor: editorReducer, package: packageReducer }),
     EffectsModule.forRoot([EditorEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

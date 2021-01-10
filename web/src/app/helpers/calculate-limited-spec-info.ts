@@ -3,7 +3,7 @@ import * as YAML from 'yaml';
 import { SpecValue, LimitedSpecInfo } from '../services/package/types';
 
 const VERSION_RE = new RegExp(
-  '([1-9][0-9]*!)?(0|[1-9][0-9]*)(.(0|[1-9][0-9]*))*((a|b|rc)(0|[1-9][0-9]*))?(.post(0|[1-9][0-9]*))?(.dev(0|[1-9][0-9]*))?'
+  '^([1-9][0-9]*!)?(0|[1-9][0-9]*)(.(0|[1-9][0-9]*))*((a|b|rc)(0|[1-9][0-9]*))?(.post(0|[1-9][0-9]*))?(.dev(0|[1-9][0-9]*))?$'
 );
 
 export function calculateLimitedSpecInfo(value: SpecValue): LimitedSpecInfo {
@@ -28,7 +28,7 @@ export function calculateLimitedSpecInfo(value: SpecValue): LimitedSpecInfo {
       version = version.toString();
     }
 
-    const versionResult = value.match(VERSION_RE);
+    const versionResult = version.match(VERSION_RE);
     specInfo.version = {
       value: version,
       valid: versionResult !== null,

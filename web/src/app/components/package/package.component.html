@@ -1,0 +1,40 @@
+<ng-container *ngIf="spec$ | async as spec">
+  <h1>Specification Information</h1>
+  <p>
+    <ng-container *ngIf="spec.title"
+      ><span>title: {{ spec.title }}</span
+      ><br
+    /></ng-container>
+    <ng-container *ngIf="spec.version"
+      ><span>version: {{ spec.version.value }}</span
+      ><br
+    /></ng-container>
+    <ng-container *ngIf="spec.description"
+      ><span>description: {{ spec.description }}</span
+      ><br
+    /></ng-container>
+
+    <ng-container *ngIf="spec.proposedName"
+      ><span>package name: {{ spec.proposedName }}</span
+      ><br
+    /></ng-container>
+    <ng-container *ngIf="spec.version"
+      ><span class="version-valid"
+        >package version valid:
+        <mat-chip
+          *ngIf="spec.version.valid"
+          class="badge"
+          color="primary"
+          selected
+          >yes</mat-chip
+        ><mat-chip
+          *ngIf="!spec.version.valid"
+          color="warn"
+          class="badge"
+          selected
+          >no</mat-chip
+        ></span
+      ></ng-container
+    >
+  </p>
+</ng-container>
