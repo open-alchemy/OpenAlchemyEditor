@@ -70,12 +70,20 @@ describe('EditorReducer', () => {
       expectation: 'should set selected value to the seed in the action',
       initialState: {
         ...editorInitialState,
-        seed: { ...editorInitialState.seed, selected: { value: 'path 1' } },
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: 'path 1' },
+          current: { value: 'value 1', loading: false, success: true },
+        },
       },
       action: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
-        seed: { ...editorInitialState.seed, selected: { value: 'path 2' } },
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: 'path 2' },
+          current: { value: 'value 1', loading: true, success: true },
+        },
       },
     },
     {
@@ -84,12 +92,20 @@ describe('EditorReducer', () => {
       expectation: 'should set selected value to the seed in the action',
       initialState: {
         ...editorInitialState,
-        seed: { ...editorInitialState.seed, selected: { value: 'path 1' } },
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: 'path 1' },
+          current: { value: 'value 1', loading: false, success: true },
+        },
       },
       action: EditorActions.routerNavigationStartExampleId({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
-        seed: { ...editorInitialState.seed, selected: { value: 'path 2' } },
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: 'path 2' },
+          current: { value: 'value 1', loading: true, success: true },
+        },
       },
     },
     {

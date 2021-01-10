@@ -107,6 +107,7 @@ const editorReducerValue = createReducer(
     ...state,
     seed: {
       ...state.seed,
+      current: { ...state.seed.current, loading: true },
       selected: { value: action.path },
     },
   })),
@@ -114,6 +115,7 @@ const editorReducerValue = createReducer(
     ...state,
     seed: {
       ...state.seed,
+      current: { ...state.seed.current, loading: true },
       selected: { value: action.path },
     },
   })),
