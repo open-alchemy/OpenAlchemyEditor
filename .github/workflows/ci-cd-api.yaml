@@ -49,7 +49,9 @@ jobs:
         id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: api/.venv
+          path: |
+            ~/.cache/pipenv
+            api/.venv
           key: ${{ runner.os }}-${{ matrix.python-version }}-pipenv-${{ hashFiles('api/Pipfile.lock') }}
       - name: install dependencies
         working-directory: ./api
@@ -60,8 +62,10 @@ jobs:
           pipenv install --dev
       - name: run tests
         working-directory: ./api
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
-          pipenv run test
+          pipenv run test || pipenv --rm && pipenv install --dev && pipenv run test
 
   build:
     runs-on: ubuntu-latest
@@ -163,7 +167,9 @@ jobs:
       - id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: test/api/.venv
+          path: |
+            ~/.cache/pipenv
+            test/api/.venv
           key: ${{ runner.os }}-test-api--${{ hashFiles('test/api/Pipfile.lock') }}
       - name: install dependencies
         working-directory: ./test/api
@@ -174,5 +180,7 @@ jobs:
           pipenv install --dev
       - name: Run tests
         working-directory: ./test/api
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
-          pipenv run test
+          pipenv run test || pipenv --rm && pipenv install --dev && pipenv run test

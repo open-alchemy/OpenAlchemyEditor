@@ -25,14 +25,20 @@ jobs:
         id: cache-pipenv
         uses: actions/cache@v2
         with:
-          path: ~/.local/share/virtualenvs
+          path: |
+            ~/.cache/pipenv
+            test/api/.venv
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/api/Pipfile.lock') }}
       - name: install dependencies
         working-directory: ./api
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
           pipenv install --dev
       - name: run tests
         working-directory: ./api
+        env:
+          PIPENV_VENV_IN_PROJECT: 1
         run: |
-          pipenv run test
+          pipenv run test || pipenv --rm && pipenv install --dev && pipenv run test
