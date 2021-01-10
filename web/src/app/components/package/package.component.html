@@ -13,28 +13,30 @@
       ><span>description: {{ spec.description }}</span
       ><br
     /></ng-container>
+  </p>
 
+  <h2>Package</h2>
+  <p>
+    Save this specification to install the models using pip.<br />
     <ng-container *ngIf="spec.proposedName"
       ><span>package name: {{ spec.proposedName }}</span
       ><br
     /></ng-container>
-    <ng-container *ngIf="spec.version"
-      ><span class="version-valid"
-        >package version valid:
-        <mat-chip
-          *ngIf="spec.version.valid"
-          class="badge"
-          color="primary"
-          selected
-          >yes</mat-chip
-        ><mat-chip
-          *ngIf="!spec.version.valid"
-          color="warn"
-          class="badge"
-          selected
-          >no</mat-chip
-        ></span
-      ></ng-container
+    <span class="version-valid"
+      >package version (based on specification) valid:
+      <mat-chip
+        *ngIf="spec.version?.valid"
+        class="badge"
+        color="primary"
+        selected
+        >yes</mat-chip
+      ><mat-chip
+        *ngIf="!spec.version?.valid"
+        color="warn"
+        class="badge"
+        selected
+        >no</mat-chip
+      ></span
     >
   </p>
 </ng-container>
