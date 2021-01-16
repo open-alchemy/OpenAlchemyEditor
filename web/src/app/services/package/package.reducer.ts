@@ -6,6 +6,10 @@ import * as EditorActions from '../editor/editor.actions';
 import { LimitedSpecInfo } from './types';
 import { Error } from '../editor/types';
 
+export interface PackageSaveState {
+  loading: boolean;
+  success: boolean | null;
+}
 export interface PackageSpecState {
   info: LimitedSpecInfo;
   beingEdited: boolean;
@@ -15,6 +19,7 @@ export interface PackageSpecState {
 export interface PackageState {
   spec: PackageSpecState;
   error: Error | null;
+  save: PackageSaveState;
 }
 
 export const initialState: PackageState = {
@@ -23,6 +28,10 @@ export const initialState: PackageState = {
     beingEdited: false,
     value: null,
     valid: null,
+  },
+  save: {
+    loading: false,
+    success: null,
   },
   error: null,
 };
