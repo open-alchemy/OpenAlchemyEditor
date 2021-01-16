@@ -37,7 +37,7 @@ describe('modelCompletelyValid', () => {
     },
     {
       description: 'properties empty',
-      expectation: 'should not be valid',
+      expectation: 'should be valid',
       model: {
         result: { valid: true },
         properties: {},
@@ -46,7 +46,7 @@ describe('modelCompletelyValid', () => {
     },
     {
       description: 'single properties model valid properties property null',
-      expectation: 'should not be valid',
+      expectation: 'should be valid',
       model: {
         result: { valid: true },
         properties: { prop_1: null },
@@ -56,7 +56,7 @@ describe('modelCompletelyValid', () => {
     {
       description:
         'single properties model valid properties property result null',
-      expectation: 'should not be valid',
+      expectation: 'should be valid',
       model: {
         result: { valid: true },
         properties: { prop_1: { result: null } },

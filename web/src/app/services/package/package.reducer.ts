@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-info';
+import { modelsCompletelyValid } from '../../helpers/models-completely-valid';
 import * as EditorActions from '../editor/editor.actions';
 import { LimitedSpecInfo } from './types';
 
@@ -30,6 +31,28 @@ const packageReducerValue = createReducer(
     spec: {
       ...state.spec,
       info: calculateLimitedSpecInfo(action.value),
+      value: action.value,
+      beingEdited: false,
+    },
+  })),
+  on(
+    EditorActions.editorComponentSeedLoaded,
+    EditorActions.editorComponentValueChange,
+    (state) => ({
+      ...state,
+      spec: {
+        ...state.spec,
+        value: null,
+        beingEdited: true,
+        valid: null,
+      },
+    })
+  ),
+  on(EditorActions.editorApiSpecValidateManagedSuccess, (state, action) => ({
+    ...state,
+    spec: {
+      ...state.spec,
+      valid: modelsCompletelyValid(action.response),
     },
   }))
 );
