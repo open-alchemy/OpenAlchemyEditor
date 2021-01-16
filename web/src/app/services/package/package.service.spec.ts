@@ -33,7 +33,9 @@ describe('PackageService', () => {
       testScheduler.run((helpers) => {
         // GIVEN store with initial state and then a different state
         const specState: PackageSpecState = {
+          ...initialPackageState.spec,
           info: {
+            ...initialPackageState.spec.info,
             title: 'title 1',
           },
         };
@@ -61,7 +63,9 @@ describe('PackageService', () => {
       testScheduler.run((helpers) => {
         // GIVEN store with initial state and then a different state
         const specState: PackageSpecState = {
+          ...initialPackageState.spec,
           info: {
+            ...initialPackageState.spec.info,
             title: 'title 1',
           },
         };

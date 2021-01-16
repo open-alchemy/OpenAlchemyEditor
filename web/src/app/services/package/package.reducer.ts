@@ -6,6 +6,9 @@ import { LimitedSpecInfo } from './types';
 
 export interface PackageSpecState {
   info: LimitedSpecInfo;
+  beingEdited: boolean;
+  value: string | null;
+  valid: boolean | null;
 }
 export interface PackageState {
   spec: PackageSpecState;
@@ -14,6 +17,9 @@ export interface PackageState {
 export const initialState: PackageState = {
   spec: {
     info: {},
+    beingEdited: false,
+    value: null,
+    valid: null,
   },
 };
 

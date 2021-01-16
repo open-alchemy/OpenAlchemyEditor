@@ -38,7 +38,13 @@
   <button
     mat-raised-button
     color="primary"
-    [disabled]="!spec?.info?.version?.valid"
+    [disabled]="
+      !(
+        spec?.info?.version?.valid === true &&
+        spec?.beingEdited === false &&
+        spec?.valid === true
+      )
+    "
     [attr.test-id]="selector + '.save'"
   >
     Save</button

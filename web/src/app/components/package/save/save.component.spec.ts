@@ -249,4 +249,146 @@ describe('SaveComponent', () => {
       });
     });
   });
+
+  describe('save disabled', () => {
+    ([
+      {
+        description: 'spec null',
+        expectation: 'should be disabled',
+        spec: null,
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec info missing beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec info null beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: null,
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec info version missing beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: {},
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec info version null beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: null },
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec info version valid missing beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: {} },
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec info version valid false beingEdited false and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: false } },
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec version valid beingEdited missing and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec version valid beingEdited true and valid true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: true,
+          valid: true,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec version valid beingEdited false and valid missing',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec version valid beingEdited false and valid false',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: false,
+        },
+        expectedDisabled: true,
+      },
+      {
+        description: 'spec version valid beingEdited false and valid true',
+        expectation: 'should not be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: true,
+        },
+        expectedDisabled: false,
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      spec: PackageSpecState;
+      expectedDisabled: boolean;
+    }[]).forEach(({ description, expectation, spec, expectedDisabled }) => {
+      describe(description, () => {
+        it(expectation, () => {
+          // GIVEN spec set on the component
+          component.spec = spec;
+
+          // WHEN change detection is run
+          fixture.detectChanges();
+
+          // THEN the button has the expected disabled value
+          const button: HTMLButtonElement = fixture.nativeElement.querySelector(
+            `[test-id="${component.selector}.save"]`
+          );
+          expect(button.disabled).toEqual(expectedDisabled);
+        });
+      });
+    });
+  });
 });
