@@ -87,6 +87,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { BaseComponent } from './components/base/base.component';
 import { PackageComponent } from './components/package/package.component';
 import { SpecInformationComponent } from './components/package/spec-information/spec-information.component';
+import { SaveComponent } from './components/package/save/save.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,7 @@ import { SpecInformationComponent } from './components/package/spec-information/
     BaseComponent,
     PackageComponent,
     SpecInformationComponent,
+    SaveComponent,
   ],
   imports: [
     BrowserModule,

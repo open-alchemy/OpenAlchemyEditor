@@ -1,39 +1,4 @@
 <ng-container *ngIf="spec$ | async as spec">
   <app-spec-information [spec]="spec"></app-spec-information>
-
-  <h2>Package</h2>
-  <p>
-    Save this specification to install the models using pip.<br />
-
-    <span class="version-valid"
-      >package version (based on specification) valid:
-      <mat-chip
-        *ngIf="spec.version?.valid"
-        class="badge"
-        color="primary"
-        selected
-        >yes</mat-chip
-      ><mat-chip
-        *ngIf="!spec.version?.valid"
-        color="warn"
-        class="badge"
-        selected
-        >no</mat-chip
-      >
-      <span *ngIf="!spec.version?.valid"
-        >please define the version as described here:
-        <a href="https://swagger.io/specification/#info-object"
-          >Open API Info Object</a
-        ></span
-      ></span
-    ><br />
-
-    <mat-form-field>
-      <mat-label>Package name</mat-label>
-      <input matInput value="{{ spec?.proposedName }}" /> </mat-form-field
-    ><br />
-    <button mat-raised-button color="primary" [disabled]="!spec.version?.valid">
-      Save</button
-    ><br />
-  </p>
+  <app-save [spec]="spec"></app-save>
 </ng-container>
