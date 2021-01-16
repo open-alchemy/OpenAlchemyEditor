@@ -3,6 +3,12 @@
   Save this specification to install the models using pip.<br />
 
   <app-check
+    [description]="'schemas valid:'"
+    [value]="spec?.valid === true"
+    [hint]="specHint"
+    [attr.test-id]="selector + '.spec-valid'"
+  ></app-check>
+  <app-check
     [description]="'package version (based on specification) valid:'"
     [value]="spec?.info?.version?.valid === true"
     [hint]="versionHint"

@@ -14,4 +14,5 @@ export class SaveComponent {
   selector = SELECTOR;
   versionHint =
     'please define the version as described here: <a href="https://swagger.io/specification/#info-object">Open API Info Object</a>';
+  specHint = 'please resolve the schema problems below';
 }

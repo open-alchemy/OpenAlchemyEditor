@@ -45,6 +45,65 @@ describe('SaveComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('spec valid', () => {
+    ([
+      {
+        description: 'spec null',
+        expectation: 'should set value to false',
+        spec: null,
+        expectedValue: false,
+      },
+      {
+        description: 'spec no valid',
+        expectation: 'should set value to false',
+        spec: {},
+        expectedValue: false,
+      },
+      {
+        description: 'spec valid null',
+        expectation: 'should set value to false',
+        spec: { valid: null },
+        expectedValue: false,
+      },
+      {
+        description: 'spec valid false',
+        expectation: 'should set value to false',
+        spec: { valid: false },
+        expectedValue: false,
+      },
+      {
+        description: 'spec valid true',
+        expectation: 'should set value to true',
+        spec: { valid: true },
+        expectedValue: true,
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      spec: PackageSpecState;
+      expectedValue: boolean;
+    }[]).forEach(({ description, expectation, spec, expectedValue }) => {
+      describe(description, () => {
+        it(expectation, () => {
+          // GIVEN spec set on the component
+          component.spec = spec;
+
+          // WHEN change detection is run
+          fixture.detectChanges();
+
+          // THEN the expected value is passed to the check component
+          const checkDebugElement = fixture.debugElement.query(
+            By.css(`[test-id="${component.selector}.spec-valid"]`)
+          );
+          const check = checkDebugElement.injector.get(CheckStubComponent);
+          expect(check.value).toEqual(expectedValue);
+          expect(check.description).toEqual('schemas valid:');
+          expect(check.hint).toEqual(component.specHint);
+        });
+      });
+    });
+  });
+
   describe('version valid', () => {
     ([
       {
