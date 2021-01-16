@@ -2,29 +2,12 @@
 <p>
   Save this specification to install the models using pip.<br />
 
-  <span class="version-valid" [attr.test-id]="selector + '.version-valid'"
-    >package version (based on specification) valid:
-    <mat-chip
-      *ngIf="spec?.info?.version?.valid"
-      class="badge"
-      color="primary"
-      selected
-      >yes</mat-chip
-    ><mat-chip
-      *ngIf="!spec?.info?.version?.valid"
-      color="warn"
-      class="badge"
-      selected
-      >no</mat-chip
-    >
-    <span
-      *ngIf="!spec?.info?.version?.valid"
-      [attr.test-id]="selector + '.version-help'"
-      >please define the version as described here:
-      <a href="https://swagger.io/specification/#info-object"
-        >Open API Info Object</a
-      ></span
-    ></span
+  <app-check
+    [description]="'package version (based on specification) valid:'"
+    [value]="spec?.info?.version?.valid === true"
+    [hint]="versionHint"
+    [attr.test-id]="selector + '.version-valid'"
+  ></app-check
   ><br />
 
   <mat-form-field>

@@ -88,6 +88,7 @@ import { BaseComponent } from './components/base/base.component';
 import { PackageBaseComponent } from './components/package/package-base/package-base.component';
 import { SpecInformationComponent } from './components/package/spec-information/spec-information.component';
 import { SaveComponent } from './components/package/save/save.component';
+import { CheckComponent } from './components/check/check.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import { SaveComponent } from './components/package/save/save.component';
     PackageBaseComponent,
     SpecInformationComponent,
     SaveComponent,
+    CheckComponent,
   ],
   imports: [
     BrowserModule,

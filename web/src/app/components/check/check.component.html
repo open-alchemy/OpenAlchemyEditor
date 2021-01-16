@@ -1,0 +1,23 @@
+<span class="check"
+  >{{ description }}
+  <mat-chip
+    *ngIf="value"
+    class="badge"
+    color="primary"
+    selected
+    [attr.test-id]="selector + '.value-true'"
+    >yes</mat-chip
+  ><mat-chip
+    *ngIf="!value"
+    color="warn"
+    class="badge"
+    selected
+    [attr.test-id]="selector + '.value-false'"
+    >no</mat-chip
+  >
+  <span
+    *ngIf="!value"
+    [innerHTML]="hint"
+    [attr.test-id]="selector + '.hint'"
+  ></span
+></span>

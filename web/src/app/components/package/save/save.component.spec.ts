@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Component, Input } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,13 +13,20 @@ import { SaveComponent } from './save.component';
 
 import { PackageSpecState } from '../../../services/package/package.reducer';
 
+@Component({ selector: 'app-check', template: '' })
+class CheckStubComponent {
+  @Input() description: string | null = null;
+  @Input() value: boolean | null = null;
+  @Input() hint: string | null = null;
+}
+
 describe('SaveComponent', () => {
   let component: SaveComponent;
   let fixture: ComponentFixture<SaveComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SaveComponent],
+      declarations: [SaveComponent, CheckStubComponent],
       imports: [
         MatFormFieldModule,
         MatInputModule,
@@ -40,58 +49,58 @@ describe('SaveComponent', () => {
     ([
       {
         description: 'spec null',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: null,
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec no info',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: {},
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info null',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: { info: null },
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info no version',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: { info: {} },
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info version null',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: { info: { version: null } },
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info version no valid',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: { info: { version: {} } },
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info version valid false',
-        expectation: 'should not be valid',
+        expectation: 'should set value to false',
         spec: { info: { version: { valid: false } } },
-        expectedValid: 'no',
+        expectedValue: false,
       },
       {
         description: 'spec info version valid true',
-        expectation: 'should be valid',
+        expectation: 'should set value to true',
         spec: { info: { version: { valid: true } } },
-        expectedValid: 'yes',
+        expectedValue: true,
       },
     ] as {
       description: string;
       expectation: string;
       spec: PackageSpecState;
-      expectedValid: string;
-    }[]).forEach(({ description, expectation, spec, expectedValid }) => {
+      expectedValue: boolean;
+    }[]).forEach(({ description, expectation, spec, expectedValue }) => {
       describe(description, () => {
         it(expectation, () => {
           // GIVEN spec set on the component
@@ -100,89 +109,16 @@ describe('SaveComponent', () => {
           // WHEN change detection is run
           fixture.detectChanges();
 
-          // THEN the expected version valid is shown
-          const versionValid: HTMLSpanElement = fixture.nativeElement.querySelector(
-            `[test-id="${component.selector}.version-valid"]`
+          // THEN the expected value is passed to the check component
+          const checkDebugElement = fixture.debugElement.query(
+            By.css(`[test-id="${component.selector}.version-valid"]`)
           );
-          expect(versionValid.innerText).toContain(expectedValid);
-        });
-      });
-    });
-  });
-
-  describe('version help', () => {
-    ([
-      {
-        description: 'spec null',
-        expectation: 'should display help',
-        spec: null,
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec no info',
-        expectation: 'should display help',
-        spec: {},
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info null',
-        expectation: 'should display help',
-        spec: { info: null },
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info no version',
-        expectation: 'should display help',
-        spec: { info: {} },
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info version null',
-        expectation: 'should display help',
-        spec: { info: { version: null } },
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info version no valid',
-        expectation: 'should display help',
-        spec: { info: { version: {} } },
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info version valid false',
-        expectation: 'should display help',
-        spec: { info: { version: { valid: false } } },
-        expectedHelp: 'Open API Info Object',
-      },
-      {
-        description: 'spec info version valid true',
-        expectation: 'should not display help',
-        spec: { info: { version: { valid: true } } },
-        expectedHelp: null,
-      },
-    ] as {
-      description: string;
-      expectation: string;
-      spec: PackageSpecState;
-      expectedHelp: string | null;
-    }[]).forEach(({ description, expectation, spec, expectedHelp }) => {
-      describe(description, () => {
-        it(expectation, () => {
-          // GIVEN spec set on the component
-          component.spec = spec;
-
-          // WHEN change detection is run
-          fixture.detectChanges();
-
-          // THEN the expected version help is shown
-          const versionHelp: HTMLSpanElement = fixture.nativeElement.querySelector(
-            `[test-id="${component.selector}.version-help"]`
+          const check = checkDebugElement.injector.get(CheckStubComponent);
+          expect(check.value).toEqual(expectedValue);
+          expect(check.description).toEqual(
+            'package version (based on specification) valid:'
           );
-          if (expectedHelp !== null) {
-            expect(versionHelp.innerText).toContain(expectedHelp);
-          } else {
-            expect(versionHelp).toBeFalsy();
-          }
+          expect(check.hint).toEqual(component.versionHint);
         });
       });
     });
