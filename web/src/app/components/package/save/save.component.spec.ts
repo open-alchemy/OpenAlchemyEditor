@@ -238,7 +238,25 @@ describe('SaveComponent', () => {
             `[test-id="${component.selector}.input"]`
           );
           expect(input.value).toEqual(expectedInput);
+          expect(component.name.nativeElement.value).toEqual(expectedInput);
         });
+      });
+    });
+
+    describe('when value changes', () => {
+      it('should update the name', () => {
+        // GIVEN
+
+        // WHEN change detection is run and the input value is updated
+        fixture.detectChanges();
+        const input: HTMLInputElement = fixture.nativeElement.querySelector(
+          `[test-id="${component.selector}.input"]`
+        );
+        const value = 'value 1';
+        input.value = value;
+
+        // THEN the name has the expected value
+        expect(component.name.nativeElement.value).toEqual(value);
       });
     });
   });

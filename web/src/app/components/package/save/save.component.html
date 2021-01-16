@@ -21,6 +21,7 @@
     <input
       [attr.test-id]="selector + '.input'"
       matInput
+      #name
       value="{{ spec?.info?.proposedName }}"
     /> </mat-form-field
   ><br />
@@ -35,6 +36,7 @@
       )
     "
     [attr.test-id]="selector + '.save'"
+    (click)="onSaveClick(spec.value)"
   >
     Save</button
   ><br />

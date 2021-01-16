@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { PackageSpecState } from '../../../services/package/package.reducer';
+import { SpecValue } from '../../../services/package/types';
 
 const SELECTOR = 'app-save';
 
@@ -15,4 +16,10 @@ export class SaveComponent {
   versionHint =
     'please define the version as described here: <a href="https://swagger.io/specification/#info-object">Open API Info Object</a>';
   specHint = 'please resolve the schema problems below';
+
+  @ViewChild('name') name: ElementRef<HTMLInputElement>;
+
+  onSaveClick(value: SpecValue): void {
+    console.log({ value, name: this.name.nativeElement.value });
+  }
 }
