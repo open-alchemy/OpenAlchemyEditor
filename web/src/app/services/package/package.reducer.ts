@@ -3,6 +3,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-info';
 import { modelsCompletelyValid } from '../../helpers/models-completely-valid';
 import * as EditorActions from '../editor/editor.actions';
+import * as PackageActions from './package.actions';
 import { LimitedSpecInfo } from './types';
 import { Error } from '../editor/types';
 
@@ -66,7 +67,36 @@ const packageReducerValue = createReducer(
       ...state.spec,
       valid: modelsCompletelyValid(action.response),
     },
-  }))
+  })),
+  on(PackageActions.saveComponentSaveClick, (state) => ({
+    ...state,
+    save: {
+      ...state.save,
+      loading: true,
+      success: null,
+    },
+  })),
+  on(PackageActions.packageApiSpecsSpecNamePutSuccess, (state) => ({
+    ...state,
+    save: {
+      ...state.save,
+      loading: false,
+      success: true,
+    },
+  })),
+  on(
+    PackageActions.authNotLoggedIn,
+    PackageActions.packageApiSpecsSpecNamePutError,
+    (state, action) => ({
+      ...state,
+      save: {
+        ...state.save,
+        loading: false,
+        success: false,
+      },
+      error: { ...state.error, message: action.message },
+    })
+  )
 );
 
 export function packageReducer(

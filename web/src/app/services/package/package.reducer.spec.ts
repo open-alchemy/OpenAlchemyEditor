@@ -5,6 +5,7 @@ import {
 import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-info';
 
 import * as EditorActions from '../editor/editor.actions';
+import * as PackageActions from './package.actions';
 
 const SPEC_VALUE = `
 info:
@@ -142,6 +143,109 @@ describe('PackageReducer', () => {
         spec: {
           ...packageInitialState.spec,
           valid: false,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: save loading false success true, action saveComponentSaveClick',
+      expectation: 'should set loading to true and success to null',
+      initialState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: false,
+          success: true,
+        },
+      },
+      action: PackageActions.saveComponentSaveClick({
+        value: 'value 1',
+        name: 'name 1',
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: true,
+          success: null,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: save loading true success null, action packageApiSpecsSpecNamePutSuccess',
+      expectation: 'should set loading to false and success to true',
+      initialState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: true,
+          success: null,
+        },
+      },
+      action: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+      expectedFinalState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: false,
+          success: true,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: save loading true success null, action packageApiSpecsSpecNamePutError',
+      expectation:
+        'should set loading to false and success to false and copy the error',
+      initialState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: true,
+          success: null,
+        },
+      },
+      action: PackageActions.packageApiSpecsSpecNamePutError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: false,
+          success: false,
+        },
+        error: {
+          message: 'message 1',
+        },
+      },
+    },
+    {
+      description:
+        'initial state: save loading true success null, action authNotLoggedIn',
+      expectation:
+        'should set loading to false and success to false and copy the error',
+      initialState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: true,
+          success: null,
+        },
+      },
+      action: PackageActions.authNotLoggedIn({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        save: {
+          ...packageInitialState.save,
+          loading: false,
+          success: false,
+        },
+        error: {
+          message: 'message 1',
         },
       },
     },

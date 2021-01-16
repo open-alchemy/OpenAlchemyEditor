@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState, selectPackage } from '../app.state';
 import { PackageState, PackageSpecState } from './package.reducer';
 import { SpecName, SpecValue } from './types';
+import * as PackageActions from './package.actions';
 
 const selectSpec = createSelector(
   selectPackage,
@@ -35,6 +36,6 @@ export class PackageService {
   constructor(private store: Store<AppState>) {}
 
   saveComponentSaveClick(value: SpecValue, name: SpecName): void {
-    console.log({ value, name });
+    this.store.dispatch(PackageActions.saveComponentSaveClick({ value, name }));
   }
 }

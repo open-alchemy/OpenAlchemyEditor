@@ -8,6 +8,11 @@ export const saveComponentSaveClick = createAction(
   props<{ value: SpecValue; name: SpecName }>()
 );
 
+export const authNotLoggedIn = createAction(
+  '[auth] not logged in',
+  props<Error>()
+);
+
 export const packageApiSpecsSpecNamePutSuccess = createAction(
   '[package API] /specs/{spec_name} PUT success'
 );

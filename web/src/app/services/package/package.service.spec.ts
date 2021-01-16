@@ -10,6 +10,7 @@ import {
   PackageSaveState,
 } from './package.reducer';
 import { PackageService } from './package.service';
+import * as PackageActions from './package.actions';
 import { Error } from '../editor/types';
 
 describe('PackageService', () => {
@@ -139,6 +140,27 @@ describe('PackageService', () => {
         helpers.expectObservable(service.error$).toBe('ab', {
           a: initialState.package.error,
           b: errorState,
+        });
+      });
+    });
+  });
+
+  describe('saveComponentSaveClick', () => {
+    it('should dispatch specs component on init action', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN a trigger for saveComponentSaveClick
+        const value = 'value 1';
+        const name = 'name 1';
+        helpers
+          .cold('-b')
+          .subscribe(() => service.saveComponentSaveClick(value, name));
+
+        // WHEN
+
+        // THEN store emits the expected actions
+        helpers.expectObservable(store.scannedActions$).toBe('ab', {
+          a: { type: '@ngrx/store/init' },
+          b: PackageActions.saveComponentSaveClick({ value, name }),
         });
       });
     });
