@@ -66,4 +66,18 @@ describe('ErrorDisplayComponent', () => {
     // THEN open has been called
     expect(snackBarSpy.open).toHaveBeenCalledOnceWith(message, 'close');
   });
+
+  describe('displayError', () => {
+    it('should not call open if error is null', () => {
+      // GIVEN component
+      fixture = TestBed.createComponent(ErrorDisplayComponent);
+      component = fixture.componentInstance;
+
+      // WHEN displayError is called with null
+      component.displayError(null);
+
+      // THEN open is not called
+      expect(snackBarSpy.open).not.toHaveBeenCalled();
+    });
+  });
 });

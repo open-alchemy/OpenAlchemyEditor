@@ -25,7 +25,11 @@ export class ErrorDisplayComponent implements OnDestroy {
     private packageService: PackageService
   ) {}
 
-  displayError(error: Error) {
+  displayError(error: Error | null): void {
+    if (error === null) {
+      return;
+    }
+
     this.snackBar.open(error.message, 'close');
   }
 
