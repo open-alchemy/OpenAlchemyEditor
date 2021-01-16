@@ -33,6 +33,7 @@
     "@ngrx/store-devtools": "^10.1.2",
     "@open-alchemy/editor-sdk": "^0.1.10",
     "@open-alchemy/package-sdk": "^4.0.2",
+    "angular-oauth2-oidc": "^10.0.3",
     "ngx-ace-wrapper": "^11.0.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.1.0",

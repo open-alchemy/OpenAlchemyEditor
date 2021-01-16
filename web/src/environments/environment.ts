@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false,
+  signInCompleteReturnPathKey: 'signInComplete.ReturnPath',
+  editor: {
+    url: 'https://editor.api.openalchemy.io',
+  },
 };
 
 /*
