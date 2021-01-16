@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SaveComponent } from './save.component';
 
 import { PackageSpecState } from '../../../services/package/package.reducer';
+import { PackageService } from '../../../services/package/package.service';
 
 @Component({ selector: 'app-check', template: '' })
 class CheckStubComponent {
@@ -22,8 +23,13 @@ class CheckStubComponent {
 describe('SaveComponent', () => {
   let component: SaveComponent;
   let fixture: ComponentFixture<SaveComponent>;
+  let packageServiceSpy: jasmine.SpyObj<PackageService>;
 
   beforeEach(() => {
+    packageServiceSpy = jasmine.createSpyObj('PackageService', [
+      'saveComponentSaveClick',
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [SaveComponent, CheckStubComponent],
       imports: [
@@ -33,6 +39,7 @@ describe('SaveComponent', () => {
         FormsModule,
         NoopAnimationsModule,
       ],
+      providers: [{ provide: PackageService, useValue: packageServiceSpy }],
     });
 
     fixture = TestBed.createComponent(SaveComponent);
@@ -400,6 +407,41 @@ describe('SaveComponent', () => {
           expect(button.disabled).toEqual(expectedDisabled);
         });
       });
+    });
+  });
+
+  describe('save click', () => {
+    it('should call saveComponentSaveClick with the spec ane name', () => {
+      // GIVEN spec set on the component
+      const value = 'value 1';
+      const name = 'value 1';
+      component.spec = {
+        info: { version: { valid: true, value: 'version 1' } },
+        beingEdited: false,
+        valid: true,
+        value,
+      };
+
+      // WHEN change detection is run and the name is set and save is clicked
+      fixture.detectChanges();
+      const input: HTMLInputElement = fixture.nativeElement.querySelector(
+        `[test-id="${component.selector}.input"]`
+      );
+      expect(input).toBeTruthy();
+      input.value = name;
+      const button: HTMLButtonElement = fixture.nativeElement.querySelector(
+        `[test-id="${component.selector}.save"]`
+      );
+      expect(button).toBeTruthy();
+      expect(button.disabled).toBeFalsy();
+      button.click();
+      fixture.detectChanges();
+
+      // THEN saveComponentSaveClick has been called
+      expect(packageServiceSpy.saveComponentSaveClick).toHaveBeenCalledOnceWith(
+        value,
+        name
+      );
     });
   });
 });

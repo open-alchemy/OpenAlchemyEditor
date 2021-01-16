@@ -2,6 +2,7 @@ import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { PackageSpecState } from '../../../services/package/package.reducer';
 import { SpecValue } from '../../../services/package/types';
+import { PackageService } from '../../../services/package/package.service';
 
 const SELECTOR = 'app-save';
 
@@ -19,7 +20,12 @@ export class SaveComponent {
 
   @ViewChild('name') name: ElementRef<HTMLInputElement>;
 
+  constructor(private packageService: PackageService) {}
+
   onSaveClick(value: SpecValue): void {
-    console.log({ value, name: this.name.nativeElement.value });
+    this.packageService.saveComponentSaveClick(
+      value,
+      this.name.nativeElement.value
+    );
   }
 }

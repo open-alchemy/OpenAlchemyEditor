@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState, selectPackage } from '../app.state';
 import { PackageState, PackageSpecState } from './package.reducer';
+import { SpecName, SpecValue } from './types';
 
 const selectSpec = createSelector(
   selectPackage,
@@ -27,4 +28,8 @@ export class PackageService {
   error$ = this.store.pipe(select(selectError));
 
   constructor(private store: Store<AppState>) {}
+
+  saveComponentSaveClick(value: SpecValue, name: SpecName): void {
+    console.log({ value, name });
+  }
 }
