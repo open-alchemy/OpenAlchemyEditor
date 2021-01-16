@@ -1,0 +1,17 @@
+<h1>Specification Information</h1>
+<p>
+  <ng-container *ngIf="spec?.title"
+    ><span [attr.test-id]="selector + '.title'">title: {{ spec.title }}</span
+    ><br
+  /></ng-container>
+  <ng-container *ngIf="spec?.version?.value"
+    ><span [attr.test-id]="selector + '.version'"
+      >version: {{ spec.version.value }}</span
+    ><br
+  /></ng-container>
+  <ng-container *ngIf="spec?.description"
+    ><span [attr.test-id]="selector + '.description'"
+      >description: {{ spec.description }}</span
+    ><br
+  /></ng-container>
+</p>

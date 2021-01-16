@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AceModule } from 'ngx-ace-wrapper';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
@@ -84,6 +86,7 @@ import { CompositeUniqueComponent } from './components/artifact/composite-unique
 import { ErrorComponent } from './components/error/error.component';
 import { BaseComponent } from './components/base/base.component';
 import { PackageComponent } from './components/package/package.component';
+import { SpecInformationComponent } from './components/package/spec-information/spec-information.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +147,7 @@ import { PackageComponent } from './components/package/package.component';
     ErrorComponent,
     BaseComponent,
     PackageComponent,
+    SpecInformationComponent,
   ],
   imports: [
     BrowserModule,
@@ -157,6 +161,8 @@ import { PackageComponent } from './components/package/package.component';
     MatExpansionModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
 
     StoreModule.forRoot({ editor: editorReducer, package: packageReducer }),
     EffectsModule.forRoot([EditorEffects]),
