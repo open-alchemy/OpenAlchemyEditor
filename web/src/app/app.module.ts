@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -92,6 +93,7 @@ import { SaveComponent } from './components/package/save/save.component';
 import { CheckComponent } from './components/check/check.component';
 import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-complete.component';
 import { LoginComponent } from './components/login/login.component';
+import { ErrorDisplayComponent } from './components/error-display/error-display.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +159,7 @@ import { LoginComponent } from './components/login/login.component';
     CheckComponent,
     SignInCompleteComponent,
     LoginComponent,
+    ErrorDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -172,6 +175,7 @@ import { LoginComponent } from './components/login/login.component';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
 
     StoreModule.forRoot({ editor: editorReducer, package: packageReducer }),
     EffectsModule.forRoot([EditorEffects]),

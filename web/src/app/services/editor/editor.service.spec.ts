@@ -13,6 +13,7 @@ import {
 } from './editor.reducer';
 import { EditorService } from './editor.service';
 import * as EditorActions from './editor.actions';
+import { Error } from './types';
 
 describe('EditorService', () => {
   let service: EditorService;
@@ -350,6 +351,33 @@ describe('EditorService', () => {
             validateState.managed.value,
             initialEditorState.artifact.value
           ),
+        });
+      });
+    });
+  });
+
+  describe('error$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const errorState: Error = {
+          message: 'message 1',
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              editor: { ...initialState.editor, error: errorState },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the error state is returned
+        helpers.expectObservable(service.error$).toBe('ab', {
+          a: initialState.editor.error,
+          b: errorState,
         });
       });
     });

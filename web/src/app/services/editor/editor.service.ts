@@ -45,6 +45,10 @@ const selectEditorArtifact = createSelector(
   selectEditor,
   (state: EditorState) => state.artifact
 );
+const selectEditorError = createSelector(
+  selectEditor,
+  (state: EditorState) => state.error
+);
 const selectEditorResult = createSelector(selectEditor, (state: EditorState) =>
   combineResult(state.validate.managed.value, state.artifact.value)
 );
@@ -60,6 +64,7 @@ export class EditorService {
   validateUnManaged$ = this.store.pipe(select(selectEditorValidateUnManaged));
   artifact$ = this.store.pipe(select(selectEditorArtifact));
   result$ = this.store.pipe(select(selectEditorResult));
+  error$ = this.store.pipe(select(selectEditorError));
 
   constructor(private store: Store<AppState>) {}
 
