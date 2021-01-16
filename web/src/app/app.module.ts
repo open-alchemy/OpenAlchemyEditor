@@ -21,6 +21,7 @@ import {
   SpecService,
   ArtifactService,
 } from '@open-alchemy/editor-sdk';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -89,6 +90,7 @@ import { PackageBaseComponent } from './components/package/package-base/package-
 import { SpecInformationComponent } from './components/package/spec-information/spec-information.component';
 import { SaveComponent } from './components/package/save/save.component';
 import { CheckComponent } from './components/check/check.component';
+import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-complete.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +154,7 @@ import { CheckComponent } from './components/check/check.component';
     SpecInformationComponent,
     SaveComponent,
     CheckComponent,
+    SignInCompleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -174,6 +177,8 @@ import { CheckComponent } from './components/check/check.component';
       maxAge: 25,
       logOnly: environment.production,
     }),
+
+    OAuthModule.forRoot(),
   ],
   providers: [
     { provide: SeedService, useValue: new SeedService() },
