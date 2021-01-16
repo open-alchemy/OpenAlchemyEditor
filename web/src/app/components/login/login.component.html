@@ -1,0 +1,16 @@
+<button
+  *ngIf="this.oAuthService && !this.oAuthService.hasValidAccessToken()"
+  [attr.test-id]="selector + '.login'"
+  mat-raised-button
+  (click)="onLoginClick()"
+>
+  Login
+</button>
+<button
+  *ngIf="this.oAuthService && this.oAuthService.hasValidAccessToken()"
+  [attr.test-id]="selector + '.logout'"
+  mat-raised-button
+  (click)="onLogoutClick()"
+>
+  Logout
+</button>

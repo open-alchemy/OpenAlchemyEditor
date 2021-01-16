@@ -91,6 +91,7 @@ import { SpecInformationComponent } from './components/package/spec-information/
 import { SaveComponent } from './components/package/save/save.component';
 import { CheckComponent } from './components/check/check.component';
 import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-complete.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -155,6 +156,7 @@ import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-c
     SaveComponent,
     CheckComponent,
     SignInCompleteComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
