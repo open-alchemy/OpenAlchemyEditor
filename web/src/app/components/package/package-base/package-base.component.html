@@ -1,4 +1,6 @@
 <ng-container *ngIf="spec$ | async as spec">
   <app-spec-information [specInfo]="spec.info"></app-spec-information>
-  <app-save [spec]="spec"></app-save>
+  <ng-container *ngIf="save$ | async as save"
+    ><app-save [spec]="spec" [save]="save"></app-save
+  ></ng-container>
 </ng-container>

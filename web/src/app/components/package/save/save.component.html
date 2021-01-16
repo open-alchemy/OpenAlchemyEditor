@@ -32,7 +32,8 @@
       !(
         spec?.info?.version?.valid === true &&
         spec?.beingEdited === false &&
-        spec?.valid === true
+        spec?.valid === true &&
+        save?.loading === false
       )
     "
     [attr.test-id]="selector + '.save'"

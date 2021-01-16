@@ -4,7 +4,10 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 import { PackageService } from '../../../services/package/package.service';
-import { PackageSpecState } from '../../../services/package/package.reducer';
+import {
+  PackageSpecState,
+  PackageSaveState,
+} from '../../../services/package/package.reducer';
 import { LimitedSpecInfo } from '../../../services/package/types';
 import { PackageBaseComponent } from './package-base.component';
 
@@ -16,13 +19,18 @@ class SpecInformationStubComponent {
 @Component({ selector: 'app-save', template: '' })
 class SaveStubComponent {
   @Input() spec: PackageSpecState;
+  @Input() save: PackageSaveState;
 }
 
-const SPEC = {
+const SPEC: PackageSpecState = {
   info: { title: 'title 1' },
   beingEdited: false,
   valid: true,
   value: 'spec 1',
+};
+const SAVE: PackageSaveState = {
+  loading: false,
+  success: true,
 };
 
 describe('PackageBaseComponent', () => {
@@ -69,8 +77,9 @@ describe('PackageBaseComponent', () => {
     expect(specInfo.specInfo).toEqual({ ...SPEC.info });
   });
 
-  it('should pass the value of the spec to the save component', () => {
+  it('should pass the value of the spec and save to the save component', () => {
     component.spec$ = of({ ...SPEC });
+    component.save$ = of({ ...SAVE });
 
     fixture.detectChanges();
 
@@ -79,5 +88,6 @@ describe('PackageBaseComponent', () => {
     );
     const save = saveDebugElement.injector.get(SaveStubComponent);
     expect(save.spec).toEqual({ ...SPEC });
+    expect(save.save).toEqual({ ...SAVE });
   });
 });

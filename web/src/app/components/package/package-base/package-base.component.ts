@@ -9,6 +9,7 @@ import { PackageService } from '../../../services/package/package.service';
 })
 export class PackageBaseComponent {
   spec$ = this.packageService.spec$;
+  save$ = this.packageService.save$;
 
   constructor(private packageService: PackageService) {}
 }

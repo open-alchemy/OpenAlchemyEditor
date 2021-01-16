@@ -10,7 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { SaveComponent } from './save.component';
 
-import { PackageSpecState } from '../../../services/package/package.reducer';
+import {
+  PackageSpecState,
+  PackageSaveState,
+} from '../../../services/package/package.reducer';
 import { PackageService } from '../../../services/package/package.service';
 
 @Component({ selector: 'app-check', template: '' })
@@ -271,143 +274,215 @@ describe('SaveComponent', () => {
   describe('save disabled', () => {
     ([
       {
-        description: 'spec null',
+        description: 'spec null save not loading',
         expectation: 'should be disabled',
         spec: null,
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec info missing beingEdited false and valid true',
+        description:
+          'spec info missing beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec info null beingEdited false and valid true',
+        description:
+          'spec info null beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: null,
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
         description:
-          'spec info version missing beingEdited false and valid true',
+          'spec info version missing beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: {},
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec info version null beingEdited false and valid true',
+        description:
+          'spec info version null beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: null },
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
         description:
-          'spec info version valid missing beingEdited false and valid true',
+          'spec info version valid missing beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: {} },
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
         description:
-          'spec info version valid false beingEdited false and valid true',
+          'spec info version valid false beingEdited false and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: { valid: false } },
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec version valid beingEdited missing and valid true',
+        description:
+          'spec version valid beingEdited missing and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: { valid: true } },
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec version valid beingEdited true and valid true',
+        description:
+          'spec version valid beingEdited true and valid true save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: { valid: true } },
           beingEdited: true,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec version valid beingEdited false and valid missing',
+        description:
+          'spec version valid beingEdited false and valid missing save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: { valid: true } },
           beingEdited: false,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec version valid beingEdited false and valid false',
+        description:
+          'spec version valid beingEdited false and valid false save not loading',
         expectation: 'should be disabled',
         spec: {
           info: { version: { valid: true } },
           beingEdited: false,
           valid: false,
         },
+        save: { loading: false },
         expectedDisabled: true,
       },
       {
-        description: 'spec version valid beingEdited false and valid true',
+        description:
+          'spec version valid beingEdited false and valid true save null',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: true,
+        },
+        save: null,
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec version valid beingEdited false and valid true save loading missing',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: true,
+        },
+        save: {},
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec version valid beingEdited false and valid true save loading null',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: true,
+        },
+        save: { loading: null },
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec version valid beingEdited false and valid true save loading true',
+        expectation: 'should be disabled',
+        spec: {
+          info: { version: { valid: true } },
+          beingEdited: false,
+          valid: true,
+        },
+        save: { loading: true },
+        expectedDisabled: true,
+      },
+      {
+        description:
+          'spec version valid beingEdited false and valid true save not loading',
         expectation: 'should not be disabled',
         spec: {
           info: { version: { valid: true } },
           beingEdited: false,
           valid: true,
         },
+        save: { loading: false },
         expectedDisabled: false,
       },
     ] as {
       description: string;
       expectation: string;
       spec: PackageSpecState;
+      save: PackageSaveState;
       expectedDisabled: boolean;
-    }[]).forEach(({ description, expectation, spec, expectedDisabled }) => {
-      describe(description, () => {
-        it(expectation, () => {
-          // GIVEN spec set on the component
-          component.spec = spec;
+    }[]).forEach(
+      ({ description, expectation, spec, save, expectedDisabled }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            // GIVEN save and spec set on the component
+            component.spec = spec;
+            component.save = save;
 
-          // WHEN change detection is run
-          fixture.detectChanges();
+            // WHEN change detection is run
+            fixture.detectChanges();
 
-          // THEN the button has the expected disabled value
-          const button: HTMLButtonElement = fixture.nativeElement.querySelector(
-            `[test-id="${component.selector}.save"]`
-          );
-          expect(button.disabled).toEqual(expectedDisabled);
+            // THEN the button has the expected disabled value
+            const button: HTMLButtonElement = fixture.nativeElement.querySelector(
+              `[test-id="${component.selector}.save"]`
+            );
+            expect(button.disabled).toEqual(expectedDisabled);
+          });
         });
-      });
-    });
+      }
+    );
   });
 
   describe('save click', () => {
@@ -421,6 +496,7 @@ describe('SaveComponent', () => {
         valid: true,
         value,
       };
+      component.save = { loading: false, success: true };
 
       // WHEN change detection is run and the name is set and save is clicked
       fixture.detectChanges();

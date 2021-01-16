@@ -1,6 +1,9 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
-import { PackageSpecState } from '../../../services/package/package.reducer';
+import {
+  PackageSpecState,
+  PackageSaveState,
+} from '../../../services/package/package.reducer';
 import { SpecValue } from '../../../services/package/types';
 import { PackageService } from '../../../services/package/package.service';
 
@@ -13,6 +16,7 @@ const SELECTOR = 'app-save';
 })
 export class SaveComponent {
   @Input() spec: PackageSpecState | null = null;
+  @Input() save: PackageSaveState | null = null;
   selector = SELECTOR;
   versionHint =
     'please define the version as described here: <a href="https://swagger.io/specification/#info-object">Open API Info Object</a>';
