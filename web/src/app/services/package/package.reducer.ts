@@ -4,6 +4,7 @@ import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-i
 import { modelsCompletelyValid } from '../../helpers/models-completely-valid';
 import * as EditorActions from '../editor/editor.actions';
 import { LimitedSpecInfo } from './types';
+import { Error } from '../editor/types';
 
 export interface PackageSpecState {
   info: LimitedSpecInfo;
@@ -13,6 +14,7 @@ export interface PackageSpecState {
 }
 export interface PackageState {
   spec: PackageSpecState;
+  error: Error | null;
 }
 
 export const initialState: PackageState = {
@@ -22,6 +24,7 @@ export const initialState: PackageState = {
     value: null,
     valid: null,
   },
+  error: null,
 };
 
 const packageReducerValue = createReducer(

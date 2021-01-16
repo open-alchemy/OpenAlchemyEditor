@@ -10,6 +10,10 @@ const selectSpec = createSelector(
   selectPackage,
   (state: PackageState) => state.spec
 );
+const selectError = createSelector(
+  selectPackage,
+  (state: PackageState) => state.error
+);
 
 const selectSpecInfo = createSelector(
   selectSpec,
@@ -20,6 +24,7 @@ const selectSpecInfo = createSelector(
 export class PackageService {
   spec$ = this.store.pipe(select(selectSpec));
   specInfo$ = this.store.pipe(select(selectSpecInfo));
+  error$ = this.store.pipe(select(selectError));
 
   constructor(private store: Store<AppState>) {}
 }

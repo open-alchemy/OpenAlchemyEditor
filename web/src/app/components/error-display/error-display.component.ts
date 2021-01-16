@@ -3,6 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { EditorService } from '../../services/editor/editor.service';
+import { PackageService } from '../../services/package/package.service';
 import { Error } from '../../services/editor/types';
 
 @Component({
@@ -11,13 +12,17 @@ import { Error } from '../../services/editor/types';
   styleUrls: ['./error-display.component.css'],
 })
 export class ErrorDisplayComponent implements OnDestroy {
-  errorSubscription$ = this.editorService.error$.subscribe(
+  editorErrorSubscription$ = this.editorService.error$.subscribe(
+    this.displayError.bind(this)
+  );
+  packageErrorSubscription$ = this.packageService.error$.subscribe(
     this.displayError.bind(this)
   );
 
   constructor(
     private snackBar: MatSnackBar,
-    private editorService: EditorService
+    private editorService: EditorService,
+    private packageService: PackageService
   ) {}
 
   displayError(error: Error) {
@@ -25,6 +30,7 @@ export class ErrorDisplayComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.errorSubscription$.unsubscribe();
+    this.editorErrorSubscription$.unsubscribe();
+    this.packageErrorSubscription$.unsubscribe();
   }
 }
