@@ -85,7 +85,7 @@ import { CompositeUniqueItemComponent } from './components/artifact/composite-un
 import { CompositeUniqueComponent } from './components/artifact/composite-unique/composite-unique/composite-unique.component';
 import { ErrorComponent } from './components/error/error.component';
 import { BaseComponent } from './components/base/base.component';
-import { PackageComponent } from './components/package/package.component';
+import { PackageBaseComponent } from './components/package/package-base/package-base.component';
 import { SpecInformationComponent } from './components/package/spec-information/spec-information.component';
 import { SaveComponent } from './components/package/save/save.component';
 
@@ -147,7 +147,7 @@ import { SaveComponent } from './components/package/save/save.component';
     CompositeUniqueComponent,
     ErrorComponent,
     BaseComponent,
-    PackageComponent,
+    PackageBaseComponent,
     SpecInformationComponent,
     SaveComponent,
   ],
