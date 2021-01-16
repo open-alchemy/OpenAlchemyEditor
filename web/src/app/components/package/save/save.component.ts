@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { LimitedSpecInfo } from '../../../services/package/types';
+import { PackageSpecState } from '../../../services/package/package.reducer';
 
 const SELECTOR = 'app-save';
 
@@ -10,6 +10,6 @@ const SELECTOR = 'app-save';
   styleUrls: ['./save.component.css'],
 })
 export class SaveComponent {
-  @Input() spec: LimitedSpecInfo | null = null;
+  @Input() spec: PackageSpecState | null = null;
   selector = SELECTOR;
 }

@@ -1,4 +1,4 @@
 <ng-container *ngIf="spec$ | async as spec">
-  <app-spec-information [spec]="spec"></app-spec-information>
+  <app-spec-information [specInfo]="spec.info"></app-spec-information>
   <app-save [spec]="spec"></app-save>
 </ng-container>

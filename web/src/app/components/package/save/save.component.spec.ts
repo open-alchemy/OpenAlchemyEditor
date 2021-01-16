@@ -9,7 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { SaveComponent } from './save.component';
 
-import { LimitedSpecInfo } from '../../../services/package/types';
+import { PackageSpecState } from '../../../services/package/package.reducer';
 
 describe('SaveComponent', () => {
   let component: SaveComponent;
@@ -45,39 +45,51 @@ describe('SaveComponent', () => {
         expectedValid: 'no',
       },
       {
-        description: 'spec no version',
+        description: 'spec no info',
         expectation: 'should not be valid',
         spec: {},
         expectedValid: 'no',
       },
       {
-        description: 'spec version null',
+        description: 'spec info null',
         expectation: 'should not be valid',
-        spec: { version: null },
+        spec: { info: null },
         expectedValid: 'no',
       },
       {
-        description: 'spec version no valid',
+        description: 'spec info no version',
         expectation: 'should not be valid',
-        spec: { version: {} },
+        spec: { info: {} },
         expectedValid: 'no',
       },
       {
-        description: 'spec version valid false',
+        description: 'spec info version null',
         expectation: 'should not be valid',
-        spec: { version: { valid: false } },
+        spec: { info: { version: null } },
         expectedValid: 'no',
       },
       {
-        description: 'spec version valid true',
+        description: 'spec info version no valid',
+        expectation: 'should not be valid',
+        spec: { info: { version: {} } },
+        expectedValid: 'no',
+      },
+      {
+        description: 'spec info version valid false',
+        expectation: 'should not be valid',
+        spec: { info: { version: { valid: false } } },
+        expectedValid: 'no',
+      },
+      {
+        description: 'spec info version valid true',
         expectation: 'should be valid',
-        spec: { version: { valid: true } },
+        spec: { info: { version: { valid: true } } },
         expectedValid: 'yes',
       },
     ] as {
       description: string;
       expectation: string;
-      spec: LimitedSpecInfo;
+      spec: PackageSpecState;
       expectedValid: string;
     }[]).forEach(({ description, expectation, spec, expectedValid }) => {
       describe(description, () => {
@@ -107,39 +119,51 @@ describe('SaveComponent', () => {
         expectedHelp: 'Open API Info Object',
       },
       {
-        description: 'spec no version',
+        description: 'spec no info',
         expectation: 'should display help',
         spec: {},
         expectedHelp: 'Open API Info Object',
       },
       {
-        description: 'spec version null',
+        description: 'spec info null',
         expectation: 'should display help',
-        spec: { version: null },
+        spec: { info: null },
         expectedHelp: 'Open API Info Object',
       },
       {
-        description: 'spec version no valid',
+        description: 'spec info no version',
         expectation: 'should display help',
-        spec: { version: {} },
+        spec: { info: {} },
         expectedHelp: 'Open API Info Object',
       },
       {
-        description: 'spec version valid false',
+        description: 'spec info version null',
         expectation: 'should display help',
-        spec: { version: { valid: false } },
+        spec: { info: { version: null } },
         expectedHelp: 'Open API Info Object',
       },
       {
-        description: 'spec version valid true',
+        description: 'spec info version no valid',
+        expectation: 'should display help',
+        spec: { info: { version: {} } },
+        expectedHelp: 'Open API Info Object',
+      },
+      {
+        description: 'spec info version valid false',
+        expectation: 'should display help',
+        spec: { info: { version: { valid: false } } },
+        expectedHelp: 'Open API Info Object',
+      },
+      {
+        description: 'spec info version valid true',
         expectation: 'should not display help',
-        spec: { version: { valid: true } },
+        spec: { info: { version: { valid: true } } },
         expectedHelp: null,
       },
     ] as {
       description: string;
       expectation: string;
-      spec: LimitedSpecInfo;
+      spec: PackageSpecState;
       expectedHelp: string | null;
     }[]).forEach(({ description, expectation, spec, expectedHelp }) => {
       describe(description, () => {
@@ -173,27 +197,39 @@ describe('SaveComponent', () => {
         expectedInput: '',
       },
       {
-        description: 'spec no proposedName',
+        description: 'spec no info',
         expectation: 'should have empty input',
         spec: {},
         expectedInput: '',
       },
       {
-        description: 'spec proposedName null',
+        description: 'spec info null',
         expectation: 'should have empty input',
-        spec: { proposedName: null },
+        spec: { info: null },
         expectedInput: '',
       },
       {
-        description: 'spec proposedName with value',
+        description: 'spec info no proposedName',
+        expectation: 'should have empty input',
+        spec: { info: {} },
+        expectedInput: '',
+      },
+      {
+        description: 'spec info proposedName null',
+        expectation: 'should have empty input',
+        spec: { info: { proposedName: null } },
+        expectedInput: '',
+      },
+      {
+        description: 'spec info proposedName with value',
         expectation: 'should have input with value',
-        spec: { proposedName: 'name 1' },
+        spec: { info: { proposedName: 'name 1' } },
         expectedInput: 'name 1',
       },
     ] as {
       description: string;
       expectation: string;
-      spec: LimitedSpecInfo;
+      spec: PackageSpecState;
       expectedInput: string | null;
     }[]).forEach(({ description, expectation, spec, expectedInput }) => {
       describe(description, () => {

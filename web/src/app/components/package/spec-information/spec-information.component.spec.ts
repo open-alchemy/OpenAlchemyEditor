@@ -25,7 +25,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec null',
       expectation: 'should not display anything',
-      spec: null,
+      specInfo: null,
       expectedElementValue: {
         title: null,
         version: null,
@@ -35,7 +35,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with title',
       expectation: 'should display title',
-      spec: { title: 'title 1' },
+      specInfo: { title: 'title 1' },
       expectedElementValue: {
         title: 'title 1',
         version: null,
@@ -45,7 +45,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with version null',
       expectation: 'should not display version',
-      spec: { version: null },
+      specInfo: { version: null },
       expectedElementValue: {
         title: null,
         version: null,
@@ -55,7 +55,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with version empty',
       expectation: 'should not display version',
-      spec: { version: {} },
+      specInfo: { version: {} },
       expectedElementValue: {
         title: null,
         version: null,
@@ -65,7 +65,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with version value null',
       expectation: 'should not display version',
-      spec: { version: { value: null } },
+      specInfo: { version: { value: null } },
       expectedElementValue: {
         title: null,
         version: null,
@@ -75,7 +75,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with version value not null',
       expectation: 'should display version',
-      spec: { version: { value: 'version 1' } },
+      specInfo: { version: { value: 'version 1' } },
       expectedElementValue: {
         title: null,
         version: 'version 1',
@@ -85,7 +85,7 @@ describe('SpecInformationComponent', () => {
     {
       description: 'spec with description',
       expectation: 'should display description',
-      spec: { description: 'description 1' },
+      specInfo: { description: 'description 1' },
       expectedElementValue: {
         title: null,
         version: null,
@@ -95,48 +95,52 @@ describe('SpecInformationComponent', () => {
   ] as {
     description: string;
     expectation: string;
-    spec: LimitedSpecInfo;
+    specInfo: LimitedSpecInfo;
     expectedElementValue: {
       title: string | null;
       version: string | null;
       description: string | null;
     };
-  }[]).forEach(({ description, expectation, spec, expectedElementValue }) => {
-    describe(description, () => {
-      it(expectation, () => {
-        // GIVEN spec is defined on component
-        component.spec = spec;
+  }[]).forEach(
+    ({ description, expectation, specInfo, expectedElementValue }) => {
+      describe(description, () => {
+        it(expectation, () => {
+          // GIVEN specInfo is defined on component
+          component.specInfo = specInfo;
 
-        // WHEN change detection is run
-        fixture.detectChanges();
+          // WHEN change detection is run
+          fixture.detectChanges();
 
-        // THEN the elements are present or not as expected
-        const title: HTMLSpanElement = fixture.nativeElement.querySelector(
-          `[test-id="${component.selector}.title"]`
-        );
-        expect(title === null).toEqual(expectedElementValue.title === null);
-        if (expectedElementValue.title !== null) {
-          expect(title.innerText).toContain(expectedElementValue.title);
-        }
-        const version: HTMLSpanElement = fixture.nativeElement.querySelector(
-          `[test-id="${component.selector}.version"]`
-        );
-        expect(version === null).toEqual(expectedElementValue.version === null);
-        if (expectedElementValue.version !== null) {
-          expect(version.innerText).toContain(expectedElementValue.version);
-        }
-        const description: HTMLSpanElement = fixture.nativeElement.querySelector(
-          `[test-id="${component.selector}.description"]`
-        );
-        expect(description === null).toEqual(
-          expectedElementValue.description === null
-        );
-        if (expectedElementValue.description !== null) {
-          expect(description.innerText).toContain(
-            expectedElementValue.description
+          // THEN the elements are present or not as expected
+          const title: HTMLSpanElement = fixture.nativeElement.querySelector(
+            `[test-id="${component.selector}.title"]`
           );
-        }
+          expect(title === null).toEqual(expectedElementValue.title === null);
+          if (expectedElementValue.title !== null) {
+            expect(title.innerText).toContain(expectedElementValue.title);
+          }
+          const version: HTMLSpanElement = fixture.nativeElement.querySelector(
+            `[test-id="${component.selector}.version"]`
+          );
+          expect(version === null).toEqual(
+            expectedElementValue.version === null
+          );
+          if (expectedElementValue.version !== null) {
+            expect(version.innerText).toContain(expectedElementValue.version);
+          }
+          const description: HTMLSpanElement = fixture.nativeElement.querySelector(
+            `[test-id="${component.selector}.description"]`
+          );
+          expect(description === null).toEqual(
+            expectedElementValue.description === null
+          );
+          if (expectedElementValue.description !== null) {
+            expect(description.innerText).toContain(
+              expectedElementValue.description
+            );
+          }
+        });
       });
-    });
-  });
+    }
+  );
 });

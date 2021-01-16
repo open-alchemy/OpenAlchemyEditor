@@ -10,6 +10,6 @@ const SELECTOR = 'app-spec-information';
   styleUrls: ['./spec-information.component.css'],
 })
 export class SpecInformationComponent {
-  @Input() spec: LimitedSpecInfo | null = null;
+  @Input() specInfo: LimitedSpecInfo | null = null;
   selector = SELECTOR;
 }

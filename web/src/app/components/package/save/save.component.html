@@ -5,16 +5,20 @@
   <span class="version-valid" [attr.test-id]="selector + '.version-valid'"
     >package version (based on specification) valid:
     <mat-chip
-      *ngIf="spec?.version?.valid"
+      *ngIf="spec?.info?.version?.valid"
       class="badge"
       color="primary"
       selected
       >yes</mat-chip
-    ><mat-chip *ngIf="!spec?.version?.valid" color="warn" class="badge" selected
+    ><mat-chip
+      *ngIf="!spec?.info?.version?.valid"
+      color="warn"
+      class="badge"
+      selected
       >no</mat-chip
     >
     <span
-      *ngIf="!spec?.version?.valid"
+      *ngIf="!spec?.info?.version?.valid"
       [attr.test-id]="selector + '.version-help'"
       >please define the version as described here:
       <a href="https://swagger.io/specification/#info-object"
@@ -28,13 +32,13 @@
     <input
       [attr.test-id]="selector + '.input'"
       matInput
-      value="{{ spec?.proposedName }}"
+      value="{{ spec?.info?.proposedName }}"
     /> </mat-form-field
   ><br />
   <button
     mat-raised-button
     color="primary"
-    [disabled]="!spec?.version?.valid"
+    [disabled]="!spec?.info?.version?.valid"
     [attr.test-id]="selector + '.save'"
   >
     Save</button

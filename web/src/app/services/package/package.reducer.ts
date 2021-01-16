@@ -4,19 +4,27 @@ import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-i
 import * as EditorActions from '../editor/editor.actions';
 import { LimitedSpecInfo } from './types';
 
+export interface PackageSpecState {
+  info: LimitedSpecInfo;
+}
 export interface PackageState {
-  spec: LimitedSpecInfo;
+  spec: PackageSpecState;
 }
 
 export const initialState: PackageState = {
-  spec: {},
+  spec: {
+    info: {},
+  },
 };
 
 const packageReducerValue = createReducer(
   initialState,
   on(EditorActions.stableSpecValueChange, (state, action) => ({
     ...state,
-    spec: calculateLimitedSpecInfo(action.value),
+    spec: {
+      ...state.spec,
+      info: calculateLimitedSpecInfo(action.value),
+    },
   }))
 );
 

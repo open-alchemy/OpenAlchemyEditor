@@ -19,7 +19,10 @@ describe('PackageReducer', () => {
       action: EditorActions.stableSpecValueChange({ value: SPEC_VALUE }),
       expectedFinalState: {
         ...packageInitialState,
-        spec: calculateLimitedSpecInfo(SPEC_VALUE),
+        spec: {
+          ...packageInitialState.spec,
+          info: calculateLimitedSpecInfo(SPEC_VALUE),
+        },
       },
     },
   ].forEach(
