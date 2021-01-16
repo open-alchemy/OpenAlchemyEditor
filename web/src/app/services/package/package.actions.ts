@@ -20,3 +20,9 @@ export const packageApiSpecsSpecNamePutError = createAction(
   '[package API] /specs/{spec_name} PUT error',
   props<Error>()
 );
+
+export type Actions =
+  | ReturnType<typeof saveComponentSaveClick>
+  | ReturnType<typeof authNotLoggedIn>
+  | ReturnType<typeof packageApiSpecsSpecNamePutSuccess>
+  | ReturnType<typeof packageApiSpecsSpecNamePutError>;

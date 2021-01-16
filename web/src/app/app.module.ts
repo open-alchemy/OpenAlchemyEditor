@@ -19,9 +19,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import {
   SeedService,
-  SpecService,
+  SpecService as EditorSpecService,
   ArtifactService,
 } from '@open-alchemy/editor-sdk';
+import { SpecService as PackageSpecService } from '@open-alchemy/package-sdk';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { editorReducer } from './services/editor/editor.reducer';
 import { EditorEffects } from './services/editor/editor.effects';
 import { packageReducer } from './services/package/package.reducer';
+import { PackageEffects } from './services/package/package.effects';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -178,7 +180,7 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
     MatSnackBarModule,
 
     StoreModule.forRoot({ editor: editorReducer, package: packageReducer }),
-    EffectsModule.forRoot([EditorEffects]),
+    EffectsModule.forRoot([EditorEffects, PackageEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
@@ -188,7 +190,8 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
   ],
   providers: [
     { provide: SeedService, useValue: new SeedService() },
-    { provide: SpecService, useValue: new SpecService() },
+    { provide: EditorSpecService, useValue: new EditorSpecService() },
+    { provide: PackageSpecService, useValue: new PackageSpecService() },
     { provide: ArtifactService, useValue: new ArtifactService() },
   ],
   bootstrap: [AppComponent],
