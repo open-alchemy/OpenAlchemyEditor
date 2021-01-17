@@ -101,6 +101,7 @@ import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-c
 import { LoginComponent } from './components/login/login.component';
 import { ErrorDisplayComponent } from './components/error-display/error-display.component';
 import { PipComponent } from './components/package/pip/pip.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -168,6 +169,7 @@ import { PipComponent } from './components/package/pip/pip.component';
     LoginComponent,
     ErrorDisplayComponent,
     PipComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

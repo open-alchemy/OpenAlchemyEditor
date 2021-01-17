@@ -1,22 +1,25 @@
 :host {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: 20fr 1fr;
   height: 100vh;
 }
 
 .editor {
-  grid-column: 1;
-  grid-row: 1;
-  height: calc(100vh - 25px);
+  height: calc(100vh - 50px);
 }
 
 .result {
   grid-column: 2;
   grid-row: 1;
-  height: 100vh;
+  height: calc(100vh - 18px);
   overflow: scroll;
   padding-left: 1%;
+}
+
+.footer {
+  grid-column: 1 / -1;
+  grid-row: 2;
 }
 
 .login {
