@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { ClipboardModule } from 'ngx-clipboard';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
@@ -22,7 +23,10 @@ import {
   SpecService as EditorSpecService,
   ArtifactService,
 } from '@open-alchemy/editor-sdk';
-import { SpecService as PackageSpecService } from '@open-alchemy/package-sdk';
+import {
+  SpecService as PackageSpecService,
+  CredentialsService,
+} from '@open-alchemy/package-sdk';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -96,6 +100,7 @@ import { CheckComponent } from './components/check/check.component';
 import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-complete.component';
 import { LoginComponent } from './components/login/login.component';
 import { ErrorDisplayComponent } from './components/error-display/error-display.component';
+import { PipComponent } from './components/package/pip/pip.component';
 
 @NgModule({
   declarations: [
@@ -162,6 +167,7 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
     SignInCompleteComponent,
     LoginComponent,
     ErrorDisplayComponent,
+    PipComponent,
   ],
   imports: [
     BrowserModule,
@@ -187,11 +193,14 @@ import { ErrorDisplayComponent } from './components/error-display/error-display.
     }),
 
     OAuthModule.forRoot(),
+
+    ClipboardModule,
   ],
   providers: [
     { provide: SeedService, useValue: new SeedService() },
     { provide: EditorSpecService, useValue: new EditorSpecService() },
     { provide: PackageSpecService, useValue: new PackageSpecService() },
+    { provide: CredentialsService, useValue: new CredentialsService() },
     { provide: ArtifactService, useValue: new ArtifactService() },
   ],
   bootstrap: [AppComponent],

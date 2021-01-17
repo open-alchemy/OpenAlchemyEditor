@@ -1,0 +1,6 @@
+p {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 10px;
+  background-color: lightgray;
+  word-break: break-all;
+}

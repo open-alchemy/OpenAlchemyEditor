@@ -22,6 +22,11 @@ class SaveStubComponent {
   @Input() save: PackageSaveState;
 }
 
+@Component({ selector: 'app-pip', template: '' })
+class PipStubComponent {
+  @Input() spec: PackageSpecState;
+}
+
 const SPEC: PackageSpecState = {
   info: { title: 'title 1' },
   beingEdited: false,
@@ -46,6 +51,7 @@ describe('PackageBaseComponent', () => {
         PackageBaseComponent,
         SpecInformationStubComponent,
         SaveStubComponent,
+        PipStubComponent,
       ],
       providers: [
         {
@@ -89,5 +95,17 @@ describe('PackageBaseComponent', () => {
     const save = saveDebugElement.injector.get(SaveStubComponent);
     expect(save.spec).toEqual({ ...SPEC });
     expect(save.save).toEqual({ ...SAVE });
+  });
+
+  it('should pass the value of the spec to the pip component', () => {
+    component.spec$ = of({ ...SPEC });
+
+    fixture.detectChanges();
+
+    const pipDebugElement = fixture.debugElement.query(
+      By.directive(PipStubComponent)
+    );
+    const save = pipDebugElement.injector.get(PipStubComponent);
+    expect(save.spec).toEqual({ ...SPEC });
   });
 });
