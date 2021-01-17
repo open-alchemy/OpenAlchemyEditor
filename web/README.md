@@ -52,6 +52,15 @@ Input:
 - `unManaged`: The result of validating the un managed component of the spec
 - `artifacts`: Key information extracted from the spec
 
+### Save Component
+
+Has field to define the spec name and enables user to save the spec.
+
+Events:
+
+- `saveComponentSaveClick`: The save button has been clicked, includes the spec
+  value and name.
+
 ### Router
 
 Events (more information <https://angular.io/api/router/RouterEvent>):
@@ -87,7 +96,7 @@ Attempt to load the seed:
 
 Update the seed:
 
-1. Set the `state.seed.current.value` state to the seed in the event.
+1. Set the `state.editor.seed.current.value` state to the seed in the event.
 
 #### `localStorageSeedNotFound`
 
@@ -107,13 +116,13 @@ Load the default seed:
 
 Update the seed:
 
-1. Set the `state.seed.current.value` state to the seed in the event.
+1. Set the `state.editor.seed.current.value` state to the seed in the event.
 
 #### `editorApiSeedGetError`
 
 Notify the user fo the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `editorComponentSeedLoaded` and `editorComponentValueChange`
 
@@ -186,7 +195,7 @@ Update the managed result:
 
 Notify the user fo the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `editorApiSpecValidateUnManagedSuccess`
 
@@ -198,7 +207,7 @@ Update the un managed result:
 
 Notify the user fo the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `editorApiArtifactCalculateSuccess`
 
@@ -210,7 +219,7 @@ Update the artifacts:
 
 Notify the user fo the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `seedComponentOnInit`
 
@@ -229,13 +238,13 @@ Load the seeds:
 
 Update the seed:
 
-1. Set the `state.seed.available.values` state to the seeds in the event.
+1. Set the `state.editor.seed.available.values` state to the seeds in the event.
 
 #### `editorApiLoadSeedsError`
 
 Update the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `seedComponentSelectChange`
 
@@ -259,7 +268,7 @@ Output:
 
 Update the selected seed:
 
-1. Set the `state.selected` in the state to the value in the event.
+1. Set the `state.editor.selected` in the state to the value in the event.
 
 Load the requested seed:
 
@@ -271,13 +280,13 @@ Load the requested seed:
 
 Update the seed:
 
-1. Set the `state.seed.current.value` state to the seed in the event.
+1. Set the `state.editor.seed.current.value` state to the seed in the event.
 
 #### `editorApiLoadSeedsSeedError`
 
 Update the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
 
 #### `routerNavigationEndSpecsId`
 
@@ -289,7 +298,7 @@ Output:
 
 Update the selected spec:
 
-1. Set the `state.selected` in the state to `null`.
+1. Set the `state.editor.selected` in the state to `null`.
 
 Load the requested spec:
 
@@ -301,10 +310,45 @@ Load the requested spec:
 
 Update the seed:
 
-1. Set the `state.seed.current.value` state to the seed in the event.
+1. Set the `state.editor.editor.seed.current.value` state to the seed in the event.
 
 #### `packageApiLoadSpecsSpecNameError`
 
 Update the error:
 
-1. Set the `state.error.message` state to the reason.
+1. Set the `state.editor.editor.error.message` state to the reason.
+
+#### `saveComponentSaveClick`
+
+Output:
+
+- `authNotLoggedIn`: The user is not logged in, includes the reason.
+- `packageApiSpecsSpecNamePutSuccess`: The spec was saved, includes the name of
+  the spec.
+- `packageApiSpecsSpecNamePutError`: The spec failed to save, includes the
+  reason.
+
+Save the spec:
+
+1. Check whether the user is logged in, if not, return the `authNotLoggedIn` event.
+1. Save the requested spec.
+1. If the call succeeds, return the `packageApiSpecsSpecNamePutSuccess` event.
+1. If the call fails, return the `packageApiSpecsSpecNamePutError` event.
+
+#### `packageApiSpecsSpecNamePutError`
+
+Update the error:
+
+1. Set the `state.package.error.message` state to the reason.
+
+#### `packageApiSpecsSpecNamePutSuccess`
+
+Output:
+
+- `routerNavigationSpecsId`: The browser has been navigated to `specs/:id`.
+
+Change the route:
+
+1. Navigate to `specs/:<name>` using using
+   <https://angular.io/api/router/Router#navigate>.
+1. Return the `packageApiSpecsSpecNamePutSuccess` event.
