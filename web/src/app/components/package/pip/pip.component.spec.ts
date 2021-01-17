@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
 import { of } from 'rxjs';
+
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { PackageService } from '../../../services/package/package.service';
 import {
@@ -38,6 +39,7 @@ describe('PipComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [PipComponent],
+      imports: [ClipboardModule],
       providers: [
         {
           provide: PackageService,
@@ -200,11 +202,14 @@ describe('PipComponent', () => {
             const install: HTMLParagraphElement = fixture.nativeElement.querySelector(
               `[test-id="${component.selector}.install"]`
             );
-            const copy: HTMLButtonElement = fixture.nativeElement.querySelector(
-              `[test-id="${component.selector}.copy"]`
+            const copyInstall: HTMLButtonElement = fixture.nativeElement.querySelector(
+              `[test-id="${component.selector}.copy-install"]`
             );
             const importParagraph: HTMLParagraphElement = fixture.nativeElement.querySelector(
               `[test-id="${component.selector}.import"]`
+            );
+            const copyImport: HTMLButtonElement = fixture.nativeElement.querySelector(
+              `[test-id="${component.selector}.copy-import"]`
             );
             if (expectedDisplayed) {
               expect(install).toBeTruthy();
@@ -213,16 +218,18 @@ describe('PipComponent', () => {
               expect(install.innerText).toContain(SPEC.info.version.value);
               expect(install.innerText).toContain(CREDENTIALS.value.public_key);
               expect(install.innerText).toContain(CREDENTIALS.value.secret_key);
-              expect(copy).toBeTruthy();
+              expect(copyInstall).toBeTruthy();
               expect(importParagraph).toBeTruthy();
               expect(importParagraph.innerText).toContain('from');
               expect(importParagraph.innerText).toContain(
                 SPEC.info.id.replace(/-/g, '_')
               );
               expect(importParagraph.innerText).toContain('import models');
+              expect(copyImport).toBeTruthy();
             } else {
               expect(install).toBeFalsy();
-              expect(copy).toBeFalsy();
+              expect(copyInstall).toBeFalsy();
+              expect(copyImport).toBeFalsy();
             }
           });
         });
