@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { of, Observable, timer } from 'rxjs';
 import {
   map,
@@ -70,22 +70,22 @@ export class EditorEffects {
     )
   );
 
-  routerNavigationStartExamplesId$ = createEffect(() =>
+  routerNavigationEndExamplesId$ = createEffect(() =>
     this.currentUrl$().pipe(
       filter((url) => url.startsWith(SEED_URL_PREFIX)),
       map((url) =>
-        EditorActions.routerNavigationStartExamplesId({
+        EditorActions.routerNavigationEndExamplesId({
           path: decodeURIComponent(url.slice(SEED_URL_PREFIX.length)),
         })
       )
     )
   );
 
-  routerNavigationStartSpecsId$ = createEffect(() =>
+  routerNavigationEndSpecsId$ = createEffect(() =>
     this.currentUrl$().pipe(
       filter((url) => url.startsWith(SPEC_URL_PREFIX)),
       map((url) =>
-        EditorActions.routerNavigationStartSpecsId({
+        EditorActions.routerNavigationEndSpecsId({
           spec_name: url.slice(SPEC_URL_PREFIX.length),
         })
       )
@@ -129,7 +129,7 @@ export class EditorEffects {
 
   seedsSeedGet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EditorActions.routerNavigationStartExamplesId.type),
+      ofType(EditorActions.routerNavigationEndExamplesId.type),
       map((action) => decodeURIComponent(action.path)),
       switchMap((path) =>
         this.seedService.get$({ path }).pipe(
@@ -148,7 +148,7 @@ export class EditorEffects {
 
   specsSpecNameGet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EditorActions.routerNavigationStartSpecsId.type),
+      ofType(EditorActions.routerNavigationEndSpecsId.type),
       switchMap((action) =>
         this.packageSpecService
           .get$({
@@ -266,8 +266,8 @@ export class EditorEffects {
 
   currentUrl$(): Observable<string> {
     return this.router.events.pipe(
-      filter<NavigationStart>((event) => event instanceof NavigationStart),
-      map((event) => event.url)
+      filter<NavigationEnd>((event) => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects)
     );
   }
 }

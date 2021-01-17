@@ -56,13 +56,13 @@ Input:
 
 Events (more information <https://angular.io/api/router/RouterEvent>):
 
-- `routerNavigationStartExamplesId`: The route has changed to a particular seed,
-  detected based on `NavigationStart`
-  <https://angular.io/api/router/NavigationStart> to urls of the form
+- `routerNavigationEndExamplesId`: The route has changed to a particular seed,
+  detected based on `NavigationEnd`
+  <https://angular.io/api/router/NavigationEnd> to urls of the form
   `examples/:id`.
-- `routerNavigationStartSpecsId`: The route has changed to a particular spec,
-  detected based on `NavigationStart`
-  <https://angular.io/api/router/NavigationStart> to urls of the form
+- `routerNavigationEndSpecsId`: The route has changed to a particular spec,
+  detected based on `NavigationEnd`
+  <https://angular.io/api/router/NavigationEnd> to urls of the form
   `specs/:id`.
 
 ### Reacting to Events
@@ -249,7 +249,7 @@ Change the route:
    <https://angular.io/api/router/Router#navigate>.
 1. Return the `locationGoSelectedSeed` event.
 
-#### `routerNavigationStartExamplesId`
+#### `routerNavigationEndExamplesId`
 
 Output:
 
@@ -279,7 +279,7 @@ Update the error:
 
 1. Set the `state.error.message` state to the reason.
 
-#### `routerNavigationStartSpecsId`
+#### `routerNavigationEndSpecsId`
 
 Output:
 

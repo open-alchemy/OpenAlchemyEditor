@@ -88,7 +88,7 @@ describe('EditorReducer', () => {
     },
     {
       description:
-        'initial state: seed.selected defined and current seed loaded, action routerNavigationStartExamplesId',
+        'initial state: seed.selected defined and current seed loaded, action routerNavigationEndExamplesId',
       expectation:
         'should set selected value to the seed in the action and set current loading to true',
       initialState: {
@@ -99,7 +99,7 @@ describe('EditorReducer', () => {
           current: { value: 'value 1', loading: false, success: true },
         },
       },
-      action: EditorActions.routerNavigationStartExamplesId({ path: 'path 2' }),
+      action: EditorActions.routerNavigationEndExamplesId({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {
@@ -111,7 +111,7 @@ describe('EditorReducer', () => {
     },
     {
       description:
-        'initial state: seed.selected defined, action routerNavigationStartSpecsId',
+        'initial state: seed.selected defined, action routerNavigationEndSpecsId',
       expectation:
         'should set selected value to null and set current loading to true',
       initialState: {
@@ -122,7 +122,7 @@ describe('EditorReducer', () => {
           current: { value: 'value 1', loading: false, success: true },
         },
       },
-      action: EditorActions.routerNavigationStartSpecsId({
+      action: EditorActions.routerNavigationEndSpecsId({
         spec_name: 'name 1',
       }),
       expectedFinalState: {

@@ -195,9 +195,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
@@ -252,7 +253,7 @@ describe('EditorEffects', () => {
         expectation: 'return empty urls$',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationEnd(1, 'url 1', 'url after redirect 1'),
+          a: new NavigationStart(1, 'url 1'),
         },
         expectedMarbles: '',
         expectedValues: {},
@@ -262,21 +263,24 @@ describe('EditorEffects', () => {
         expectation: 'return single url in urls$',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationStart(1, 'url 1'),
+          a: new NavigationEnd(1, 'url 1', 'url after redirect 1'),
         },
         expectedMarbles: 'a',
-        expectedValues: { a: 'url 1' },
+        expectedValues: { a: 'url after redirect 1' },
       },
       {
         description: 'multiple event hit',
         expectation: 'return multiple urls in urls$',
         routerEventsMarbles: 'ab',
         routerEventsValues: {
-          a: new NavigationStart(1, 'url 1'),
-          b: new NavigationStart(1, 'url 2'),
+          a: new NavigationEnd(1, 'url 1', 'url after redirect 1'),
+          b: new NavigationEnd(1, 'url 2', 'url after redirect 2'),
         },
         expectedMarbles: 'ab',
-        expectedValues: { a: 'url 1', b: 'url 2' },
+        expectedValues: {
+          a: 'url after redirect 1',
+          b: 'url after redirect 2',
+        },
       },
     ] as {
       description: string;
@@ -343,48 +347,50 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'single editor component on init action actions router NavigationStart before on init with seed url',
+          'single editor component on init action actions router NavigationEnd before on init with seed url',
         expectation: 'should return single localStorageEmpty actions',
         actionsMarbles: '-b',
         actionsValues: { b: EditorActions.editorComponentOnInit() },
         routerEventsMarbles: 'a',
-        routerEventsValues: { a: new NavigationStart(1, '/examples/') },
+        routerEventsValues: {
+          a: new NavigationEnd(1, '/examples/', '/examples/'),
+        },
         localStorageSeedValue: null,
         expectedMarbles: '',
         expectedValues: {},
       },
       {
         description:
-          'single editor component on init action actions router NavigationStart before on init with spec url',
+          'single editor component on init action actions router NavigationEnd before on init with spec url',
         expectation: 'should return single localStorageEmpty actions',
         actionsMarbles: '-b',
         actionsValues: { b: EditorActions.editorComponentOnInit() },
         routerEventsMarbles: 'a',
-        routerEventsValues: { a: new NavigationStart(1, '/specs/') },
+        routerEventsValues: { a: new NavigationEnd(1, '/specs/', '/specs/') },
         localStorageSeedValue: null,
         expectedMarbles: '',
         expectedValues: {},
       },
       {
         description:
-          'single editor component on init action actions router NavigationStart before on init local storage empty',
+          'single editor component on init action actions router NavigationEnd before on init local storage empty',
         expectation: 'should return single localStorageEmpty actions',
         actionsMarbles: '-b',
         actionsValues: { b: EditorActions.editorComponentOnInit() },
         routerEventsMarbles: 'a',
-        routerEventsValues: { a: new NavigationStart(1, 'url 1') },
+        routerEventsValues: { a: new NavigationEnd(1, 'url 1', 'url 1') },
         localStorageSeedValue: null,
         expectedMarbles: '-b',
         expectedValues: { b: EditorActions.localStorageSeedNotFound() },
       },
       {
         description:
-          'single editor component on init action actions router NavigationStart before on init local storage has seed',
+          'single editor component on init action actions router NavigationEnd before on init local storage has seed',
         expectation: 'should return single localStorageEmpty actions',
         actionsMarbles: '-b',
         actionsValues: { b: EditorActions.editorComponentOnInit() },
         routerEventsMarbles: 'a',
-        routerEventsValues: { a: new NavigationStart(1, 'url 1') },
+        routerEventsValues: { a: new NavigationEnd(1, 'url 1', 'url 1') },
         localStorageSeedValue: 'value 1',
         expectedMarbles: '-b',
         expectedValues: {
@@ -417,9 +423,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -573,9 +580,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService getDefault$ that returns values
               seedServiceSpy.getDefault$.and.returnValues(
                 ...seedServiceGetDefaultReturnValues.map(
@@ -644,7 +652,7 @@ describe('EditorEffects', () => {
         expectation: 'should return single success action actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: EditorActions.routerNavigationStartExamplesId({
+          a: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 1'),
           }),
         },
@@ -664,7 +672,7 @@ describe('EditorEffects', () => {
         expectation: 'should return single error action actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: EditorActions.routerNavigationStartExamplesId({
+          a: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 1'),
           }),
         },
@@ -680,10 +688,10 @@ describe('EditorEffects', () => {
         expectation: 'should return multiple success action actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.routerNavigationStartExamplesId({
+          a: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 1'),
           }),
-          d: EditorActions.routerNavigationStartExamplesId({
+          d: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 2'),
           }),
         },
@@ -707,10 +715,10 @@ describe('EditorEffects', () => {
         expectation: 'should return single success actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.routerNavigationStartExamplesId({
+          a: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 1'),
           }),
-          d: EditorActions.routerNavigationStartExamplesId({
+          d: EditorActions.routerNavigationEndExamplesId({
             path: encodeURIComponent('path 2'),
           }),
         },
@@ -750,9 +758,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               seedServiceSpy.get$.and.returnValues(
                 ...seedServiceGetReturnValues.map(({ marbles, values }) =>
@@ -824,7 +833,7 @@ describe('EditorEffects', () => {
         expectation: 'should return single success action actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: EditorActions.routerNavigationStartSpecsId({
+          a: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 1',
           }),
         },
@@ -862,7 +871,7 @@ describe('EditorEffects', () => {
         expectation: 'should return single error action actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: EditorActions.routerNavigationStartSpecsId({
+          a: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 1',
           }),
         },
@@ -881,10 +890,10 @@ describe('EditorEffects', () => {
         expectation: 'should return multiple success action actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.routerNavigationStartSpecsId({
+          a: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 1',
           }),
-          d: EditorActions.routerNavigationStartSpecsId({
+          d: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 2',
           }),
         },
@@ -943,10 +952,10 @@ describe('EditorEffects', () => {
         expectation: 'should return single success actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.routerNavigationStartSpecsId({
+          a: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 1',
           }),
-          d: EditorActions.routerNavigationStartSpecsId({
+          d: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 2',
           }),
         },
@@ -1017,9 +1026,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND packageSpecService get$ that returns values
               packageSpecServiceSpy.get$.and.returnValues(
                 ...packageSpecServiceGetReturnValues.map(
@@ -1125,9 +1135,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN routerNavigationSelectedSeed$ is called
               effects = new EditorEffects(
@@ -1226,9 +1237,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN specSaved$ is called
               effects = new EditorEffects(
@@ -1313,9 +1325,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN routerNavigationBase$ is called
               effects = new EditorEffects(
@@ -1346,7 +1359,7 @@ describe('EditorEffects', () => {
     );
   });
 
-  describe('routerNavigationStartExamplesId$', () => {
+  describe('routerNavigationEndExamplesId$', () => {
     ([
       {
         description: 'empty router events',
@@ -1361,7 +1374,7 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationEnd(1, 'url 1', 'url after redirects 1'),
+          a: new NavigationStart(1, 'url 1'),
         },
         expectedMarbles: '',
         expectedValues: {},
@@ -1371,7 +1384,7 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationStart(1, 'url 1'),
+          a: new NavigationEnd(1, 'url 1', 'url 1'),
         },
         expectedMarbles: '',
         expectedValues: {},
@@ -1381,14 +1394,15 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationStart(
+          a: new NavigationEnd(
             1,
+            `/examples/${encodeURIComponent('path 1')}`,
             `/examples/${encodeURIComponent('path 1')}`
           ),
         },
         expectedMarbles: 'a',
         expectedValues: {
-          a: EditorActions.routerNavigationStartExamplesId({ path: 'path 1' }),
+          a: EditorActions.routerNavigationEndExamplesId({ path: 'path 1' }),
         },
       },
     ] as {
@@ -1419,7 +1433,7 @@ describe('EditorEffects', () => {
               );
               (routerSpy as any).events = events$;
 
-              // WHEN routerNavigationStartExamplesId$ is called
+              // WHEN routerNavigationEndExamplesId$ is called
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
@@ -1430,7 +1444,7 @@ describe('EditorEffects', () => {
                 locationSpy,
                 oAuthServiceSpy
               );
-              const returnedActions = effects.routerNavigationStartExamplesId$;
+              const returnedActions = effects.routerNavigationEndExamplesId$;
 
               // THEN the expected actions are returned
               helpers
@@ -1443,7 +1457,7 @@ describe('EditorEffects', () => {
     );
   });
 
-  describe('routerNavigationStartSpecsId$', () => {
+  describe('routerNavigationEndSpecsId$', () => {
     ([
       {
         description: 'empty router events',
@@ -1458,7 +1472,7 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationEnd(1, 'url 1', 'url after redirects 1'),
+          a: new NavigationStart(1, 'url 1'),
         },
         expectedMarbles: '',
         expectedValues: {},
@@ -1468,7 +1482,7 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationStart(1, 'url 1'),
+          a: new NavigationEnd(1, 'url 1', 'url 1'),
         },
         expectedMarbles: '',
         expectedValues: {},
@@ -1478,11 +1492,11 @@ describe('EditorEffects', () => {
         expectation: 'should return empty actions',
         routerEventsMarbles: 'a',
         routerEventsValues: {
-          a: new NavigationStart(1, `/specs/name 1`),
+          a: new NavigationEnd(1, '/specs/name 1', '/specs/name 1'),
         },
         expectedMarbles: 'a',
         expectedValues: {
-          a: EditorActions.routerNavigationStartSpecsId({
+          a: EditorActions.routerNavigationEndSpecsId({
             spec_name: 'name 1',
           }),
         },
@@ -1515,7 +1529,7 @@ describe('EditorEffects', () => {
               );
               (routerSpy as any).events = events$;
 
-              // WHEN routerNavigationStartSpecsId$ is called
+              // WHEN routerNavigationEndSpecsId$ is called
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
@@ -1526,7 +1540,7 @@ describe('EditorEffects', () => {
                 locationSpy,
                 oAuthServiceSpy
               );
-              const returnedActions = effects.routerNavigationStartSpecsId$;
+              const returnedActions = effects.routerNavigationEndSpecsId$;
 
               // THEN the expected actions are returned
               helpers
@@ -1682,9 +1696,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
 
               // WHEN stableSpecValueChange$ is accessed
               effects = new EditorEffects(
@@ -1834,9 +1849,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               editorSpecServiceSpy.validateManaged$.and.returnValues(
                 ...specServiceValidateManagedReturnValues.map(
@@ -2010,9 +2026,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               editorSpecServiceSpy.validateUnManaged$.and.returnValues(
                 ...specServiceValidateUnManagedReturnValues.map(
@@ -2188,9 +2205,10 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                EditorActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<EditorActions.Actions>;
               // AND seedService get$ that returns values
               artifactServiceSpy.calculate$.and.returnValues(
                 ...artifactServiceCalculateReturnValues.map(

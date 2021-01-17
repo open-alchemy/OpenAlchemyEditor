@@ -111,7 +111,7 @@ const editorReducerValue = createReducer(
       selected: { value: action.path },
     },
   })),
-  on(EditorActions.routerNavigationStartExamplesId, (state, action) => ({
+  on(EditorActions.routerNavigationEndExamplesId, (state, action) => ({
     ...state,
     seed: {
       ...state.seed,
@@ -119,7 +119,7 @@ const editorReducerValue = createReducer(
       selected: { value: action.path },
     },
   })),
-  on(EditorActions.routerNavigationStartSpecsId, (state, action) => ({
+  on(EditorActions.routerNavigationEndSpecsId, (state) => ({
     ...state,
     seed: {
       ...state.seed,
