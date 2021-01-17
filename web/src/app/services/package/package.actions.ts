@@ -22,8 +22,13 @@ export const packageApiSpecsSpecNamePutError = createAction(
   props<Error>()
 );
 
+export const routerNavigationSpecsId = createAction(
+  '[router] changed to specs/:id path'
+);
+
 export type Actions =
   | ReturnType<typeof saveComponentSaveClick>
   | ReturnType<typeof authNotLoggedIn>
   | ReturnType<typeof packageApiSpecsSpecNamePutSuccess>
-  | ReturnType<typeof packageApiSpecsSpecNamePutError>;
+  | ReturnType<typeof packageApiSpecsSpecNamePutError>
+  | ReturnType<typeof routerNavigationSpecsId>;

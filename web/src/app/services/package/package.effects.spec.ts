@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+
 import { EMPTY } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
@@ -14,6 +16,7 @@ describe('PackageEffects', () => {
   let effects: PackageEffects;
   let specServiceSpy: jasmine.SpyObj<SpecService>;
   let oAuthServiceSpy: jasmine.SpyObj<OAuthService>;
+  let routerSpy: jasmine.SpyObj<Router>;
   let testScheduler: TestScheduler;
 
   beforeEach(() => {
@@ -22,6 +25,7 @@ describe('PackageEffects', () => {
       'hasValidAccessToken',
       'getAccessToken',
     ]);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     actions$ = EMPTY;
 
     testScheduler = new TestScheduler((actual, expected) => {
@@ -208,9 +212,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                PackageActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<PackageActions.Actions>;
               // AND seedService put$ that returns values
               specServiceSpy.put$.and.returnValues(
                 ...specServicePutReturnValues.map(({ marbles, values }) =>
@@ -229,7 +234,8 @@ describe('PackageEffects', () => {
               effects = new PackageEffects(
                 actions$,
                 specServiceSpy,
-                oAuthServiceSpy
+                oAuthServiceSpy,
+                routerSpy
               );
               const returnedActions = effects.packageApiSpecsSpecNamePut$;
 
@@ -250,6 +256,99 @@ describe('PackageEffects', () => {
                 value: 'value 1',
                 language: 'YAML',
               });
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('routerNavigationSpecsId$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: PackageActions.packageApiSpecsSpecNamePutError({
+            message: 'message 1',
+          }),
+        },
+        expectedPath: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single package api specs spec name get success actions',
+        expectation:
+          'should navigate to specs/:id and return single action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 1',
+          }),
+        },
+        expectedPath: 'name 1',
+        expectedMarbles: 'a',
+        expectedValues: { a: PackageActions.routerNavigationSpecsId() },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      expectedPath: string | null;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        expectedPath,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<PackageActions.Actions>;
+
+              // WHEN routerNavigationSpecsId$ is called
+              effects = new PackageEffects(
+                actions$,
+                specServiceSpy,
+                oAuthServiceSpy,
+                routerSpy
+              );
+              const returnedActions = effects.routerNavigationSpecsId$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND router.navigate has been called
+            if (expectedPath !== null) {
+              expect(routerSpy.navigate).toHaveBeenCalledWith([
+                'specs',
+                expectedPath,
+              ]);
             }
           });
         });
