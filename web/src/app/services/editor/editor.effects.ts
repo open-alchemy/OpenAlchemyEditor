@@ -11,12 +11,14 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { OAuthService } from 'angular-oauth2-oidc';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   SeedService,
-  SpecService,
+  SpecService as EditorSpecService,
   ArtifactService,
 } from '@open-alchemy/editor-sdk';
+import { SpecService as PackageSpecService } from '@open-alchemy/package-sdk';
 
 import * as EditorActions from './editor.actions';
 
@@ -79,6 +81,17 @@ export class EditorEffects {
     )
   );
 
+  routerNavigationStartSpecsId$ = createEffect(() =>
+    this.currentUrl$().pipe(
+      filter((url) => url.startsWith(SPEC_URL_PREFIX)),
+      map((url) =>
+        EditorActions.routerNavigationStartSpecsId({
+          spec_name: url.slice(SPEC_URL_PREFIX.length),
+        })
+      )
+    )
+  );
+
   seedLocalStorage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EditorActions.editorComponentOnInit.type),
@@ -116,15 +129,8 @@ export class EditorEffects {
 
   seedsSeedGet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        EditorActions.seedComponentSelectChange.type,
-        EditorActions.routerNavigationStartExamplesId.type
-      ),
-      map((action) =>
-        action.type === EditorActions.seedComponentSelectChange.type
-          ? action.path
-          : decodeURIComponent(action.path)
-      ),
+      ofType(EditorActions.routerNavigationStartExamplesId.type),
+      map((action) => decodeURIComponent(action.path)),
       switchMap((path) =>
         this.seedService.get$({ path }).pipe(
           map((value) => EditorActions.editorApiSeedsSeedGetSuccess({ value })),
@@ -136,6 +142,31 @@ export class EditorEffects {
             )
           )
         )
+      )
+    )
+  );
+
+  specsSpecNameGet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.routerNavigationStartSpecsId.type),
+      switchMap((action) =>
+        this.packageSpecService
+          .get$({
+            name: action.spec_name,
+            accessToken: this.oAuthService.getAccessToken(),
+          })
+          .pipe(
+            map((response) =>
+              EditorActions.packageApiSpecsSpecNameGetSuccess({ response })
+            ),
+            catchError((error) =>
+              of(
+                EditorActions.packageApiSpecsSpecNameGetError({
+                  message: error.message,
+                })
+              )
+            )
+          )
       )
     )
   );
@@ -160,7 +191,7 @@ export class EditorEffects {
     this.actions$.pipe(
       ofType(EditorActions.stableSpecValueChange.type),
       switchMap((action) =>
-        this.specService
+        this.editorSpecService
           .validateManaged$({ value: action.value, language: SPEC_LANGUAGE })
           .pipe(
             map((response) =>
@@ -182,7 +213,7 @@ export class EditorEffects {
     this.actions$.pipe(
       ofType(EditorActions.stableSpecValueChange.type),
       switchMap((action) =>
-        this.specService
+        this.editorSpecService
           .validateUnManaged$({ value: action.value, language: SPEC_LANGUAGE })
           .pipe(
             map((response) =>
@@ -225,10 +256,12 @@ export class EditorEffects {
   constructor(
     private actions$: Actions<EditorActions.Actions>,
     private seedService: SeedService,
-    private specService: SpecService,
+    private editorSpecService: EditorSpecService,
+    private packageSpecService: PackageSpecService,
     private artifactService: ArtifactService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private oAuthService: OAuthService
   ) {}
 
   currentUrl$(): Observable<string> {

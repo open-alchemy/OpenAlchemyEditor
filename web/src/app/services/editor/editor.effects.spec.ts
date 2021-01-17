@@ -14,27 +14,34 @@ import { Actions } from '@ngrx/effects';
 import {
   SeedService,
   SeedError,
-  SpecService,
-  SpecError,
+  SpecService as EditorSpecService,
+  SpecError as EditorSpecError,
   ValidationResponse,
   ArtifactService,
   ArtifactError,
   ArtifactResponse,
 } from '@open-alchemy/editor-sdk';
+import {
+  SpecService as PackageSpecService,
+  SpecError as PackageSpecError,
+} from '@open-alchemy/package-sdk';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 import { EditorEffects, SEED_KEY } from './editor.effects';
 import * as EditorActions from './editor.actions';
 import { SEED_1, SEED_2 } from './fixtures';
-import { Seed } from './types';
+import { Seed, Spec } from './types';
 
 describe('EditorEffects', () => {
   let actions$: Actions<EditorActions.Actions>;
   let effects: EditorEffects;
   let seedServiceSpy: jasmine.SpyObj<SeedService>;
-  let specServiceSpy: jasmine.SpyObj<SpecService>;
+  let editorSpecServiceSpy: jasmine.SpyObj<EditorSpecService>;
+  let packageSpecServiceSpy: jasmine.SpyObj<PackageSpecService>;
   let artifactServiceSpy: jasmine.SpyObj<ArtifactService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let locationSpy: jasmine.SpyObj<Location>;
+  let oAuthServiceSpy: jasmine.SpyObj<OAuthService>;
   let testScheduler: TestScheduler;
 
   beforeEach(() => {
@@ -43,9 +50,12 @@ describe('EditorEffects', () => {
       'getDefault$',
       'get$',
     ]);
-    specServiceSpy = jasmine.createSpyObj('SpecService', [
+    editorSpecServiceSpy = jasmine.createSpyObj('EditorSpecService', [
       'validateManaged$',
       'validateUnManaged$',
+    ]);
+    packageSpecServiceSpy = jasmine.createSpyObj('PackageSpecService', [
+      'get$',
     ]);
     artifactServiceSpy = jasmine.createSpyObj('ArtifactService', [
       'calculate$',
@@ -53,6 +63,7 @@ describe('EditorEffects', () => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     locationSpy = jasmine.createSpyObj('Location', ['go']);
     (routerSpy as any).events = EMPTY;
+    oAuthServiceSpy = jasmine.createSpyObj('SpecService', ['getAccessToken']);
     actions$ = EMPTY;
 
     testScheduler = new TestScheduler((actual, expected) => {
@@ -198,10 +209,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.seedsGet$;
 
@@ -295,10 +308,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedUrls$ = effects.currentUrl$();
 
@@ -420,10 +435,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.seedLocalStorage$;
 
@@ -571,10 +588,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.seedGet$;
 
@@ -621,24 +640,6 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'single seed component select change action actions get$ returns seed',
-        expectation: 'should return single success action actions',
-        actionsMarbles: 'a',
-        actionsValues: {
-          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
-        },
-        seedServiceGetReturnValues: [
-          { marbles: '-b|', values: { b: 'value 1' } },
-        ],
-        expectedMarbles: '-b',
-        expectedValues: {
-          b: EditorActions.editorApiSeedsSeedGetSuccess({
-            value: 'value 1',
-          }),
-        },
-      },
-      {
-        description:
           'single router navigation start example id action actions get$ returns seed',
         expectation: 'should return single success action actions',
         actionsMarbles: 'a',
@@ -659,11 +660,13 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'single seed component select change action actions get$ throws error',
+          'single router navigation start example id action actions get$ throws error',
         expectation: 'should return single error action actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
+          a: EditorActions.routerNavigationStartExamplesId({
+            path: encodeURIComponent('path 1'),
+          }),
         },
         seedServiceGetReturnValues: [{ marbles: '-#|' }],
         expectedMarbles: '-b',
@@ -673,12 +676,16 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'multiple seed component select change action actions get$ returns seed before next',
+          'multiple router navigation start example id action actions get$ returns seed before next',
         expectation: 'should return multiple success action actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
-          d: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
+          a: EditorActions.routerNavigationStartExamplesId({
+            path: encodeURIComponent('path 1'),
+          }),
+          d: EditorActions.routerNavigationStartExamplesId({
+            path: encodeURIComponent('path 2'),
+          }),
         },
         seedServiceGetReturnValues: [
           { marbles: '-b|', values: { b: 'value 1' } },
@@ -696,12 +703,16 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'multiple seed component select change action actions get$ returns seed after next',
+          'multiple router navigation start example id action actions get$ returns seed after next',
         expectation: 'should return single success actions',
         actionsMarbles: 'a--d',
         actionsValues: {
-          a: EditorActions.seedComponentSelectChange({ path: 'path 1' }),
-          d: EditorActions.seedComponentSelectChange({ path: 'path 2' }),
+          a: EditorActions.routerNavigationStartExamplesId({
+            path: encodeURIComponent('path 1'),
+          }),
+          d: EditorActions.routerNavigationStartExamplesId({
+            path: encodeURIComponent('path 2'),
+          }),
         },
         seedServiceGetReturnValues: [
           { marbles: '----e|', values: { e: 'value 1' } },
@@ -753,10 +764,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.seedsSeedGet$;
 
@@ -773,6 +786,281 @@ describe('EditorEffects', () => {
             if (seedServiceGetReturnValues.length > 0) {
               expect(seedServiceSpy.get$).toHaveBeenCalledWith({
                 path: 'path 1',
+              });
+            }
+          });
+        });
+      }
+    );
+  });
+
+  describe('specsSpecNameGet$', () => {
+    ([
+      {
+        description: 'empty actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: '',
+        actionsValues: {},
+        packageSpecServiceGetReturnValues: [],
+        accessToken: 'token 1',
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different action actions',
+        expectation: 'should return empty actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.editorApiSeedGetError({ message: 'message 1' }),
+        },
+        packageSpecServiceGetReturnValues: [],
+        accessToken: 'token 1',
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single router navigation start spec id action actions get$ returns seed',
+        expectation: 'should return single success action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 1',
+          }),
+        },
+        packageSpecServiceGetReturnValues: [
+          {
+            marbles: '-b|',
+            values: {
+              b: {
+                value: 'value 1',
+                name: 'name 1',
+                id: 'name 1',
+                version: 'version 1',
+                model_count: 1,
+              },
+            },
+          },
+        ],
+        accessToken: 'token 1',
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.packageApiSpecsSpecNameGetSuccess({
+            response: {
+              value: 'value 1',
+              name: 'name 1',
+              id: 'name 1',
+              version: 'version 1',
+              model_count: 1,
+            },
+          }),
+        },
+      },
+      {
+        description:
+          'single router navigation start specs id action actions get$ throws error',
+        expectation: 'should return single error action actions',
+        actionsMarbles: 'a',
+        actionsValues: {
+          a: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 1',
+          }),
+        },
+        packageSpecServiceGetReturnValues: [{ marbles: '-#|' }],
+        accessToken: 'token 1',
+        expectedMarbles: '-b',
+        expectedValues: {
+          b: EditorActions.packageApiSpecsSpecNameGetError({
+            message: 'message 1',
+          }),
+        },
+      },
+      {
+        description:
+          'multiple router navigation start specs id action actions get$ returns before next',
+        expectation: 'should return multiple success action actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 1',
+          }),
+          d: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 2',
+          }),
+        },
+        packageSpecServiceGetReturnValues: [
+          {
+            marbles: '-b|',
+            values: {
+              b: {
+                value: 'value 1',
+                name: 'name 1',
+                id: 'name 1',
+                version: 'version 1',
+                model_count: 1,
+              },
+            },
+          },
+          {
+            marbles: '-e|',
+            values: {
+              e: {
+                value: 'value 2',
+                name: 'name 2',
+                id: 'name 2',
+                version: 'version 2',
+                model_count: 2,
+              },
+            },
+          },
+        ],
+        accessToken: 'token 1',
+        expectedMarbles: '-b--e',
+        expectedValues: {
+          b: EditorActions.packageApiSpecsSpecNameGetSuccess({
+            response: {
+              value: 'value 1',
+              name: 'name 1',
+              id: 'name 1',
+              version: 'version 1',
+              model_count: 1,
+            },
+          }),
+          e: EditorActions.packageApiSpecsSpecNameGetSuccess({
+            response: {
+              value: 'value 2',
+              name: 'name 2',
+              id: 'name 2',
+              version: 'version 2',
+              model_count: 2,
+            },
+          }),
+        },
+      },
+      {
+        description:
+          'multiple router navigation start specs id action actions get$ returns after next',
+        expectation: 'should return single success actions',
+        actionsMarbles: 'a--d',
+        actionsValues: {
+          a: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 1',
+          }),
+          d: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 2',
+          }),
+        },
+        packageSpecServiceGetReturnValues: [
+          {
+            marbles: '----e|',
+            values: {
+              e: {
+                value: 'value 1',
+                name: 'name 1',
+                id: 'name 1',
+                version: 'version 1',
+                model_count: 1,
+              },
+            },
+          },
+          {
+            marbles: '-e|',
+            values: {
+              e: {
+                value: 'value 2',
+                name: 'name 2',
+                id: 'name 2',
+                version: 'version 2',
+                model_count: 2,
+              },
+            },
+          },
+        ],
+        accessToken: 'token 1',
+        expectedMarbles: '----e',
+        expectedValues: {
+          e: EditorActions.packageApiSpecsSpecNameGetSuccess({
+            response: {
+              value: 'value 2',
+              name: 'name 2',
+              id: 'name 2',
+              version: 'version 2',
+              model_count: 2,
+            },
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      actionsMarbles: string;
+      actionsValues: { [key: string]: Action };
+      packageSpecServiceGetReturnValues: {
+        marbles: string;
+        values: { [key: string]: Spec };
+      }[];
+      accessToken: string;
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        actionsMarbles,
+        actionsValues,
+        packageSpecServiceGetReturnValues,
+        accessToken,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
+              // AND packageSpecService get$ that returns values
+              packageSpecServiceSpy.get$.and.returnValues(
+                ...packageSpecServiceGetReturnValues.map(
+                  ({ marbles, values }) =>
+                    helpers.cold(
+                      marbles,
+                      values,
+                      new PackageSpecError('message 1')
+                    )
+                )
+              );
+              // AND oAuthService that returns token
+              oAuthServiceSpy.getAccessToken.and.returnValue(accessToken);
+
+              // WHEN specsSpecNameGet$ is called
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
+                artifactServiceSpy,
+                routerSpy,
+                locationSpy,
+                oAuthServiceSpy
+              );
+              const returnedActions = effects.specsSpecNameGet$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+
+            // AND seedService get$ has been called
+            expect(packageSpecServiceSpy.get$).toHaveBeenCalledTimes(
+              packageSpecServiceGetReturnValues.length
+            );
+            if (packageSpecServiceGetReturnValues.length > 0) {
+              expect(packageSpecServiceSpy.get$).toHaveBeenCalledWith({
+                accessToken,
+                name: 'name 1',
               });
             }
           });
@@ -845,10 +1133,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.routerNavigationSelectedSeed$;
 
@@ -944,10 +1234,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.specSaved$;
 
@@ -1029,10 +1321,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.routerNavigationBase$;
 
@@ -1129,12 +1423,110 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.routerNavigationStartExamplesId$;
+
+              // THEN the expected actions are returned
+              helpers
+                .expectObservable(returnedActions)
+                .toBe(expectedMarbles, expectedValues);
+            });
+          });
+        });
+      }
+    );
+  });
+
+  describe('routerNavigationStartSpecsId$', () => {
+    ([
+      {
+        description: 'empty router events',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: '',
+        routerEventsValues: {},
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'different router events',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationEnd(1, 'url 1', 'url after redirects 1'),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single router events url not match',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationStart(1, 'url 1'),
+        },
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description: 'single router events url match',
+        expectation: 'should return empty actions',
+        routerEventsMarbles: 'a',
+        routerEventsValues: {
+          a: new NavigationStart(1, `/specs/name 1`),
+        },
+        expectedMarbles: 'a',
+        expectedValues: {
+          a: EditorActions.routerNavigationStartSpecsId({
+            spec_name: 'name 1',
+          }),
+        },
+      },
+    ] as {
+      description: string;
+      expectation: string;
+      routerEventsMarbles: string;
+      routerEventsValues: { [key: string]: RouterEvent };
+      expectedMarbles: string;
+      expectedValues: { [key: string]: Action };
+    }[]).forEach(
+      ({
+        description,
+        expectation,
+        routerEventsMarbles,
+        routerEventsValues,
+        expectedMarbles,
+        expectedValues,
+      }) => {
+        describe(description, () => {
+          it(expectation, () => {
+            testScheduler.run((helpers) => {
+              // GIVEN actions
+              actions$ = EMPTY;
+              // AND router with events
+              const events$ = helpers.cold(
+                routerEventsMarbles,
+                routerEventsValues
+              );
+              (routerSpy as any).events = events$;
+
+              // WHEN routerNavigationStartSpecsId$ is called
+              effects = new EditorEffects(
+                actions$,
+                seedServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
+                artifactServiceSpy,
+                routerSpy,
+                locationSpy,
+                oAuthServiceSpy
+              );
+              const returnedActions = effects.routerNavigationStartSpecsId$;
 
               // THEN the expected actions are returned
               helpers
@@ -1298,10 +1690,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.stableSpecValueChange$;
 
@@ -1444,10 +1838,14 @@ describe('EditorEffects', () => {
                 EditorActions.Actions
               >;
               // AND seedService get$ that returns values
-              specServiceSpy.validateManaged$.and.returnValues(
+              editorSpecServiceSpy.validateManaged$.and.returnValues(
                 ...specServiceValidateManagedReturnValues.map(
                   ({ marbles, values }) =>
-                    helpers.cold(marbles, values, new SpecError('message 1'))
+                    helpers.cold(
+                      marbles,
+                      values,
+                      new EditorSpecError('message 1')
+                    )
                 )
               );
 
@@ -1455,10 +1853,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.specValidateManaged$;
 
@@ -1469,11 +1869,13 @@ describe('EditorEffects', () => {
             });
 
             // AND seedService validateManaged$ has been called
-            expect(specServiceSpy.validateManaged$).toHaveBeenCalledTimes(
+            expect(editorSpecServiceSpy.validateManaged$).toHaveBeenCalledTimes(
               specServiceValidateManagedReturnValues.length
             );
             if (specServiceValidateManagedReturnValues.length > 0) {
-              expect(specServiceSpy.validateManaged$).toHaveBeenCalledWith({
+              expect(
+                editorSpecServiceSpy.validateManaged$
+              ).toHaveBeenCalledWith({
                 value: 'value 1',
                 language: 'YAML',
               });
@@ -1612,10 +2014,14 @@ describe('EditorEffects', () => {
                 EditorActions.Actions
               >;
               // AND seedService get$ that returns values
-              specServiceSpy.validateUnManaged$.and.returnValues(
+              editorSpecServiceSpy.validateUnManaged$.and.returnValues(
                 ...specServiceValidateUnManagedReturnValues.map(
                   ({ marbles, values }) =>
-                    helpers.cold(marbles, values, new SpecError('message 1'))
+                    helpers.cold(
+                      marbles,
+                      values,
+                      new EditorSpecError('message 1')
+                    )
                 )
               );
 
@@ -1623,10 +2029,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.specValidateUnManaged$;
 
@@ -1637,11 +2045,15 @@ describe('EditorEffects', () => {
             });
 
             // AND seedService validateUnManaged$ has been called
-            expect(specServiceSpy.validateUnManaged$).toHaveBeenCalledTimes(
+            expect(
+              editorSpecServiceSpy.validateUnManaged$
+            ).toHaveBeenCalledTimes(
               specServiceValidateUnManagedReturnValues.length
             );
             if (specServiceValidateUnManagedReturnValues.length > 0) {
-              expect(specServiceSpy.validateUnManaged$).toHaveBeenCalledWith({
+              expect(
+                editorSpecServiceSpy.validateUnManaged$
+              ).toHaveBeenCalledWith({
                 value: 'value 1',
                 language: 'YAML',
               });
@@ -1795,10 +2207,12 @@ describe('EditorEffects', () => {
               effects = new EditorEffects(
                 actions$,
                 seedServiceSpy,
-                specServiceSpy,
+                editorSpecServiceSpy,
+                packageSpecServiceSpy,
                 artifactServiceSpy,
                 routerSpy,
-                locationSpy
+                locationSpy,
+                oAuthServiceSpy
               );
               const returnedActions = effects.artifactCalculate$;
 
