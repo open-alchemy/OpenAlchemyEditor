@@ -8,6 +8,8 @@ import {
   Error,
   ValidationResponse,
   ArtifactResponse,
+  SpecName,
+  Spec,
 } from './types';
 
 export const editorComponentOnInit = createAction('[editor component] on init');
@@ -42,6 +44,10 @@ export const routerNavigationSelectedSeed = createAction(
 export const routerNavigationStartExamplesId = createAction(
   '[router] navigation start examples/:id',
   props<{ path: SeedPath }>()
+);
+export const routerNavigationStartSpecsId = createAction(
+  '[router] navigation start specs/:id',
+  props<{ spec_name: SpecName }>()
 );
 
 export const localStorageSeedLoaded = createAction(
@@ -102,9 +108,19 @@ export const editorApiSeedsSeedGetError = createAction(
   '[editor API] /seeds/{seed_path} GET error',
   props<Error>()
 );
+
 export type SeedLoadedValueChangeActions =
   | ReturnType<typeof editorComponentSeedLoaded>
   | ReturnType<typeof editorComponentValueChange>;
+
+export const packageApiSpecsSpecNameGetSuccess = createAction(
+  '[package API] /specs/{spec_name} GET success',
+  props<{ response: Spec }>()
+);
+export const packageApiSpecsSpecNameGetError = createAction(
+  '[package API] /specs/{spec_name} GET error',
+  props<Error>()
+);
 
 export type Actions =
   | ReturnType<typeof editorComponentOnInit>
@@ -117,6 +133,7 @@ export type Actions =
   | ReturnType<typeof seedComponentSelectChange>
   | ReturnType<typeof routerNavigationSelectedSeed>
   | ReturnType<typeof routerNavigationStartExamplesId>
+  | ReturnType<typeof routerNavigationStartSpecsId>
   | ReturnType<typeof localStorageSeedLoaded>
   | ReturnType<typeof localStorageSeedNotFound>
   | ReturnType<typeof editorApiSpecValidateManagedSuccess>

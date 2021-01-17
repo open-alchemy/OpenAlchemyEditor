@@ -11,28 +11,7 @@
 
 ## State Management
 
-### Current
-
-Loads seed when the editor component renders.
-The seed is either loaded from local storage or is the default seed.
-When the seed selection changes, the route is changed.
-Listens for router events and loads that seed when the route is hit.
-Editor updates the spec whenever it changes.
-The spec is saved to local storage.
-
-Loads available seeds in the seed component.
-Updates the selected seed when the seed selection changes.
-
-Whenever a new spec is seen the artifact service uses it to load the result.
-Whenever a new spec is seen the validator retrieves the managed and unmanaged
-validation.
-The result service combines these together.
-
-Displays the validation results for managed and unmanaged specs.
-
-### Proposed
-
-#### Editor Component
+### Editor Component
 
 Enables the user to edit the value of a spec.
 
@@ -48,7 +27,7 @@ Input:
 
 - `seed`: The seed to load into the editor.
 
-#### Seed Component
+### Seed Component
 
 Enables the user to pick an example to seed the editor with.
 
@@ -63,7 +42,7 @@ Input:
 - `seeds`: All available seeds.
 - `selectedSeed`: The path of the seed that is currently selected.
 
-#### Results Component
+### Results Component
 
 Displays the results of the validation and the produced artifacts.
 
@@ -73,7 +52,7 @@ Input:
 - `unManaged`: The result of validating the un managed component of the spec
 - `artifacts`: Key information extracted from the spec
 
-#### Router
+### Router
 
 Events (more information <https://angular.io/api/router/RouterEvent>):
 
@@ -81,10 +60,14 @@ Events (more information <https://angular.io/api/router/RouterEvent>):
   detected based on `NavigationStart`
   <https://angular.io/api/router/NavigationStart> to urls of the form
   `examples/:id`.
+- `routerNavigationStartSpecsId`: The route has changed to a particular spec,
+  detected based on `NavigationStart`
+  <https://angular.io/api/router/NavigationStart> to urls of the form
+  `specs/:id`.
 
-#### Reacting to Events
+### Reacting to Events
 
-##### `editorComponentOnInit`
+#### `editorComponentOnInit`
 
 Output:
 
@@ -100,13 +83,13 @@ Attempt to load the seed:
    `localStorageSeedLoaded` event.
 1. Return the `localStorageSeedNotFound` event.
 
-##### `localStorageSeedLoaded`
+#### `localStorageSeedLoaded`
 
 Update the seed:
 
 1. Set the `state.seed.current.value` state to the seed in the event.
 
-##### `localStorageSeedNotFound`
+#### `localStorageSeedNotFound`
 
 Output:
 
@@ -120,19 +103,19 @@ Load the default seed:
 1. If the call succeeds, return the `editorApiSeedGetSuccess` event.
 1. If the call fails, return the `editorApiSeedGetError` event.
 
-##### `editorApiSeedGetSuccess`
+#### `editorApiSeedGetSuccess`
 
 Update the seed:
 
 1. Set the `state.seed.current.value` state to the seed in the event.
 
-##### `editorApiSeedGetError`
+#### `editorApiSeedGetError`
 
 Notify the user fo the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `editorComponentSeedLoaded` and `editorComponentValueChange`
+#### `editorComponentSeedLoaded` and `editorComponentValueChange`
 
 Output:
 
@@ -158,7 +141,7 @@ Stabilize the spec changes:
    new events if a new event occurs within the delay.
 1. Return the `stableSpecValueChange` event.
 
-##### `stableSpecValueChange`
+#### `stableSpecValueChange`
 
 Output:
 
@@ -193,43 +176,43 @@ Load the artifacts:
 1. If the call succeeds, return the `editorApiArtifactCalculateSuccess` event.
 1. If the call fails, return the `editorApiArtifactCalculateError` event.
 
-##### `editorApiSpecValidateManagedSuccess`
+#### `editorApiSpecValidateManagedSuccess`
 
 Update the managed result:
 
 1. Set the `managedResult` in the state.
 
-##### `editorApiSpecValidateManagedError`
+#### `editorApiSpecValidateManagedError`
 
 Notify the user fo the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `editorApiSpecValidateUnManagedSuccess`
+#### `editorApiSpecValidateUnManagedSuccess`
 
 Update the un managed result:
 
 1. Set the `unManagedResult` in the state.
 
-##### `editorApiSpecValidateUnManagedError`
+#### `editorApiSpecValidateUnManagedError`
 
 Notify the user fo the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `editorApiArtifactCalculateSuccess`
+#### `editorApiArtifactCalculateSuccess`
 
 Update the artifacts:
 
 1. Set the `artifacts` value in the state.
 
-##### `editorApiArtifactCalculateError`
+#### `editorApiArtifactCalculateError`
 
 Notify the user fo the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `seedComponentOnInit`
+#### `seedComponentOnInit`
 
 Output:
 
@@ -242,19 +225,19 @@ Load the seeds:
 1. If the call succeeds, return the `editorApiLoadSeedsSuccess` event.
 1. If the call fails, return the `editorApiLoadSeedsError` event.
 
-##### `editorApiLoadSeedsSuccess`
+#### `editorApiLoadSeedsSuccess`
 
 Update the seed:
 
 1. Set the `state.seed.available.values` state to the seeds in the event.
 
-##### `editorApiLoadSeedsError`
+#### `editorApiLoadSeedsError`
 
-update the seed:
+Update the error:
 
 1. Set the `state.error.message` state to the reason.
 
-##### `seedComponentSelectChange`
+#### `seedComponentSelectChange`
 
 Output:
 
@@ -266,7 +249,7 @@ Change the route:
    <https://angular.io/api/router/Router#navigate>.
 1. Return the `locationGoSelectedSeed` event.
 
-##### `routerNavigationStartExamplesId`
+#### `routerNavigationStartExamplesId`
 
 Output:
 
@@ -284,14 +267,44 @@ Load the requested seed:
 1. If the call succeeds, return the `editorApiLoadSeedsSeedSuccess` event.
 1. If the call fails, return the `editorApiLoadSeedsSeedError` event.
 
-##### `editorApiLoadSeedsSeedSuccess`
+#### `editorApiLoadSeedsSeedSuccess`
 
 Update the seed:
 
 1. Set the `state.seed.current.value` state to the seed in the event.
 
-##### `editorApiLoadSeedsSeedError`
+#### `editorApiLoadSeedsSeedError`
 
-update the seed:
+Update the error:
+
+1. Set the `state.error.message` state to the reason.
+
+#### `routerNavigationStartSpecsId`
+
+Output:
+
+- `packageApiLoadSpecsSpecNameSuccess`: The spec loaded, includes the value.
+- `packageApiLoadSpecsSpecNameError`: The spec failed to load, includes the reason
+  why it failed.
+
+Update the selected spec:
+
+1. Set the `state.selected` in the state to `null`.
+
+Load the requested spec:
+
+1. Load the requested spec.
+1. If the call succeeds, return the `packageApiLoadSpecsSpecNameSuccess` event.
+1. If the call fails, return the `packageApiLoadSpecsSpecNameError` event.
+
+#### `packageApiLoadSpecsSpecNameSuccess`
+
+Update the seed:
+
+1. Set the `state.seed.current.value` state to the seed in the event.
+
+#### `packageApiLoadSpecsSpecNameError`
+
+Update the error:
 
 1. Set the `state.error.message` state to the reason.

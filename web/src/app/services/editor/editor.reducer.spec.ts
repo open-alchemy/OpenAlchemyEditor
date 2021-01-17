@@ -88,8 +88,9 @@ describe('EditorReducer', () => {
     },
     {
       description:
-        'initial state: seed.selected defined, action routerNavigationStartExamplesIdSeedSelectChange',
-      expectation: 'should set selected value to the seed in the action',
+        'initial state: seed.selected defined and current seed loaded, action routerNavigationStartExamplesId',
+      expectation:
+        'should set selected value to the seed in the action and set current loading to true',
       initialState: {
         ...editorInitialState,
         seed: {
@@ -104,6 +105,31 @@ describe('EditorReducer', () => {
         seed: {
           ...editorInitialState.seed,
           selected: { value: 'path 2' },
+          current: { value: 'value 1', loading: true, success: true },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: seed.selected defined, action routerNavigationStartSpecsId',
+      expectation:
+        'should set selected value to null and set current loading to true',
+      initialState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: 'path 1' },
+          current: { value: 'value 1', loading: false, success: true },
+        },
+      },
+      action: EditorActions.routerNavigationStartSpecsId({
+        spec_name: 'name 1',
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          selected: { value: null },
           current: { value: 'value 1', loading: true, success: true },
         },
       },
@@ -251,6 +277,59 @@ describe('EditorReducer', () => {
         },
       },
       action: EditorActions.editorApiSeedsSeedGetError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          current: { value: null, success: false, loading: false },
+        },
+        error: { ...editorInitialState.error, message: 'message 1' },
+      },
+    },
+    {
+      description:
+        'initial state: seed.current null, action packageApiSpecsSpecNameGetSuccess',
+      expectation:
+        'should set current value to the values in the action, success to true and loading to false',
+      initialState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          current: { value: null, success: null, loading: true },
+        },
+      },
+      action: EditorActions.packageApiSpecsSpecNameGetSuccess({
+        response: {
+          value: 'value 1',
+          name: 'name 1',
+          id: 'name 1',
+          model_count: 1,
+          version: 'version 1',
+        },
+      }),
+      expectedFinalState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          current: { value: 'value 1', success: true, loading: false },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: seed.current null, action packageApiSpecsSpecNameGetError',
+      expectation:
+        'should set current value to null, success to false and loading to false',
+      initialState: {
+        ...editorInitialState,
+        seed: {
+          ...editorInitialState.seed,
+          current: { value: null, success: null, loading: true },
+        },
+      },
+      action: EditorActions.packageApiSpecsSpecNameGetError({
         message: 'message 1',
       }),
       expectedFinalState: {

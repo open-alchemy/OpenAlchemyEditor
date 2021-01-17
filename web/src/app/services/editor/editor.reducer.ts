@@ -119,6 +119,14 @@ const editorReducerValue = createReducer(
       selected: { value: action.path },
     },
   })),
+  on(EditorActions.routerNavigationStartSpecsId, (state, action) => ({
+    ...state,
+    seed: {
+      ...state.seed,
+      current: { ...state.seed.current, loading: true },
+      selected: { value: null },
+    },
+  })),
   on(EditorActions.localStorageSeedLoaded, (state, action) => ({
     ...state,
     seed: {
@@ -164,6 +172,21 @@ const editorReducerValue = createReducer(
     },
   })),
   on(EditorActions.editorApiSeedsSeedGetError, (state, action) => ({
+    ...state,
+    seed: {
+      ...state.seed,
+      current: { value: null, success: false, loading: false },
+    },
+    error: { ...state.error, message: action.message },
+  })),
+  on(EditorActions.packageApiSpecsSpecNameGetSuccess, (state, action) => ({
+    ...state,
+    seed: {
+      ...state.seed,
+      current: { value: action.response.value, success: true, loading: false },
+    },
+  })),
+  on(EditorActions.packageApiSpecsSpecNameGetError, (state, action) => ({
     ...state,
     seed: {
       ...state.seed,

@@ -28,6 +28,7 @@ import {
   ArtifactResponseModels,
   ArtifactResponse,
 } from '@open-alchemy/editor-sdk';
+import { SpecName, Spec } from '@open-alchemy/package-sdk';
 
 export interface ValidationResponseProperties {
   [key: string]: ValidationResponseProperty;
@@ -62,6 +63,8 @@ export {
   ArtifactResponseModel,
   ArtifactResponseModels,
   ArtifactResponse,
+  SpecName,
+  Spec,
 };
 
 export interface Error {
