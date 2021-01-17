@@ -22,6 +22,7 @@ import * as EditorActions from './editor.actions';
 
 export const SEED_KEY = 'seed';
 export const SEED_URL_PREFIX = '/examples/';
+export const SPEC_URL_PREFIX = '/specs/';
 export const SPEC_LANGUAGE = 'YAML';
 
 @Injectable()
@@ -88,6 +89,7 @@ export class EditorEffects {
         url,
       })),
       filter(({ url }) => !url.startsWith(SEED_URL_PREFIX)),
+      filter(({ url }) => !url.startsWith(SPEC_URL_PREFIX)),
       map(() => {
         return localStorage.getItem(SEED_KEY) !== null
           ? EditorActions.localStorageSeedLoaded({

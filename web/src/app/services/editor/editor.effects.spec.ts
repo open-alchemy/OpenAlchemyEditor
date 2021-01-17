@@ -184,10 +184,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService list$ that returns values
               seedServiceSpy.list$.and.returnValues(
                 ...seedServiceListReturnValues.map(({ marbles, values }) =>
@@ -329,12 +328,24 @@ describe('EditorEffects', () => {
       },
       {
         description:
-          'single editor component on init action actions router NavigationStart before on init with example url',
+          'single editor component on init action actions router NavigationStart before on init with seed url',
         expectation: 'should return single localStorageEmpty actions',
         actionsMarbles: '-b',
         actionsValues: { b: EditorActions.editorComponentOnInit() },
         routerEventsMarbles: 'a',
         routerEventsValues: { a: new NavigationStart(1, '/examples/') },
+        localStorageSeedValue: null,
+        expectedMarbles: '',
+        expectedValues: {},
+      },
+      {
+        description:
+          'single editor component on init action actions router NavigationStart before on init with spec url',
+        expectation: 'should return single localStorageEmpty actions',
+        actionsMarbles: '-b',
+        actionsValues: { b: EditorActions.editorComponentOnInit() },
+        routerEventsMarbles: 'a',
+        routerEventsValues: { a: new NavigationStart(1, '/specs/') },
         localStorageSeedValue: null,
         expectedMarbles: '',
         expectedValues: {},
@@ -391,10 +402,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND router with events
               const events$ = helpers.cold(
                 routerEventsMarbles,
@@ -546,10 +556,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService getDefault$ that returns values
               seedServiceSpy.getDefault$.and.returnValues(
                 ...seedServiceGetDefaultReturnValues.map(
@@ -730,10 +739,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               seedServiceSpy.get$.and.returnValues(
                 ...seedServiceGetReturnValues.map(({ marbles, values }) =>
@@ -829,10 +837,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN routerNavigationSelectedSeed$ is called
               effects = new EditorEffects(
@@ -929,10 +936,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN specSaved$ is called
               effects = new EditorEffects(
@@ -1015,10 +1021,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN routerNavigationBase$ is called
               effects = new EditorEffects(
@@ -1285,10 +1290,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
 
               // WHEN stableSpecValueChange$ is accessed
               effects = new EditorEffects(
@@ -1436,10 +1440,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               specServiceSpy.validateManaged$.and.returnValues(
                 ...specServiceValidateManagedReturnValues.map(
@@ -1605,10 +1608,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               specServiceSpy.validateUnManaged$.and.returnValues(
                 ...specServiceValidateUnManagedReturnValues.map(
@@ -1774,10 +1776,9 @@ describe('EditorEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<EditorActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                EditorActions.Actions
+              >;
               // AND seedService get$ that returns values
               artifactServiceSpy.calculate$.and.returnValues(
                 ...artifactServiceCalculateReturnValues.map(
