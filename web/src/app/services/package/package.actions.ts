@@ -14,7 +14,8 @@ export const authNotLoggedIn = createAction(
 );
 
 export const packageApiSpecsSpecNamePutSuccess = createAction(
-  '[package API] /specs/{spec_name} PUT success'
+  '[package API] /specs/{spec_name} PUT success',
+  props<{ name: SpecName }>()
 );
 export const packageApiSpecsSpecNamePutError = createAction(
   '[package API] /specs/{spec_name} PUT error',

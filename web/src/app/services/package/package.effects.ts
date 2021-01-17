@@ -33,7 +33,11 @@ export class PackageEffects {
             language: SPEC_LANGUAGE,
           })
           .pipe(
-            map(() => PackageActions.packageApiSpecsSpecNamePutSuccess()),
+            map(() =>
+              PackageActions.packageApiSpecsSpecNamePutSuccess({
+                name: action.name,
+              })
+            ),
             catchError((error) =>
               of(
                 PackageActions.packageApiSpecsSpecNamePutError({

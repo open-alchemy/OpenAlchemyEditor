@@ -183,7 +183,9 @@ describe('PackageReducer', () => {
           success: null,
         },
       },
-      action: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+      action: PackageActions.packageApiSpecsSpecNamePutSuccess({
+        name: 'name 1',
+      }),
       expectedFinalState: {
         ...packageInitialState,
         save: {

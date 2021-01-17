@@ -47,7 +47,9 @@ describe('PackageEffects', () => {
         expectation: 'should return empty actions',
         actionsMarbles: 'a',
         actionsValues: {
-          a: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+          a: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 1',
+          }),
         },
         oAuthServiceHasValidAccessTokenReturnValue: false,
         oAuthServiceGetAccessTokenReturnValue: 'token 1',
@@ -92,7 +94,9 @@ describe('PackageEffects', () => {
         oAuthServiceGetAccessTokenReturnValue: 'token 1',
         expectedMarbles: '-b',
         expectedValues: {
-          b: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+          b: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 1',
+          }),
         },
       },
       {
@@ -139,8 +143,12 @@ describe('PackageEffects', () => {
         oAuthServiceGetAccessTokenReturnValue: 'token 1',
         expectedMarbles: '-b--e',
         expectedValues: {
-          b: PackageActions.packageApiSpecsSpecNamePutSuccess(),
-          e: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+          b: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 1',
+          }),
+          e: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 2',
+          }),
         },
       },
       {
@@ -166,14 +174,16 @@ describe('PackageEffects', () => {
         oAuthServiceGetAccessTokenReturnValue: 'token 1',
         expectedMarbles: '----e',
         expectedValues: {
-          e: PackageActions.packageApiSpecsSpecNamePutSuccess(),
+          e: PackageActions.packageApiSpecsSpecNamePutSuccess({
+            name: 'name 2',
+          }),
         },
       },
     ] as {
       description: string;
       expectation: string;
       actionsMarbles: string;
-      actionsValues: { [key: string]: Action };
+      actionsValues: { [key: string]: PackageActions.Actions };
       specServicePutReturnValues: {
         marbles: string;
         values: { [key: string]: null };
@@ -198,10 +208,9 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(
-                actionsMarbles,
-                actionsValues
-              ) as Actions<PackageActions.Actions>;
+              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
+                PackageActions.Actions
+              >;
               // AND seedService put$ that returns values
               specServiceSpy.put$.and.returnValues(
                 ...specServicePutReturnValues.map(({ marbles, values }) =>
