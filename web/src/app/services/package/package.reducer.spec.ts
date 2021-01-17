@@ -251,6 +251,84 @@ describe('PackageReducer', () => {
         },
       },
     },
+    {
+      description:
+        'initial state: spec info actualName set, action localStorageSeedLoaded',
+      expectation: 'should set spec info actualName to null',
+      initialState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: 'name 1',
+          },
+        },
+      },
+      action: EditorActions.localStorageSeedLoaded({ value: 'value 1' }),
+      expectedFinalState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: null,
+          },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: spec info actualName set, action editorApiSeedGetSuccess',
+      expectation: 'should set spec info actualName to null',
+      initialState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: 'name 1',
+          },
+        },
+      },
+      action: EditorActions.editorApiSeedGetSuccess({ value: 'value 1' }),
+      expectedFinalState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: null,
+          },
+        },
+      },
+    },
+    {
+      description:
+        'initial state: spec info actualName set, action editorApiSeedsSeedGetSuccess',
+      expectation: 'should set spec info actualName to null',
+      initialState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: 'name 1',
+          },
+        },
+      },
+      action: EditorActions.editorApiSeedsSeedGetSuccess({ value: 'value 1' }),
+      expectedFinalState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: null,
+          },
+        },
+      },
+    },
   ].forEach(
     ({
       description,

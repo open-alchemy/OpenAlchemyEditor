@@ -96,6 +96,21 @@ const packageReducerValue = createReducer(
       },
       error: { ...state.error, message: action.message },
     })
+  ),
+  on(
+    EditorActions.localStorageSeedLoaded,
+    EditorActions.editorApiSeedGetSuccess,
+    EditorActions.editorApiSeedsSeedGetSuccess,
+    (state) => ({
+      ...state,
+      spec: {
+        ...state.spec,
+        info: {
+          ...state.spec.info,
+          actualName: null,
+        },
+      },
+    })
   )
 );
 
