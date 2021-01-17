@@ -77,10 +77,10 @@ Input:
 
 Events (more information <https://angular.io/api/router/RouterEvent>):
 
-- `routerNavigationStartExampleId`: The route has changed to a particular seed,
+- `routerNavigationStartExamplesId`: The route has changed to a particular seed,
   detected based on `NavigationStart`
   <https://angular.io/api/router/NavigationStart> to urls of the form
-  `example/:id`.
+  `examples/:id`.
 
 #### Reacting to Events
 
@@ -94,7 +94,7 @@ Output:
 
 Attempt to load the seed:
 
-1. Look at the current route, if it is of the form `example/:id`, return,
+1. Look at the current route, if it is of the form `examples/:id`, return,
    because the navigation to that path will seed the editor.
 1. If the `seed` key is available in `localStorage`, return the
    `localStorageSeedLoaded` event.
@@ -266,7 +266,7 @@ Change the route:
    <https://angular.io/api/router/Router#navigate>.
 1. Return the `locationGoSelectedSeed` event.
 
-##### `routerNavigationStartExampleId`
+##### `routerNavigationStartExamplesId`
 
 Output:
 

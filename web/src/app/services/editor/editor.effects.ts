@@ -21,7 +21,7 @@ import {
 import * as EditorActions from './editor.actions';
 
 export const SEED_KEY = 'seed';
-export const SEED_URL_PREFIX = '/example/';
+export const SEED_URL_PREFIX = '/examples/';
 export const SPEC_LANGUAGE = 'YAML';
 
 @Injectable()
@@ -67,11 +67,11 @@ export class EditorEffects {
     )
   );
 
-  routerNavigationStartExampleId$ = createEffect(() =>
+  routerNavigationStartExamplesId$ = createEffect(() =>
     this.currentUrl$().pipe(
       filter((url) => url.startsWith(SEED_URL_PREFIX)),
       map((url) =>
-        EditorActions.routerNavigationStartExampleId({
+        EditorActions.routerNavigationStartExamplesId({
           path: decodeURIComponent(url.slice(SEED_URL_PREFIX.length)),
         })
       )
@@ -116,7 +116,7 @@ export class EditorEffects {
     this.actions$.pipe(
       ofType(
         EditorActions.seedComponentSelectChange.type,
-        EditorActions.routerNavigationStartExampleId.type
+        EditorActions.routerNavigationStartExamplesId.type
       ),
       map((action) =>
         action.type === EditorActions.seedComponentSelectChange.type

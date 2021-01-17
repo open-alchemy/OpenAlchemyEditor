@@ -39,8 +39,8 @@ export const routerNavigationSelectedSeed = createAction(
   '[router] changed to seed path'
 );
 
-export const routerNavigationStartExampleId = createAction(
-  '[router] navigation start example/:id',
+export const routerNavigationStartExamplesId = createAction(
+  '[router] navigation start examples/:id',
   props<{ path: SeedPath }>()
 );
 
@@ -116,7 +116,7 @@ export type Actions =
   | ReturnType<typeof seedComponentOnInit>
   | ReturnType<typeof seedComponentSelectChange>
   | ReturnType<typeof routerNavigationSelectedSeed>
-  | ReturnType<typeof routerNavigationStartExampleId>
+  | ReturnType<typeof routerNavigationStartExamplesId>
   | ReturnType<typeof localStorageSeedLoaded>
   | ReturnType<typeof localStorageSeedNotFound>
   | ReturnType<typeof editorApiSpecValidateManagedSuccess>

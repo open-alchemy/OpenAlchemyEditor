@@ -88,7 +88,7 @@ describe('EditorReducer', () => {
     },
     {
       description:
-        'initial state: seed.selected defined, action routerNavigationStartExampleIdSeedSelectChange',
+        'initial state: seed.selected defined, action routerNavigationStartExamplesIdSeedSelectChange',
       expectation: 'should set selected value to the seed in the action',
       initialState: {
         ...editorInitialState,
@@ -98,7 +98,7 @@ describe('EditorReducer', () => {
           current: { value: 'value 1', loading: false, success: true },
         },
       },
-      action: EditorActions.routerNavigationStartExampleId({ path: 'path 2' }),
+      action: EditorActions.routerNavigationStartExamplesId({ path: 'path 2' }),
       expectedFinalState: {
         ...editorInitialState,
         seed: {

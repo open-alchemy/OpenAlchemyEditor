@@ -7,7 +7,9 @@ import { SignInCompleteComponent } from './components/sign-in-complete/sign-in-c
 
 const routes: Routes = [
   { path: '', component: BaseComponent },
-  { path: 'example/:id', component: BaseComponent },
+  { path: 'example/:id', redirectTo: '/examples/:id' }, // legacy route, there so links don't break
+  { path: 'examples/:id', component: BaseComponent },
+  { path: 'specs/:id', component: BaseComponent },
   { path: 'error', component: ErrorComponent },
   {
     path: 'sign-in-complete',
