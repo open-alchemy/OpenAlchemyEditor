@@ -229,6 +229,18 @@ describe('SaveComponent', () => {
         spec: { info: { proposedName: 'name 1' } },
         expectedInput: 'name 1',
       },
+      {
+        description: 'spec info proposedName with value actualName null',
+        expectation: 'should have input with proposed name value',
+        spec: { info: { proposedName: 'name 1', actualName: null } },
+        expectedInput: 'name 1',
+      },
+      {
+        description: 'spec info proposedName with value actualName defined',
+        expectation: 'should have input with actual name value',
+        spec: { info: { proposedName: 'name 1', actualName: 'name 2' } },
+        expectedInput: 'name 2',
+      },
     ] as {
       description: string;
       expectation: string;

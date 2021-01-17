@@ -22,7 +22,9 @@
       [attr.test-id]="selector + '.input'"
       matInput
       #name
-      value="{{ spec?.info?.proposedName }}"
+      value="{{
+        spec?.info?.actualName ? spec.info.actualName : spec?.info?.proposedName
+      }}"
     /> </mat-form-field
   ><br />
   <button

@@ -43,7 +43,7 @@ const packageReducerValue = createReducer(
     ...state,
     spec: {
       ...state.spec,
-      info: calculateLimitedSpecInfo(action.value),
+      info: { ...state.spec.info, ...calculateLimitedSpecInfo(action.value) },
       value: action.value,
       beingEdited: false,
     },

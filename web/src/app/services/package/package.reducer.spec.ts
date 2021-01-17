@@ -56,6 +56,34 @@ describe('PackageReducer', () => {
     },
     {
       description:
+        'initial state: actualName set, action stableSpecValueChange',
+      expectation:
+        'should copy the title into the spec info, the value into the value and set beingEdited to false and retain actualName',
+      initialState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: { actualName: 'name 1' },
+          value: null,
+          beingEdited: true,
+        },
+      },
+      action: EditorActions.stableSpecValueChange({ value: SPEC_VALUE }),
+      expectedFinalState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...calculateLimitedSpecInfo(SPEC_VALUE),
+            actualName: 'name 1',
+          },
+          value: SPEC_VALUE,
+          beingEdited: false,
+        },
+      },
+    },
+    {
+      description:
         'initial state: value defined and valid true being edited false, action editorComponentSeedLoaded',
       expectation: 'should set value and valid to null and beingEdited to true',
       initialState: {
