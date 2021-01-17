@@ -16,6 +16,10 @@ const selectSave = createSelector(
   selectPackage,
   (state: PackageState) => state.save
 );
+const selectCredentials = createSelector(
+  selectPackage,
+  (state: PackageState) => state.credentials
+);
 const selectError = createSelector(
   selectPackage,
   (state: PackageState) => state.error
@@ -31,6 +35,7 @@ export class PackageService {
   spec$ = this.store.pipe(select(selectSpec));
   specInfo$ = this.store.pipe(select(selectSpecInfo));
   save$ = this.store.pipe(select(selectSave));
+  credentials$ = this.store.pipe(select(selectCredentials));
   error$ = this.store.pipe(select(selectError));
 
   constructor(private store: Store<AppState>) {}

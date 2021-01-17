@@ -8,6 +8,7 @@ import {
   initialState as initialPackageState,
   PackageSpecState,
   PackageSaveState,
+  PackageCredentialsState,
 } from './package.reducer';
 import { PackageService } from './package.service';
 import * as PackageActions from './package.actions';
@@ -113,6 +114,38 @@ describe('PackageService', () => {
         helpers.expectObservable(service.save$).toBe('ab', {
           a: initialState.package.save,
           b: saveState,
+        });
+      });
+    });
+  });
+
+  describe('credentials$', () => {
+    it('should pick the correct state', () => {
+      testScheduler.run((helpers) => {
+        // GIVEN store with initial state and then a different state
+        const credentialsState: PackageCredentialsState = {
+          value: { public_key: 'public key 1', secret_key: 'secret key 1' },
+          loading: false,
+          success: true,
+        };
+        helpers
+          .cold('-b', {
+            b: {
+              ...initialState,
+              package: {
+                ...initialState.package,
+                credentials: credentialsState,
+              },
+            },
+          })
+          .subscribe((newState) => store.setState(newState));
+
+        // WHEN
+
+        // THEN the credentials state is returned
+        helpers.expectObservable(service.credentials$).toBe('ab', {
+          a: initialState.package.credentials,
+          b: credentialsState,
         });
       });
     });

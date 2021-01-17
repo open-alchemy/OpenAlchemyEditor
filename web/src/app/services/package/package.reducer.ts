@@ -17,7 +17,7 @@ export interface PackageSpecState {
   value: string | null;
   valid: boolean | null;
 }
-export interface CredentialsState {
+export interface PackageCredentialsState {
   value: Credentials | null;
   success: boolean | null;
   loading: boolean;
@@ -25,7 +25,7 @@ export interface CredentialsState {
 export interface PackageState {
   spec: PackageSpecState;
   save: PackageSaveState;
-  credentials: CredentialsState;
+  credentials: PackageCredentialsState;
   error: Error | null;
 }
 
