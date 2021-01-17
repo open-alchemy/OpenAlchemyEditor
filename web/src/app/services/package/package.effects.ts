@@ -5,9 +5,10 @@ import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SpecService } from '@open-alchemy/package-sdk';
+import { SpecService, CredentialsService } from '@open-alchemy/package-sdk';
 
 import * as PackageActions from './package.actions';
+import * as EditorActions from '../editor/editor.actions';
 
 export const SPEC_LANGUAGE = 'YAML';
 
@@ -59,9 +60,34 @@ export class PackageEffects {
     )
   );
 
+  getCredentials$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EditorActions.routerNavigationEndSpecsId.type),
+      switchMap(() =>
+        this.credentialsService
+          .get$({
+            accessToken: this.oAuthService.getAccessToken(),
+          })
+          .pipe(
+            map((credentials) =>
+              PackageActions.packageApiCredentialsGetSuccess({ credentials })
+            ),
+            catchError((error) =>
+              of(
+                PackageActions.packageApiCredentialsGetError({
+                  message: error.message,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions<PackageActions.Actions>,
     private specService: SpecService,
+    private credentialsService: CredentialsService,
     private oAuthService: OAuthService,
     private router: Router
   ) {}
