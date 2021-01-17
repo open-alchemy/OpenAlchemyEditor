@@ -1,6 +1,9 @@
-<ng-container *ngIf="spec?.info?.actualName && spec?.info?.version?.value">
+<ng-container
+  *ngIf="spec?.info?.actualName && spec?.info?.id && spec?.info?.version?.value"
+>
   <ng-container *ngIf="credentials$ | async as credentials">
     <ng-container *ngIf="credentials.value">
+      <span>Install the models:</span>
       <p [attr.test-id]="selector + '.install'">
         {{
           calculatePipInstall(
@@ -28,6 +31,11 @@
       </button>
       <br />
       <br />
+
+      <span>Import the models:</span>
+      <p [attr.test-id]="selector + '.import'">
+        {{ calculateImport(spec.info.id) }}
+      </p>
     </ng-container>
   </ng-container>
 </ng-container>

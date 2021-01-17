@@ -4,6 +4,7 @@ import { PackageSpecState } from '../../../services/package/package.reducer';
 import {
   Credentials,
   SpecName,
+  SpecId,
   SpecVersion,
 } from '../../../services/package/types';
 import { PackageService } from '../../../services/package/package.service';
@@ -31,5 +32,9 @@ export class PipComponent {
       `pip install --index-url https://${credentials.public_key}:${credentials.secret_key}@index.package.openalchemy.io ` +
       `--extra-index-url https://pypi.org/simple "${specName}==${version}"`
     );
+  }
+
+  calculateImport(specId: SpecId): string {
+    return `from ${specId.replace(/-/g, '_')} import models`;
   }
 }

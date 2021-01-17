@@ -2,6 +2,7 @@ import {
   SpecDescription,
   SpecTitle,
   SpecName,
+  SpecId,
   SpecVersion,
   SpecValue,
   Credentials,
@@ -11,6 +12,7 @@ export {
   SpecDescription,
   SpecTitle,
   SpecName,
+  SpecId,
   SpecVersion,
   SpecValue,
   Credentials,
@@ -19,6 +21,7 @@ export {
 export interface LimitedSpecInfo {
   proposedName?: SpecName;
   actualName?: SpecName | null;
+  id?: SpecId | null;
   version?: {
     value: SpecVersion;
     valid: boolean;

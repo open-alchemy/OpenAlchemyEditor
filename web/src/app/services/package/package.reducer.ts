@@ -119,6 +119,7 @@ const packageReducerValue = createReducer(
         info: {
           ...state.spec.info,
           actualName: null,
+          id: null,
         },
       },
     })
@@ -130,6 +131,7 @@ const packageReducerValue = createReducer(
       info: {
         ...state.spec.info,
         actualName: action.response.name,
+        id: action.response.id,
       },
     },
   })),

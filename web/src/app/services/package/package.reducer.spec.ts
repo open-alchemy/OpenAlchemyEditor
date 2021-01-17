@@ -56,14 +56,14 @@ describe('PackageReducer', () => {
     },
     {
       description:
-        'initial state: actualName set, action stableSpecValueChange',
+        'initial state: actualName and id set, action stableSpecValueChange',
       expectation:
         'should copy the title into the spec info, the value into the value and set beingEdited to false and retain actualName',
       initialState: {
         ...packageInitialState,
         spec: {
           ...packageInitialState.spec,
-          info: { actualName: 'name 1' },
+          info: { actualName: 'name 1', id: 'name 1' },
           value: null,
           beingEdited: true,
         },
@@ -76,6 +76,7 @@ describe('PackageReducer', () => {
           info: {
             ...calculateLimitedSpecInfo(SPEC_VALUE),
             actualName: 'name 1',
+            id: 'name 1',
           },
           value: SPEC_VALUE,
           beingEdited: false,
@@ -290,6 +291,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: 'name 1',
+            id: 'name 1',
           },
         },
       },
@@ -301,6 +303,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: null,
+            id: null,
           },
         },
       },
@@ -316,6 +319,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: 'name 1',
+            id: 'name 1',
           },
         },
       },
@@ -327,6 +331,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: null,
+            id: null,
           },
         },
       },
@@ -342,6 +347,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: 'name 1',
+            id: 'name 1',
           },
         },
       },
@@ -353,6 +359,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: null,
+            id: null,
           },
         },
       },
@@ -368,6 +375,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: null,
+            id: null,
           },
         },
       },
@@ -376,7 +384,7 @@ describe('PackageReducer', () => {
           value: 'value 1',
           name: 'name 1',
           version: 'version 1',
-          id: 'name 1',
+          id: 'id 1',
           model_count: 1,
         },
       }),
@@ -387,6 +395,7 @@ describe('PackageReducer', () => {
           info: {
             ...packageInitialState.spec.info,
             actualName: 'name 1',
+            id: 'id 1',
           },
         },
       },

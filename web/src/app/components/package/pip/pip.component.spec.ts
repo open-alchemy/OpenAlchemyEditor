@@ -13,6 +13,7 @@ const SPEC: PackageSpecState = {
   info: {
     title: 'title 1',
     actualName: 'name 1',
+    id: 'spec-id-1',
     version: { valid: true, value: 'version 1' },
   },
   beingEdited: false,
@@ -79,28 +80,56 @@ describe('PipComponent', () => {
       {
         description: 'spec info actualName missing credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { version: { value: 'version 1' } } },
+        spec: { info: { id: 'id 1', version: { value: 'version 1' } } },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
       {
         description: 'spec info actualName null credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { actualName: null, version: { value: 'version 1' } } },
+        spec: {
+          info: {
+            actualName: null,
+            id: 'id 1',
+            version: { value: 'version 1' },
+          },
+        },
+        credentials: CREDENTIALS,
+        expectedDisplayed: false,
+      },
+      {
+        description: 'spec info id missing credentials defined',
+        expectation: 'should not show the install and copy',
+        spec: {
+          info: { actualName: 'name 1', version: { value: 'version 1' } },
+        },
+        credentials: CREDENTIALS,
+        expectedDisplayed: false,
+      },
+      {
+        description: 'spec info id null credentials defined',
+        expectation: 'should not show the install and copy',
+        spec: {
+          info: {
+            actualName: 'name 1',
+            id: null,
+            version: { value: 'version 1' },
+          },
+        },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
       {
         description: 'spec info version missing null credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { actualName: 'name 1' } },
+        spec: { info: { actualName: 'name 1', id: 'id 1' } },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
       {
         description: 'spec info version null missing null credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { actualName: 'name 1', version: null } },
+        spec: { info: { actualName: 'name 1', id: 'id 1', version: null } },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
@@ -108,7 +137,7 @@ describe('PipComponent', () => {
         description:
           'spec info version value missing missing null credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { actualName: 'name 1', version: {} } },
+        spec: { info: { actualName: 'name 1', id: 'id 1', version: {} } },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
@@ -116,7 +145,9 @@ describe('PipComponent', () => {
         description:
           'spec info version value null missing null credentials defined',
         expectation: 'should not show the install and copy',
-        spec: { info: { actualName: 'name 1', version: { value: null } } },
+        spec: {
+          info: { actualName: 'name 1', id: 'id 1', version: { value: null } },
+        },
         credentials: CREDENTIALS,
         expectedDisplayed: false,
       },
@@ -172,6 +203,9 @@ describe('PipComponent', () => {
             const copy: HTMLButtonElement = fixture.nativeElement.querySelector(
               `[test-id="${component.selector}.copy"]`
             );
+            const importParagraph: HTMLParagraphElement = fixture.nativeElement.querySelector(
+              `[test-id="${component.selector}.import"]`
+            );
             if (expectedDisplayed) {
               expect(install).toBeTruthy();
               expect(install.innerText).toContain('pip install');
@@ -180,6 +214,12 @@ describe('PipComponent', () => {
               expect(install.innerText).toContain(CREDENTIALS.value.public_key);
               expect(install.innerText).toContain(CREDENTIALS.value.secret_key);
               expect(copy).toBeTruthy();
+              expect(importParagraph).toBeTruthy();
+              expect(importParagraph.innerText).toContain('from');
+              expect(importParagraph.innerText).toContain(
+                SPEC.info.id.replace(/-/g, '_')
+              );
+              expect(importParagraph.innerText).toContain('import models');
             } else {
               expect(install).toBeFalsy();
               expect(copy).toBeFalsy();
