@@ -42,11 +42,11 @@ export const routerNavigationSelectedSeed = createAction(
 );
 
 export const routerNavigationEndExamplesId = createAction(
-  '[router] navigation start examples/:id',
+  '[router] navigation end examples/:id',
   props<{ path: SeedPath }>()
 );
 export const routerNavigationEndSpecsId = createAction(
-  '[router] navigation start specs/:id',
+  '[router] navigation end specs/:id',
   props<{ spec_name: SpecName }>()
 );
 

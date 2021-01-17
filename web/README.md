@@ -292,9 +292,13 @@ Update the error:
 
 Output:
 
-- `packageApiLoadSpecsSpecNameSuccess`: The spec loaded, includes the value.
-- `packageApiLoadSpecsSpecNameError`: The spec failed to load, includes the reason
+- `packageApiSpecsSpecNameGetSuccess`: The spec loaded, includes the value.
+- `packageApiSpecsSpecNameGetError`: The spec failed to load, includes the reason
   why it failed.
+- `packageApiCredentialsGetSuccess`: The credentials loaded, includes the
+  value.
+- `packageApiCredentialsGetError`: The credentials failed to load, includes the
+  reason why it failed.
 
 Update the selected spec:
 
@@ -303,20 +307,32 @@ Update the selected spec:
 Load the requested spec:
 
 1. Load the requested spec.
-1. If the call succeeds, return the `packageApiLoadSpecsSpecNameSuccess` event.
-1. If the call fails, return the `packageApiLoadSpecsSpecNameError` event.
+1. If the call succeeds, return the `packageApiSpecsSpecNameGetSuccess` event.
+1. If the call fails, return the `packageApiSpecsSpecNameGetError` event.
 
-#### `packageApiLoadSpecsSpecNameSuccess`
+#### `packageApiSpecsSpecNameGetSuccess`
 
 Update the seed:
 
-1. Set the `state.editor.editor.seed.current.value` state to the seed in the event.
+1. Set the `state.editor.seed.current.value` state to the seed in the event.
 
-#### `packageApiLoadSpecsSpecNameError`
+#### `packageApiSpecsSpecNameGetError`
 
 Update the error:
 
-1. Set the `state.editor.editor.error.message` state to the reason.
+1. Set the `state.editor.error.message` state to the reason.
+
+#### `packageApiCredentialsGetSuccess`
+
+Update the credentials:
+
+1. Set the `state.package.credentials` state to the credentials in the event.
+
+#### `packageApiCredentialsGetError`
+
+Update the error:
+
+1. Set the `state.package.error.message` state to the reason.
 
 #### `saveComponentSaveClick`
 

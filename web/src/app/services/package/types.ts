@@ -4,9 +4,17 @@ import {
   SpecName,
   SpecVersion,
   SpecValue,
+  Credentials,
 } from '@open-alchemy/package-sdk';
 
-export { SpecDescription, SpecTitle, SpecName, SpecVersion, SpecValue };
+export {
+  SpecDescription,
+  SpecTitle,
+  SpecName,
+  SpecVersion,
+  SpecValue,
+  Credentials,
+};
 
 export interface LimitedSpecInfo {
   proposedName?: SpecName;

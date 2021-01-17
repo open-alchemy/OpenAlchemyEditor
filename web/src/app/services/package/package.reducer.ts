@@ -4,7 +4,7 @@ import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-i
 import { modelsCompletelyValid } from '../../helpers/models-completely-valid';
 import * as EditorActions from '../editor/editor.actions';
 import * as PackageActions from './package.actions';
-import { LimitedSpecInfo } from './types';
+import { LimitedSpecInfo, Credentials } from './types';
 import { Error } from '../editor/types';
 
 export interface PackageSaveState {
@@ -17,10 +17,16 @@ export interface PackageSpecState {
   value: string | null;
   valid: boolean | null;
 }
+export interface CredentialsState {
+  value: Credentials | null;
+  success: boolean | null;
+  loading: boolean;
+}
 export interface PackageState {
   spec: PackageSpecState;
-  error: Error | null;
   save: PackageSaveState;
+  credentials: CredentialsState;
+  error: Error | null;
 }
 
 export const initialState: PackageState = {
@@ -33,6 +39,11 @@ export const initialState: PackageState = {
   save: {
     loading: false,
     success: null,
+  },
+  credentials: {
+    value: null,
+    success: null,
+    loading: false,
   },
   error: null,
 };
@@ -120,6 +131,36 @@ const packageReducerValue = createReducer(
         ...state.spec.info,
         actualName: action.response.name,
       },
+    },
+  })),
+  on(EditorActions.routerNavigationEndSpecsId, (state) => ({
+    ...state,
+    credentials: {
+      ...state.credentials,
+      value: null,
+      loading: true,
+      success: null,
+    },
+  })),
+  on(PackageActions.packageApiCredentialsGetSuccess, (state, action) => ({
+    ...state,
+    credentials: {
+      ...state.credentials,
+      value: action.credentials,
+      loading: false,
+      success: true,
+    },
+  })),
+  on(PackageActions.packageApiCredentialsGetError, (state, action) => ({
+    ...state,
+    credentials: {
+      ...state.credentials,
+      loading: false,
+      success: false,
+    },
+    error: {
+      ...state.error,
+      message: action.message,
     },
   }))
 );

@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import { Error } from '../editor/types';
-import { SpecValue, SpecName } from './types';
+import { SpecValue, SpecName, Credentials } from './types';
 
 export const saveComponentSaveClick = createAction(
   '[save component] save click',
@@ -19,6 +19,15 @@ export const packageApiSpecsSpecNamePutSuccess = createAction(
 );
 export const packageApiSpecsSpecNamePutError = createAction(
   '[package API] /specs/{spec_name} PUT error',
+  props<Error>()
+);
+
+export const packageApiCredentialsGetSuccess = createAction(
+  '[package api]  /credentials/default GET success',
+  props<{ credentials: Credentials }>()
+);
+export const packageApiCredentialsGetError = createAction(
+  '[package api]  /credentials/default GET error',
   props<Error>()
 );
 

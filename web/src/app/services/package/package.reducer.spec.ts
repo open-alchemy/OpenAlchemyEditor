@@ -391,6 +391,89 @@ describe('PackageReducer', () => {
         },
       },
     },
+    {
+      description:
+        'initial state: credentials loaded, action routerNavigationEndSpecsId',
+      expectation:
+        'should set credentials to null, success to null and loading to true',
+      initialState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: { public_key: 'public key 1', secret_key: 'secret key 1' },
+          loading: false,
+          success: true,
+        },
+      },
+      action: EditorActions.routerNavigationEndSpecsId({ spec_name: 'name 1' }),
+      expectedFinalState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: null,
+          loading: true,
+          success: null,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: credentials loading, action packageApiCredentialsGetSuccess',
+      expectation:
+        'should set credentials to value in action, success to true and loading to false',
+      initialState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: null,
+          loading: true,
+          success: null,
+        },
+      },
+      action: PackageActions.packageApiCredentialsGetSuccess({
+        credentials: { public_key: 'public key 1', secret_key: 'secret key 1' },
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: { public_key: 'public key 1', secret_key: 'secret key 1' },
+          loading: false,
+          success: true,
+        },
+      },
+    },
+    {
+      description:
+        'initial state: credentials loading, action packageApiCredentialsGetError',
+      expectation:
+        'should set credentials to value in action, success to true and loading to false',
+      initialState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: null,
+          loading: true,
+          success: null,
+        },
+      },
+      action: PackageActions.packageApiCredentialsGetError({
+        message: 'message 1',
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        credentials: {
+          ...packageInitialState.credentials,
+          value: null,
+          loading: false,
+          success: false,
+        },
+        error: {
+          ...packageInitialState.error,
+          message: 'message 1',
+        },
+      },
+    },
   ].forEach(
     ({
       description,
