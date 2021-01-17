@@ -329,6 +329,40 @@ describe('PackageReducer', () => {
         },
       },
     },
+    {
+      description:
+        'initial state: spec info actualName null, action packageApiSpecsSpecNameGetSuccess',
+      expectation: 'should set spec info actualName based on action',
+      initialState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: null,
+          },
+        },
+      },
+      action: EditorActions.packageApiSpecsSpecNameGetSuccess({
+        response: {
+          value: 'value 1',
+          name: 'name 1',
+          version: 'version 1',
+          id: 'name 1',
+          model_count: 1,
+        },
+      }),
+      expectedFinalState: {
+        ...packageInitialState,
+        spec: {
+          ...packageInitialState.spec,
+          info: {
+            ...packageInitialState.spec.info,
+            actualName: 'name 1',
+          },
+        },
+      },
+    },
   ].forEach(
     ({
       description,

@@ -111,7 +111,17 @@ const packageReducerValue = createReducer(
         },
       },
     })
-  )
+  ),
+  on(EditorActions.packageApiSpecsSpecNameGetSuccess, (state, action) => ({
+    ...state,
+    spec: {
+      ...state.spec,
+      info: {
+        ...state.spec.info,
+        actualName: action.response.name,
+      },
+    },
+  }))
 );
 
 export function packageReducer(
