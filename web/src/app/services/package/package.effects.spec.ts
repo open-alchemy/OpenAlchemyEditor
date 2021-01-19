@@ -223,9 +223,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                PackageActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<PackageActions.Actions>;
               // AND specServiceSpy put$ that returns values
               specServiceSpy.put$.and.returnValues(
                 ...specServicePutReturnValues.map(({ marbles, values }) =>
@@ -334,9 +335,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                PackageActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<PackageActions.Actions>;
 
               // WHEN routerNavigationSpecsId$ is called
               effects = new PackageEffects(
@@ -550,9 +552,10 @@ describe('PackageEffects', () => {
           it(expectation, () => {
             testScheduler.run((helpers) => {
               // GIVEN actions
-              actions$ = helpers.cold(actionsMarbles, actionsValues) as Actions<
-                PackageActions.Actions
-              >;
+              actions$ = helpers.cold(
+                actionsMarbles,
+                actionsValues
+              ) as Actions<PackageActions.Actions>;
               // AND credentialsService get$ that returns values
               credentialsServiceSpy.get$.and.returnValues(
                 ...credentialsServiceGetReturnValues.map(

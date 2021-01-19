@@ -33,7 +33,8 @@
     "dateutil",
     "pylint",
     "Andersson",
-    "ngrx"
+    "ngrx",
+    "oidc"
   ],
   "dictionaries": [
     "python",

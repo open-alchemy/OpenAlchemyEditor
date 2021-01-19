@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { calculateLimitedSpecInfo } from '../../helpers/calculate-limited-spec-info';
 import { modelsCompletelyValid } from '../../helpers/models-completely-valid';
