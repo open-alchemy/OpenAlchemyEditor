@@ -58,6 +58,7 @@
     "**/Pipfile.lock",
     "**/package*.json",
     "**/login*.ts",
-    "**/tslint.json"
+    "**/tslint.json",
+    "**/app.component.ts"
   ]
 }
