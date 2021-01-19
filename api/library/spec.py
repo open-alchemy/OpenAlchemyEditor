@@ -17,6 +17,7 @@ def validate_managed(body: str) -> types.TSpec:
         The validation result.
 
     """
+    print(body)  # allow-print
     language = connexion.request.headers["X-LANGUAGE"]
 
     spec: types.TSpec
@@ -39,6 +40,7 @@ def validate_un_managed(body: str) -> types.TSpec:
         The validation result.
 
     """
+    print(body)  # allow-print
     language = connexion.request.headers["X-LANGUAGE"]
 
     spec: types.TSpec

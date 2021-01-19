@@ -21,6 +21,7 @@ def calculate(
         The artifacts.
 
     """
+    print(body)  # allow-print
     language = connexion.request.headers["X-LANGUAGE"]
 
     spec: types.TSpec
