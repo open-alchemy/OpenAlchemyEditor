@@ -47,7 +47,7 @@ jobs:
           pip install pipenv
       - name: cache pipenv
         id: cache-pipenv
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: |
             ~/.cache/pipenv
@@ -80,7 +80,7 @@ jobs:
           path: api/dist/assets/seeds
       - name: cache build
         id: cache-build
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: api/dist/deployment-package.zip
           key: ${{ runner.os }}-api-${{ env.cache-name }}-slim-${{ hashFiles('api/**') }}
@@ -123,7 +123,7 @@ jobs:
           node-version: 14.x
       - name: cache node modules
         id: cache-node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         env:
           cache-name: cache-node-modules
         with:
@@ -165,7 +165,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pipenv
       - id: cache-pipenv
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: |
             ~/.cache/pipenv
