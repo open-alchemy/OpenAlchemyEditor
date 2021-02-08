@@ -13,7 +13,7 @@ flask-cors = "3.0.10"
 [dev-packages]
 black = "20.861"
 pytest = "6.2.0"
-schemathesis = "2.8.5"
+schemathesis = "3.0.8"
 pytest-cov = "2.10.1"
 
 [requires]
