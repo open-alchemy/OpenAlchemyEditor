@@ -39,6 +39,13 @@ LOAD_SPEC_ERROR_TESTS = [
         "body must be valid YAML",
         id="invalid YAML value",
     ),
+    pytest.param(
+        "YAML",
+        "!0",
+        exceptions.LoadSpecError,
+        "body must be valid YAML",
+        id="invalid YAML value",
+    ),
 ]
 
 

@@ -19,7 +19,7 @@ jobs:
           node-version: 14.x
       - name: cache node_modules
         id: cache-node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: web/node_modules
           key: ${{ runner.os }}-web-${{ env.cache-name }}-${{ hashFiles('**/web/package-lock.json') }}

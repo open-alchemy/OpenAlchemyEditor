@@ -4,7 +4,7 @@ import json
 import typing
 
 import yaml
-from yaml import parser, reader, scanner
+from yaml import error
 
 from . import exceptions
 
@@ -26,7 +26,7 @@ def load_spec(*, spec_str: str, language: str) -> typing.Dict[str, typing.Any]:
     if language == "YAML":
         try:
             return yaml.safe_load(spec_str)
-        except (parser.ParserError, scanner.ScannerError, reader.ReaderError) as exc:
+        except (error.YAMLError) as exc:
             raise exceptions.LoadSpecError("body must be valid YAML") from exc
     elif language == "JSON":
         try:
