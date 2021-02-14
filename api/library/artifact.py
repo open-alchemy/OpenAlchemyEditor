@@ -1,8 +1,9 @@
 """Controllers for specs."""
 
-import typing
+import json
 
 import connexion
+import flask
 from open_alchemy.schemas import artifacts
 
 from . import exceptions, helpers, types
@@ -10,7 +11,7 @@ from . import exceptions, helpers, types
 
 def calculate(
     body: str,
-) -> typing.Tuple[typing.Union[str, types.TSpec], int]:
+) -> flask.Response:
     """
     Calculate the artifacts of a spec.
 
@@ -28,6 +29,8 @@ def calculate(
     try:
         spec = helpers.load_spec(spec_str=body, language=language)
     except exceptions.LoadSpecError as exc:
-        return str(exc), 400
+        return flask.Response(str(exc), status=400, mimetype="text/plain")
 
-    return artifacts.get(spec=spec), 200
+    return flask.Response(
+        json.dumps(artifacts.get(spec=spec)), status=200, mimetype="application/json"
+    )

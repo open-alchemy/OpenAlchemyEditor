@@ -1,5 +1,6 @@
 """Tests for the spec controllers."""
 
+import json
 from unittest import mock
 
 import connexion
@@ -10,14 +11,14 @@ CALCULATE_TESTS = [
     pytest.param(
         "JSON",
         "invalid JSON",
-        "body must be valid JSON",
+        b"body must be valid JSON",
         400,
         id="JSON invalid schema",
     ),
     pytest.param(
         "JSON",
         '{"components": {"schemas": {}}}',
-        {"models": {}},
+        json.dumps({"models": {}}).encode(),
         200,
         id="JSON valid",
     ),
@@ -25,9 +26,9 @@ CALCULATE_TESTS = [
 
 
 @pytest.mark.parametrize(
-    "language, body, expected_result, expected_status", CALCULATE_TESTS
+    "language, body, expected_data, expected_status", CALCULATE_TESTS
 )
-def test_calculate(language, body, expected_result, expected_status, monkeypatch):
+def test_calculate(language, body, expected_data, expected_status, monkeypatch):
     """
     GIVEN monkeypatched header with X_LANGUAGE set and body
     WHEN calculate is called with the body
@@ -38,7 +39,7 @@ def test_calculate(language, body, expected_result, expected_status, monkeypatch
     mock_request.headers = mock_headers
     monkeypatch.setattr(connexion, "request", mock_request)
 
-    returned_result, returned_status = artifact.calculate(body)
+    response = artifact.calculate(body)
 
-    assert returned_result == expected_result
-    assert returned_status == expected_status
+    assert response.data == expected_data
+    assert response.status_code == expected_status
