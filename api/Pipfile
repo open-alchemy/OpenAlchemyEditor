@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 connexion = {extras = ["swagger-ui"], version = "2.7.0"}
-openalchemy = "2.2.0"
+openalchemy = "2.3.0"
 pyyaml = "5.4.1"
 serverless-wsgi = "1.7.6"
 flask-cors = "3.0.10"
