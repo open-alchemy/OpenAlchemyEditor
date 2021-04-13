@@ -20,7 +20,7 @@ jobs:
           node-version: 14.x
       - name: cache node_modules
         id: cache-node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: sdk/node_modules
           key: ${{ runner.os }}-sdk-${{ env.cache-name }}-${{ hashFiles('sdk/package-lock.json') }}
@@ -44,7 +44,7 @@ jobs:
           node-version: 14.x
       - name: cache node_modules
         id: cache-node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: sdk/node_modules
           key: ${{ runner.os }}-sdk-${{ env.cache-name }}-${{ hashFiles('sdk/package-lock.json') }}
@@ -71,7 +71,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: cache node_modules
         id: cache-node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: sdk/node_modules
           key: ${{ runner.os }}-sdk-${{ env.cache-name }}-${{ hashFiles('sdk/package-lock.json') }}
