@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: set up python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ matrix.python-version }}
       - name: install pipenv
@@ -86,7 +86,7 @@ jobs:
           key: ${{ runner.os }}-api-${{ env.cache-name }}-slim-${{ hashFiles('api/**') }}
       - name: set up python
         if: steps.cache-build.outputs.cache-hit != 'true'
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.9
       - name: install pipenv
@@ -157,7 +157,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: set up python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.9
       - name: install pipenv
