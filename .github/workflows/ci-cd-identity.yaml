@@ -23,7 +23,7 @@ jobs:
           node-version: 14.x
       - name: cache node modules
         id: cache-node_modules
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.6
         env:
           cache-name: cache-node-modules
         with:
