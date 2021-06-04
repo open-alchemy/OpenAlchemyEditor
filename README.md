@@ -1,5 +1,12 @@
 # OpenAlchemy Package
 
+---
+**NOTE**
+
+This service is no longer being operated.
+
+---
+
 Offers a web editor for OpenAlchemy OpenAPI specifications available here:
 <https://editor.openalchemy.io>.
 
