@@ -23,7 +23,7 @@ jobs:
           pip install pipenv
       - name: cache pipenv
         id: cache-pipenv
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.6
         with:
           path: |
             ~/.cache/pipenv
