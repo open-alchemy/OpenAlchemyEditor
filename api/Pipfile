@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-connexion = {extras = ["swagger-ui"], version = "2.7.0"}
+connexion = {extras = ["swagger-ui"], version = "2.9.0"}
 openalchemy = "2.2.0"
 pyyaml = "5.4.1"
 serverless-wsgi = "1.7.6"
